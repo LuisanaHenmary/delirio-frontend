@@ -1,0 +1,31 @@
+.menuCustom{
+
+    color: white;
+    padding: 10px;
+    border-radius: 25px;
+
+}
+
+.menuCustom li:hover{
+    background-color: rgba(7, 7, 173, 0.831);
+}
+
+.menuCustom li{
+    padding: 5px;
+}
+
+.menuCustom a{
+    color: white;
+}
+
+.menuCustom a:hover{
+    background-color: rgba(7, 7, 173, 0.831);
+}
+
+.first{
+    border-radius: 25px 25px 0 0;
+}
+
+.last{
+    border-radius: 0 0 25px 25px;
+}
