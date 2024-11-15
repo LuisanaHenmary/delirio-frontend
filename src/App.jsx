@@ -1,12 +1,12 @@
-import './App.css'
-import { Box } from '@mui/material'
+import {
+  RouterProvider
+} from "react-router-dom"
+import router from "./routes/router"
 
-function App() {
+const App = () =>{
 
-  return (
-   <Box>
-    Comming soon
-   </Box>
+  return(
+    <RouterProvider router={router} />
   )
 }
 
