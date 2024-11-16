@@ -13,7 +13,7 @@ import { Navigate } from "react-router-dom";
 import { AdminOptions } from '../ItemDrawer';
 import { useAuthContext } from '../../hooks/useAuthContext';
 
-const DrawerMenu = ({openMenu, changeToCloseMenu, handleClick}) =>{
+const DrawerMenu = ({openMenu, changeToCloseMenu, handleClick, changeToOpenAddProfile}) =>{
     const { user } = useAuthContext()
 
     return(
@@ -57,7 +57,7 @@ const DrawerMenu = ({openMenu, changeToCloseMenu, handleClick}) =>{
                         <>
                             <Navigate to="/home" />
 
-                            {user.role == "admin" ? <AdminOptions /> : null}
+                            {user.role == "admin" ? <AdminOptions changeToOpenAddProfile={changeToOpenAddProfile} /> : null}
                             <ListItem disablePadding className="last" >
                                 <ListItemButton onClick={handleClick}>
                                     <ListItemText primary="Log Out" />

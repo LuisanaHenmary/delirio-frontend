@@ -12,12 +12,14 @@ import "./index.css"
 
 import { useLogout } from "../../hooks/useLogout"
 import DrawerMenu from '../DrawerMenu';
+import AddProfile from "../../views/AddProfile";
 
 
 const NavBar = () => {
     const { logout } = useLogout()
     const [openMenu, changeToOpenMenu, changeToCloseMenu] = useOpen()
     const trigger = useScrollTrigger();
+    const [addProfile, changeToOpenAddProfile, changeToCloseAddProfile] = useOpen()
 
     const handleClick = () => {
         changeToCloseMenu()
@@ -26,7 +28,7 @@ const NavBar = () => {
 
     return (
         <>
-            <DrawerMenu openMenu={openMenu} changeToCloseMenu={changeToCloseMenu} handleClick={handleClick} />
+            <DrawerMenu openMenu={openMenu} changeToCloseMenu={changeToCloseMenu} handleClick={handleClick} changeToOpenAddProfile={changeToOpenAddProfile} />
 
             <Slide appear={false} direction="down" in={!trigger} >
                 <MuiAppBar sx={{ backgroundColor: 'rgba(240, 248, 255, 0)', boxShadow: 0 }} >
@@ -46,6 +48,7 @@ const NavBar = () => {
                     </Toolbar>
                 </MuiAppBar>
             </Slide>
+            <AddProfile open={addProfile} handleClose={changeToCloseAddProfile} />
         </>
 
     )

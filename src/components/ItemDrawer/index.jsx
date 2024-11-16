@@ -5,7 +5,7 @@ import {
     ListItemText
 } from '@mui/material';
 
-export const AdminOptions = () => {
+export const AdminOptions = ({changeToOpenAddProfile}) => {
     
     return (
         <>
@@ -20,7 +20,7 @@ export const AdminOptions = () => {
                 </ListItemButton>
             </ListItem>
             <ListItem disablePadding >
-                <ListItemButton >
+                <ListItemButton onClick={changeToOpenAddProfile} >
                     <ListItemText primary="Crear perfil" />
                 </ListItemButton>
             </ListItem>
