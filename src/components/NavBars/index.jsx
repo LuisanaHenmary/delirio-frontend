@@ -1,29 +1,20 @@
 import {
-    Drawer,
     Toolbar,
     Typography,
     IconButton,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemText,
-    Divider,
     Slide,
     useScrollTrigger
 } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { Link as RouterLink } from "react-router-dom";
 import { useOpen } from '../../hooks/useOpen';
 import "./index.css"
-import { useAuthContext } from '../../hooks/useAuthContext';
+
 import { useLogout } from "../../hooks/useLogout"
-import { Navigate } from "react-router-dom";
+import DrawerMenu from '../DrawerMenu';
+
 
 const NavBar = () => {
-    
-    const { user } = useAuthContext()
     const { logout } = useLogout()
     const [openMenu, changeToOpenMenu, changeToCloseMenu] = useOpen()
     const trigger = useScrollTrigger();
@@ -35,61 +26,7 @@ const NavBar = () => {
 
     return (
         <>
-           <Drawer
-                variant="persistent"
-                anchor="left"
-                open={openMenu}
-                PaperProps={{
-                    sx: {
-                        backgroundColor: "black",
-                        color: 'white',
-                        padding: '10px'
-                    }
-                }}
-                className="menuCustom"
-            >
-                <div>
-                    <IconButton onClick={changeToCloseMenu} sx={{
-                        backgroundColor: 'white', ":hover": {
-                            backgroundColor: 'rgba(228, 230, 232, 0.683)'
-                        }
-                    }}>
-                        <ChevronLeftIcon />
-                    </IconButton>
-                </div>
-                <Divider />
-                <List >
-                
-                {!user && (
-                        <>
-                            <ListItem disablePadding component='a' href="http://localhost/Delirio" >
-                                <ListItemButton>
-                                    <ListItemText primary="Wordpress" />
-                                </ListItemButton>
-                            </ListItem>
-
-                            <Navigate to="/login" />
-                        </>
-                    )}
-                    {user && (
-                        <>
-                            <Navigate to="/home" />
-                            <ListItem disablePadding component={RouterLink} to="home" className="first" >
-                                <ListItemButton  >
-                                <ListItemText primary="Home" />
-                                </ListItemButton>
-                            </ListItem>
-                            <ListItem disablePadding className="last" >
-                                <ListItemButton onClick={handleClick}>
-                                    <ListItemText primary="Log Out" />
-                                </ListItemButton>
-                            </ListItem>
-
-                        </>
-                    )}
-                </List>
-
-            </Drawer >
+            <DrawerMenu openMenu={openMenu} changeToCloseMenu={changeToCloseMenu} handleClick={handleClick} />
 
             <Slide appear={false} direction="down" in={!trigger} >
                 <MuiAppBar sx={{ backgroundColor: 'rgba(240, 248, 255, 0)', boxShadow: 0 }} >
