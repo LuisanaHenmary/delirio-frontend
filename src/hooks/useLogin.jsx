@@ -10,11 +10,14 @@ export const useLogin = () => {
     const login = async (username, password) => {
         setIsLoading(true)
         setError(null)
+        const apiAuthUrl = import.meta.env.VITE_API_AUTH_URL
+        const apiUrl = import.meta.env.VITE_API_URL
+        
 
         try {
             const response = await axios({
                 method: 'post',
-                url: 'http://localhost/Delirio/wp-json/jwt-auth/v1/token',
+                url: apiAuthUrl,
                 data: {
                     username: username,
                     password: password,
@@ -25,7 +28,7 @@ export const useLogin = () => {
 
             const response_role = await axios({
                 method: 'get',
-                url: 'http://localhost/Delirio/wp-json/custom-api/v1/get-rol',
+                url: `${apiUrl}/get-rol`,
                 headers: {
                     'Authorization': `Bearer ${data.token}`,
                 },
