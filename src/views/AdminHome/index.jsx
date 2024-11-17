@@ -1,5 +1,6 @@
 import CalendarView from "../Calendar"
 import { useToDoContext } from "../../hooks/useToDoContext";
+import TableEmployers from "../../components/TableEmployers";
 
 const AdminHome = () =>{
     const { todoes } = useToDoContext()
@@ -7,6 +8,7 @@ const AdminHome = () =>{
         <>
         Welcome administrador
         <CalendarView events={todoes} />
+        <TableEmployers />
         </>
     )
 }
