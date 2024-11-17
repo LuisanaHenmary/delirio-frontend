@@ -3,6 +3,7 @@ import ErrorPage from './error-page.jsx'
 import Root from './root.jsx'
 import Login from "../views/Login/index.jsx"
 import Home from "../views/Home/index.jsx"
+import ToDoes from "../views/ToDoes/index.jsx"
 
 const router = createHashRouter([
     {
@@ -17,6 +18,10 @@ const router = createHashRouter([
         {
           path: "home",
           element: <Home />,
+        },
+        {
+          path: "to-does",
+          element: <ToDoes />,
         },
       ],
     }
