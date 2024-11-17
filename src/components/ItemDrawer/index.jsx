@@ -3,6 +3,7 @@ import {
     ListItemButton,
     ListItemText
 } from '@mui/material';
+import { Link as RouterLink } from "react-router-dom";
 
 export const AdminOptions = ({ changeToOpenAddProfile }) => {
 
@@ -18,7 +19,7 @@ export const AdminOptions = ({ changeToOpenAddProfile }) => {
                     <ListItemText primary="Crear perfil" />
                 </ListItemButton>
             </ListItem>
-            <ListItem disablePadding>
+            <ListItem disablePadding component={RouterLink} to="to-does" >
                 <ListItemButton >
                     <ListItemText primary="Tareas" />
                 </ListItemButton>
@@ -33,7 +34,7 @@ export const EmployerOptions = () => {
 
     return (
         <>
-            <ListItem disablePadding>
+            <ListItem disablePadding component={RouterLink} to="to-does">
                 <ListItemButton >
                     <ListItemText primary="Tareas" />
                 </ListItemButton>

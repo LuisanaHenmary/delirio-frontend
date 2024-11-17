@@ -1,9 +1,7 @@
 import {
     Toolbar,
     Typography,
-    IconButton,
-    Slide,
-    useScrollTrigger
+    IconButton
 } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -18,7 +16,6 @@ import AddProfile from "../../views/AddProfile";
 const NavBar = () => {
     const { logout } = useLogout()
     const [openMenu, changeToOpenMenu, changeToCloseMenu] = useOpen()
-    const trigger = useScrollTrigger();
     const [addProfile, changeToOpenAddProfile, changeToCloseAddProfile] = useOpen()
 
     const handleClick = () => {
