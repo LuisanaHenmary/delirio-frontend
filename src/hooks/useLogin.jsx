@@ -34,11 +34,12 @@ export const useLogin = () => {
                 },
             });
     
-            const role = await response_role.data;
+            const info_user = await response_role.data;
     
             const allInfo = {
                 ...data,
-                "role": role.role
+                "role": info_user.role,
+                "id_user": info_user.id_user
             }
 
             localStorage.setItem('user', JSON.stringify(allInfo))

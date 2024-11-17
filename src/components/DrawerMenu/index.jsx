@@ -10,7 +10,7 @@ import {
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Navigate } from "react-router-dom";
-import { AdminOptions } from '../ItemDrawer';
+import { AdminOptions, EmployerOptions } from '../ItemDrawer';
 import { useAuthContext } from '../../hooks/useAuthContext';
 
 const DrawerMenu = ({openMenu, changeToCloseMenu, handleClick, changeToOpenAddProfile}) =>{
@@ -58,6 +58,7 @@ const DrawerMenu = ({openMenu, changeToCloseMenu, handleClick, changeToOpenAddPr
                             <Navigate to="/home" />
 
                             {user.role == "admin" ? <AdminOptions changeToOpenAddProfile={changeToOpenAddProfile} /> : null}
+                            {user.role == "employer" ? <EmployerOptions /> : null}
                             <ListItem disablePadding className="last" >
                                 <ListItemButton onClick={handleClick}>
                                     <ListItemText primary="Log Out" />

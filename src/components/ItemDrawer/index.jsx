@@ -34,3 +34,23 @@ export const AdminOptions = ({changeToOpenAddProfile}) => {
     )
 
 }
+
+export const EmployerOptions = () => {
+    
+    return (
+        <>
+            <ListItem disablePadding component={RouterLink} to="home" className="first" >
+                <ListItemButton  >
+                    <ListItemText primary="Home" />
+                </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+                <ListItemButton >
+                    <ListItemText primary="Tareas" />
+                </ListItemButton>
+            </ListItem>
+
+        </>
+    )
+
+}
