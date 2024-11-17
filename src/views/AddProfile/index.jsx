@@ -49,7 +49,7 @@ const AddProfile = ({ open, handleClose }) => {
                 'className': 'round-form'
             }}
         >
-            <DialogTitle>Comming soon </DialogTitle>
+            <DialogTitle>Nuevo perfil </DialogTitle>
             <DialogContent>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={value} onChange={handleChange}>

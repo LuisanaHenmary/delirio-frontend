@@ -1,14 +1,21 @@
 import CalendarView from "../Calendar"
+import { Box } from "@mui/material";
 import { useToDoContext } from "../../hooks/useToDoContext";
 import TableEmployers from "../../components/TableEmployers";
+import TableCompanies from "../../components/TableCompanies";
 
-const AdminHome = () =>{
+
+const AdminHome = () => {
     const { todoes } = useToDoContext()
-    return(
+    return (
         <>
-        Welcome administrador
-        <CalendarView events={todoes} />
-        <TableEmployers />
+            Welcome administrador
+            <CalendarView events={todoes} />
+            <Box sx={{ display: "flex", justifyContent: "space-between", marginTop: '60px' }} >
+                <TableEmployers />
+                <TableCompanies />
+            </Box>
+
         </>
     )
 }

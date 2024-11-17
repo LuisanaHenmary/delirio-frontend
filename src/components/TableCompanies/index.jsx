@@ -10,13 +10,13 @@ import {
     Paper
 } from "@mui/material"
 import { useMemo, useState, useEffect } from "react";
-import { useEmployersContext } from "../../hooks/useEmployersContext";
+import { useCompaniesContext } from "../../hooks/useCompanyContext";
 
 
-const TableEmployers = () => {
+const TableCompanies = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const { employers } = useEmployersContext()
+    const { companies } = useCompaniesContext()
     const [rows, setRows] = useState([])
 
     const visibleRows = useMemo(
@@ -30,22 +30,22 @@ const TableEmployers = () => {
 
     useEffect(() => {
 
-        const r = employers.map((elem) => {
+        const r = companies.map((elem) => {
             return {
-                'ci': elem.ci,
-                'name': elem.name_employer,
+                'nit': elem.nit,
+                'name': elem.name_company,
                 'phone': elem.phone
             }
         })
 
         setRows(r)
 
-    }, [employers])
+    }, [companies])
 
     const headCells = [
         {
-            id: 'ci',
-            label: 'C.I',
+            id: 'nit',
+            label: 'NIT',
         },
         {
             id: 'name',
@@ -107,7 +107,7 @@ const TableEmployers = () => {
                                             scope="row"
                                             align="center"
                                         >
-                                            {row.ci}
+                                            {row.nit}
                                         </TableCell>
                                         <TableCell align="center">{row.name}</TableCell>
                                         <TableCell align="center">{row.phone}</TableCell>
@@ -132,4 +132,4 @@ const TableEmployers = () => {
 
 }
 
-export default TableEmployers
+export default TableCompanies
