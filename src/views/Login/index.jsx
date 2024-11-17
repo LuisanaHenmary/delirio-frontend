@@ -51,7 +51,7 @@ const Login = () => {
                     id="username"
                     name='username'
                     label="Username"
-                    variant="standard"
+                    variant="outlined"
                     component="div"
                     sx={{ marginBottom: 5 }}
                     onChange={formik.handleChange}
@@ -59,7 +59,7 @@ const Login = () => {
                     required
                 />
 
-                <FormControl variant="standard">
+                <FormControl variant="outlined" required>
                     <InputLabel htmlFor="password">Password</InputLabel>
                     <Input
                         id="password"
@@ -79,7 +79,6 @@ const Login = () => {
                         }
                         onChange={formik.handleChange}
                         value={formik.values.password}
-                        required
                     />
                 </FormControl>
 

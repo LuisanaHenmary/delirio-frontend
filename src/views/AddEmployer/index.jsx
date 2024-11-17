@@ -135,7 +135,7 @@ const AddEmployer = ({ handleClose }) => {
                     id="ci"
                     name='ci'
                     label="CI"
-                    variant="standard"
+                    variant="outlined"
                     onChange={formik.handleChange}
                     value={formik.values.ci}
                     sx={{ width: '250px' }}
@@ -149,7 +149,7 @@ const AddEmployer = ({ handleClose }) => {
                     id="full_name"
                     name='full_name'
                     label="Nombre"
-                    variant="standard"
+                    variant="outlined"
                     onChange={formik.handleChange}
                     value={formik.values.full_name}
                     sx={{ width: '250px' }}
@@ -159,7 +159,7 @@ const AddEmployer = ({ handleClose }) => {
                     id="address"
                     name='address'
                     label="Direccion"
-                    variant="standard"
+                    variant="outlined"
                     onChange={formik.handleChange}
                     sx={{ width: '250px' }}
                 />

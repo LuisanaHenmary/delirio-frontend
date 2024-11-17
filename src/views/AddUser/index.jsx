@@ -25,7 +25,7 @@ const AddUser = ({ formik }) => {
                     id="username"
                     name='username'
                     label="Username"
-                    variant="standard"
+                    variant="outlined"
                     onChange={formik.handleChange}
                     value={formik.values.username}
                     sx={{ width: '250px' }}
@@ -36,7 +36,7 @@ const AddUser = ({ formik }) => {
                     id="email"
                     name='email'
                     label="email"
-                    variant="standard"
+                    variant="outlined"
                     onChange={formik.handleChange}
                     value={formik.values.email}
                     sx={{ width: '250px' }}
@@ -47,7 +47,7 @@ const AddUser = ({ formik }) => {
             </Box>
 
             <Box component='div' className='margin-field section'  >
-                <FormControl variant="standard" >
+                <FormControl variant="outlined" >
                     <InputLabel htmlFor="password">Password</InputLabel>
                     <Input
                         id="password"
@@ -75,7 +75,7 @@ const AddUser = ({ formik }) => {
                     id="phone_number"
                     name='phone_number'
                     label="Telefono"
-                    variant="standard"
+                    variant="outlined"
                     sx={{ width: '250px' }}
                     onChange={formik.handleChange}
                     value={formik.values.phone_number}

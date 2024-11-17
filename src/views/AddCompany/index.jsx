@@ -99,7 +99,7 @@ const AddCompany = ({ handleClose }) => {
                     id="nit"
                     name='nit'
                     label="NIT"
-                    variant="standard"
+                    variant="outlined"
                     onChange={formik.handleChange}
                     value={formik.values.nit}
                     sx={{ width: '250px' }}
@@ -109,7 +109,7 @@ const AddCompany = ({ handleClose }) => {
                     id="full_name"
                     name='full_name'
                     label="Nombre"
-                    variant="standard"
+                    variant="outlined"
                     onChange={formik.handleChange}
                     value={formik.values.full_name}
                     sx={{ width: '250px' }}

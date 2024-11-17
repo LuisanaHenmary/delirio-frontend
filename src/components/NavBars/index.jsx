@@ -30,7 +30,7 @@ const NavBar = () => {
         <>
             <DrawerMenu openMenu={openMenu} changeToCloseMenu={changeToCloseMenu} handleClick={handleClick} changeToOpenAddProfile={changeToOpenAddProfile} />
 
-            <Slide appear={false} direction="down" in={!trigger} >
+           
                 <MuiAppBar sx={{ backgroundColor: 'rgba(240, 248, 255, 0)', boxShadow: 0 }} >
                     <Toolbar>
                         <Typography variant="h6" noWrap sx={{ flexGrow: 1, color: 'blue' }} component="div">
@@ -47,7 +47,7 @@ const NavBar = () => {
                         </IconButton>
                     </Toolbar>
                 </MuiAppBar>
-            </Slide>
+
             <AddProfile open={addProfile} handleClose={changeToCloseAddProfile} />
         </>
 
