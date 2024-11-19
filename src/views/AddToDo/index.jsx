@@ -75,22 +75,23 @@ const AddToDo = ({ open, handleClose }) => {
 
         const data = response.data['to-do']
 
-        const new_employer = {
+        const new_to_do = {
             'title': titleTodo,
             'start': expired.$d,
             'end': expired.$d,
             'data': data
         }
 
-        console.log(new_employer)
-
-        dispatch({ type: 'CREATE_TO_DO', payload: new_employer })
+        dispatch({ type: 'CREATE_TO_DO', payload: new_to_do })
         formik.resetForm()
     }
 
     useEffect(() => {
+
+        const index = formik.values.company
+
         const projects_list = projects.filter((value) => {
-            return value.id_company == formik.values.company
+            return parseInt(value.id_company) == parseInt(companies[index].id_company)
         })
 
         setAvalibleProjects(projects_list)
@@ -101,7 +102,9 @@ const AddToDo = ({ open, handleClose }) => {
             setAvalibleSubmit(false)
         }
 
-    }, [formik.values.company])
+
+
+    }, [projects, formik.values.company])
 
     return (
         <Dialog
@@ -189,7 +192,7 @@ const AddToDo = ({ open, handleClose }) => {
                                 </Select>
                             )
                         }
-                        
+
                     </Box>
 
                     <LocalizationProvider dateAdapter={AdapterDayjs}>

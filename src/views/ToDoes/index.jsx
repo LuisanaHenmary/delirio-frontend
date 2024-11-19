@@ -8,10 +8,12 @@ import { useOpen } from "../../hooks/useOpen";
 import AddToDo from "../AddToDo";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { Navigate } from "react-router-dom";
+import AddProject from "../AddProject";
 
 const ToDoes = () => {
     const { user } = useAuthContext()
     const [addTodo, changeToOpenAddToDo, changeToCloseAddToDo] = useOpen()
+    const [addProject, changeToOpenAddProject, changeToCloseAddProject] = useOpen()
 
     return (
         <Box>
@@ -21,7 +23,8 @@ const ToDoes = () => {
                 <>
                     {user.role == "admin" ? 
                     <>
-                    <Button onClick={changeToOpenAddToDo} > Agregar tarea</Button>
+                    <Button onClick={changeToOpenAddToDo} variant="contained" > Agregar tarea</Button>
+                    <Button onClick={changeToOpenAddProject} variant="contained" > Agregar Proyecto</Button>
                     </> : null}
                     {user.role == "employer" ? 
                     <>
@@ -29,6 +32,7 @@ const ToDoes = () => {
                     </> : null}
                     <ToDoesTable />
                     <AddToDo open={addTodo} handleClose={changeToCloseAddToDo} />
+                    <AddProject open={addProject} handleClose={changeToCloseAddProject} />
                 </>
             )}
 
