@@ -6,7 +6,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { Box } from "@mui/material"
 
 
-const CalendarView = ({events}) => {
+const CalendarView = ({events, todoClick}) => {
 
 
 
@@ -25,6 +25,7 @@ const CalendarView = ({events}) => {
                     console.log(events)
                 }}
                 events={events}
+                eventClick={todoClick}
             />
         </Box>
     )

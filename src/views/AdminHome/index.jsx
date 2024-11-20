@@ -9,11 +9,17 @@ import TableCompanies from "../../components/TableCompanies";
 
 const AdminHome = () => {
     const { todoes } = useToDoContext()
+
+    const clickTodo = (e) => {
+        const data = e.event._def.extendedProps.data
+        console.log(data)
+    }
+
     return (
         <>
             <Typography component="h2" > Bienvenido administrador </Typography>
 
-            <CalendarView events={todoes} />
+            <CalendarView events={todoes} todoClick={clickTodo} />
             <Box sx={{ display: "flex", justifyContent: "space-between", marginTop: '60px' }} >
                 <TableEmployers />
                 <TableCompanies />
