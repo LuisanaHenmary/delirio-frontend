@@ -8,19 +8,21 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useOpen } from '../../hooks/useOpen';
 import "./index.css"
 
-import { useLogout } from "../../hooks/useLogout"
+import { useLogout, useClear } from "../../hooks/useLogout"
 import DrawerMenu from '../DrawerMenu';
 import AddProfile from "../../views/AddProfile";
 
 
 const NavBar = () => {
     const { logout } = useLogout()
+    const { clearLists } = useClear()
     const [openMenu, changeToOpenMenu, changeToCloseMenu] = useOpen()
     const [addProfile, changeToOpenAddProfile, changeToCloseAddProfile] = useOpen()
 
     const handleClick = () => {
         changeToCloseMenu()
         logout();
+        clearLists()
     }
 
     return (
