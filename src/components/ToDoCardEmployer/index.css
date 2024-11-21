@@ -8,15 +8,3 @@
     padding: 2px;
     text-align: center;
 }
-
-.to-do{
-    background-color: antiquewhite;
-}
-
-.done{
-    background-color: greenyellow;
-}
-
-.in-progress{
-    background-color: rgb(148, 152, 249);
-}
