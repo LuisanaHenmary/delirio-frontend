@@ -6,13 +6,13 @@ export const projectsReducer = (state, action) => {
 
   switch (action.type) {
 
-    case 'SET_PROJECTS': 
+    case 'SET_PROJECTS':
       return {
         projects: action.payload
       }
     case 'CREATE_PROJECT':
       return {
-        projects: [action.payload, ...state.projects]
+        projects: [...state.projects, action.payload]
       }
     default:
       return state
@@ -25,8 +25,8 @@ export const ProjectsContextProvider = ({ children }) => {
   })
 
   return (
-    <ProjectsContext.Provider value={{...state, dispatchProjects}}>
-      { children }
+    <ProjectsContext.Provider value={{ ...state, dispatchProjects }}>
+      {children}
     </ProjectsContext.Provider>
   )
 }

@@ -12,7 +12,7 @@ export const employersReducer = (state, action) => {
       }
     case 'CREATE_EMPLOYER':
       return {
-        employers: [action.payload, ...state.employers]
+        employers: [...state.employers, action.payload]
       }
     default:
       return state

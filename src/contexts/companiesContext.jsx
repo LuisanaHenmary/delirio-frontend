@@ -6,13 +6,13 @@ export const companiesReducer = (state, action) => {
 
   switch (action.type) {
 
-    case 'SET_COMPANIES': 
+    case 'SET_COMPANIES':
       return {
         companies: action.payload
       }
     case 'CREATE_COMPANY':
       return {
-        companies: [action.payload, ...state.companies]
+        companies: [...state.companies, action.payload]
       }
     default:
       return state
@@ -25,8 +25,8 @@ export const CompaniesContextProvider = ({ children }) => {
   })
 
   return (
-    <CompaniesContext.Provider value={{...state, dispatchCompanies}}>
-      { children }
+    <CompaniesContext.Provider value={{ ...state, dispatchCompanies }}>
+      {children}
     </CompaniesContext.Provider>
   )
 }
