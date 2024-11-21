@@ -74,12 +74,24 @@ const AddToDo = ({ open, handleClose }) => {
         });
 
         const data = response.data['to-do']
+        const id_todo = response.data['id']
+        const dateExpired = new Date(expired.$d);
+        const day = dateExpired.getDate()
+        const month = dateExpired.getMonth() + 1
+        const year = dateExpired.getFullYear()
+        const formatDate = `${day}-${month}-${year}`;
 
         const new_to_do = {
             'title': titleTodo,
-            'start': expired.$d,
-            'end': expired.$d,
-            'data': data
+            'start': dateExpired,
+            'end': dateExpired,
+            'data': {
+                ...data,
+                'id': id_todo,
+                'expired': formatDate
+
+
+            }
         }
 
         dispatch({ type: 'CREATE_TO_DO', payload: new_to_do })

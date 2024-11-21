@@ -35,3 +35,15 @@
   justify-content: space-between;
   height: 50px;
 }
+
+.to-do{
+  background-color: antiquewhite;
+}
+
+.done{
+  background-color: greenyellow;
+}
+
+.in-progress{
+  background-color: rgb(148, 152, 249);
+}

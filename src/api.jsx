@@ -14,28 +14,33 @@ export const getToDoes = async (user, dispatch) => {
         });
 
         const data = await response.data
-    
+        
         const events = data.map((event) => {
             const { id_todo, title, expired, id_status, id_employer, id_company } = event
-    
+            const date = new Date(expired);
+            const day = date.getDate()
+            const month = date.getMonth() + 1
+            const year = date.getFullYear()
+            const formatDate = `${day}-${month}-${year}`;
+
             return {
                 'title': title,
-                'start': new Date(expired),
-                'end': new Date(expired),
+                'start': date,
+                'end': date,
                 'data': {
-                    'id': id_todo,
+                    'id': parseInt(id_todo),
                     'title': title,
-                    'expired': expired,
+                    'expired': formatDate,
                     'id_status': id_status,
                     'id_employer': id_employer,
                     "id_company": id_company
                 }
             }
         })
-    
+
         dispatch({ type: 'SET_TO_DOES', payload: events })
 
-    }else if(user.role == "employer"){
+    } else if (user.role == "employer") {
         const response = await axios({
             method: 'get',
             url: `${apiUrl}/to-does/employer/${user.id_user}`,
@@ -45,28 +50,33 @@ export const getToDoes = async (user, dispatch) => {
         });
 
         const data = await response.data
-    
+
         const events = data.map((event) => {
             const { id_todo, title, expired, id_status, id_employer, id_company } = event
-    
+            const date = new Date(expired);
+            const day = date.getDate()
+            const month = date.getMonth() + 1
+            const year = date.getFullYear()
+            const formatDate = `${day}-${month}-${year}`;
+
             return {
                 'title': title,
-                'start': new Date(expired),
-                'end': new Date(expired),
+                'start': date,
+                'end': date,
                 'data': {
-                    'id': id_todo,
+                    'id': parseInt(id_todo),
                     'title': title,
-                    'expired': expired,
+                    'expired': formatDate,
                     'id_status': id_status,
                     'id_employer': id_employer,
                     "id_company": id_company
                 }
             }
         })
-    
+
         dispatch({ type: 'SET_TO_DOES', payload: events })
 
-    }else if(user.role == "company"){
+    } else if (user.role == "company") {
         const response = await axios({
             method: 'get',
             url: `${apiUrl}/to-does/company/${user.id_user}`,
@@ -76,29 +86,34 @@ export const getToDoes = async (user, dispatch) => {
         });
 
         const data = await response.data
-    
+
         const events = data.map((event) => {
             const { id_todo, title, expired, id_status, id_employer, id_company } = event
-    
+            const date = new Date(expired);
+            const day = date.getDate()
+            const month = date.getMonth() + 1
+            const year = date.getFullYear()
+            const formatDate = `${day}-${month}-${year}`;
+
             return {
                 'title': title,
-                'start': new Date(expired),
-                'end': new Date(expired),
+                'start': date,
+                'end': date,
                 'data': {
                     'id': id_todo,
                     'title': title,
-                    'expired': expired,
+                    'expired': formatDate,
                     'id_status': id_status,
                     'id_employer': id_employer,
                     "id_company": id_company
                 }
             }
         })
-    
+
         dispatch({ type: 'SET_TO_DOES', payload: events })
     }
-    
-    
+
+
 }
 
 export const getEmployers = async (user, dispatchEmployers) => {
