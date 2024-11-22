@@ -47,3 +47,8 @@
 .in-progress{
   background-color: rgb(148, 152, 249);
 }
+
+.title-card{
+  display: flex;
+  justify-content: space-between;
+}

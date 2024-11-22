@@ -10,7 +10,9 @@ import {
     Select,
     MenuItem,
     Typography,
-    Alert
+    Alert,
+    FormControl,
+    InputLabel
 } from '@mui/material';
 import dayjs from 'dayjs';
 import { useFormik } from 'formik';
@@ -132,7 +134,7 @@ const AddToDo = ({ open, handleClose }) => {
                     <TextField
                         id="titleTodo"
                         name='titleTodo'
-                        label="Titulo"
+                        placeholder='Titulo'
                         variant="standard"
                         onChange={formik.handleChange}
                         value={formik.values.titleTodo}
@@ -145,63 +147,88 @@ const AddToDo = ({ open, handleClose }) => {
 
                         {
                             employers.length > 0 && (
-                                <Select
-                                    value={formik.values.employer}
-                                    inputProps={{
-                                        name: 'employer',
-                                        id: 'employer',
-                                    }}
-                                    onChange={formik.handleChange}
-                                >
+                                <FormControl >
+                                    <InputLabel variant="outlined" htmlFor="employer" >
+                                        Empleado
+                                    </InputLabel>
+                                    <Select
+                                        variant='outlined'
+                                        value={formik.values.employer}
+                                        inputProps={{
+                                            name: 'employer',
+                                            id:'employer',
+                                        }}
+                                        onChange={formik.handleChange}
+                                        label="Empleado"
+                                    >
 
-                                    {employers.map((elem, index) => (
-                                        <MenuItem key={index} value={index} >
-                                            <Typography >{elem.name_employer}</Typography>
-                                        </MenuItem >
-                                    ))}
+                                        {employers.map((elem, index) => (
+                                            <MenuItem key={index} value={index} >
+                                                <Typography >{elem.name_employer}</Typography>
+                                            </MenuItem >
+                                        ))}
 
-                                </Select>
+                                    </Select>
+                                </FormControl>
+
                             )
                         }
 
                         {
                             companies.length > 0 && (
-                                <Select
-                                    value={formik.values.company}
-                                    inputProps={{
-                                        name: 'company',
-                                        id: 'company',
-                                    }}
-                                    onChange={formik.handleChange}
-                                >
+                                <FormControl >
+                                    <InputLabel variant="outlined" htmlFor="company" sx={{ backgroundColor: "none" }} >
+                                        Cliente
+                                    </InputLabel>
+                                    <Select
+                                        label="Cliente"
+                                        value={formik.values.company}
+                                        variant='outlined'
+                                        inputProps={{
+                                            name: 'company',
+                                            id:'company',
+                                        }}
+                                        onChange={formik.handleChange}
+                                    >
 
-                                    {companies.map((elem, index) => (
-                                        <MenuItem key={index} value={index} >
-                                            <Typography >{elem.name_company}</Typography>
-                                        </MenuItem >
-                                    ))}
+                                        {companies.map((elem, index) => (
+                                            <MenuItem key={index} value={index} >
+                                                <Typography >{elem.name_company}</Typography>
+                                            </MenuItem >
+                                        ))}
 
-                                </Select>)
+                                    </Select>
+                                </FormControl>)
                         }
 
                         {
                             avalibleProjects.length > 0 && (
-                                <Select
-                                    value={formik.values.project}
-                                    inputProps={{
-                                        name: 'project',
-                                        id: 'project',
-                                    }}
-                                    onChange={formik.handleChange}
-                                >
+                                <FormControl >
+                                    <InputLabel variant="outlined" htmlFor="project" sx={{ backgroundColor: "none" }} >
+                                        Proyecto
+                                    </InputLabel>
+                                    <Select
+                                        
+                                        labelId='project'
+                                        label="Proyecto"
+                                        variant='outlined'
+                                        value={formik.values.project}
+                                        inputProps={{
+                                            name: 'project',
+                                            id:'project',
+                                        }}
+                                        onChange={formik.handleChange}
+                                    >
 
-                                    {avalibleProjects.map((elem, index) => (
-                                        <MenuItem key={index} value={index} >
-                                            <Typography >{elem.name_project}</Typography>
-                                        </MenuItem >
-                                    ))}
+                                        {avalibleProjects.map((elem, index) => (
+                                            <MenuItem key={index} value={index} >
+                                                <Typography >{elem.name_project}</Typography>
+                                            </MenuItem >
+                                        ))}
 
-                                </Select>
+                                    </Select>
+                                </FormControl>
+
                             )
                         }
 
@@ -210,6 +237,7 @@ const AddToDo = ({ open, handleClose }) => {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                             name="expired"
+                            label="Fecha Limite"
                             value={formik.values.expired}
                             onChange={(value) => formik.setFieldValue('expired', value)}
                             slotProps={{ textField: { fullWidth: true } }}

@@ -7,7 +7,9 @@ import {
     Select,
     MenuItem,
     Typography,
-    Box
+    Box,
+    FormControl,
+    InputLabel
 } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -115,6 +117,7 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
                 <Box component="form" onSubmit={formik.handleSubmit}>
                     <TextField
                         name='title'
+                        label='Titulo'
                         value={formik.values.title}
                         variant="standard"
                         onChange={formik.handleChange}
@@ -132,22 +135,30 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
                         </Typography>
 
 
-                        <Select
-                            value={formik.values.employer}
-                            inputProps={{
-                                name: 'employer',
-                                id: 'employer',
-                            }}
-                            onChange={formik.handleChange}
-                        >
+                        <FormControl >
+                                    <InputLabel variant="outlined" htmlFor="employer" sx={{ backgroundColor: "none" }} >
+                                        Empleado
+                                    </InputLabel>
+                                    <Select
+                                        variant='outlined'
+                                        labelId='employer'
+                                        value={formik.values.employer}
+                                        inputProps={{
+                                            name: 'employer',
+                                            id: 'employer',
+                                        }}
+                                        onChange={formik.handleChange}
+                                        label="Empleado"
+                                    >
 
-                            {employers.map((elem, index) => (
-                                <MenuItem key={index} value={index} >
-                                    <Typography >{elem.name_employer}</Typography>
-                                </MenuItem >
-                            ))}
+                                        {employers.map((elem, index) => (
+                                            <MenuItem key={index} value={index} >
+                                                <Typography >{elem.name_employer}</Typography>
+                                            </MenuItem >
+                                        ))}
 
-                        </Select>
+                                    </Select>
+                                </FormControl>
 
                     </Box>
 
@@ -156,6 +167,7 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                             name="expired"
+                            label="Fecha limite"
                             value={formik.values.expired}
                             onChange={(value) => formik.setFieldValue('expired', value)}
                             slotProps={{ textField: { fullWidth: true } }}

@@ -3,12 +3,37 @@ import Fullcalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { Box } from "@mui/material"
-
+import { Box, Typography } from "@mui/material"
 
 const CalendarView = ({events, todoClick}) => {
 
+  const classes = {1:"to-do", 2:"in-progress", 3:"done"}
 
+    const renderEventContent = (eventInfo) => {
+
+        const index = parseInt(eventInfo.event.extendedProps.data.id_status)
+
+        return (
+          <Typography
+
+            variant="h6"
+            component='span'
+            className={classes[index]}
+            sx={{
+              borderRadius: '5px',
+              padding: '5px',
+              color: 'black',
+              margin: '2px',
+              textAlign: 'center',
+              textDecorationLine: 'none'
+            }}
+
+            
+          >
+            {eventInfo.event.title}
+          </Typography>
+        );
+      };
 
 
     return (
@@ -26,6 +51,8 @@ const CalendarView = ({events, todoClick}) => {
                 }}
                 events={events}
                 eventClick={todoClick}
+                eventContent={renderEventContent}
+                
             />
         </Box>
     )

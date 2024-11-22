@@ -21,12 +21,12 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
 
     const { user } = useAuthContext()
     const { statues } = useStatusContext()
-    const { todoes ,dispatch } = useToDoContext()
+    const { todoes, dispatch } = useToDoContext()
 
     const formik = useFormik({
         initialValues: {
             id: 1,
-            status: '',
+            status: 0,
         },
         onSubmit: values => {
             updateInfo(values)
@@ -50,15 +50,15 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
             },
         });
 
-        const updatedList = todoes.map((x)=>{
-            return parseInt(x.data.id) == parseInt(id)?({
+        const updatedList = todoes.map((x) => {
+            return parseInt(x.data.id) == parseInt(id) ? ({
 
                 ...x,
                 data: {
                     ...x.data,
-                    'id_status':status
+                    'id_status': status
                 }
-            }):x
+            }) : x
         })
 
         dispatch({ type: 'SET_TO_DOES', payload: updatedList })
@@ -85,37 +85,45 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
         <Dialog onClose={() => handleClose()} open={open} PaperComponent='div' PaperProps={{
             'className': 'round-form'
         }} >
-            <DialogTitle>
-                {info['title']}
-            </DialogTitle>
-            <DialogContent >
+            <Box component="form" onSubmit={formik.handleSubmit}>
+                <DialogTitle component='div' className="title-card" >
+                    <Typography variant='h4' component='h4' fontWeight='bold' >
+                        {info['title']}
+                    </Typography>
 
-                <Box component="form" onSubmit={formik.handleSubmit}>
+                    <Select
+                        value={formik.values.status}
+                        inputProps={{
+                            name: 'status',
+                            id: 'status',
+                        }}
+                        className='select-status'
+                        onChange={formik.handleChange}
+                    >
+
+                        {statues.map((elem, index) => (
+                            <MenuItem key={index} value={parseInt(elem.id_status)} >
+                                <Typography className={`${elem.className} tag`}  >{elem.name_status}</Typography>
+                            </MenuItem >
+                        ))}
+                    </Select>
+                </DialogTitle>
+                <DialogContent >
+
+
                     <Box component='div' className='margin-field section' >
 
-                        <Select
-                            value={formik.values.status}
-                            inputProps={{
-                                name: 'status',
-                                id: 'status',
-                            }}
-                            className='select-status'
-                            onChange={formik.handleChange}
-                        >
-
-                            {statues.map((elem, index) => (
-                                <MenuItem key={index} value={parseInt(elem.id_status)} >
-                                    <Typography className={`${elem.className} tag`}  >{elem.name_status}</Typography>
-                                </MenuItem >
-                            ))}
-                        </Select>
-
-
                         <Typography component='h6'>
+                            <strong>
+                                Cliente:
+                            </strong>
                             {info['companyName']}
                         </Typography>
 
                         <Typography component='h6'>
+                            <strong>
+                                Fecha limite:
+                            </strong>
                             {info['expired']}
                         </Typography>
                     </Box>
@@ -126,11 +134,8 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
                         <Button onClick={() => handleClose()}>Close</Button>
                     </DialogActions>
 
-                </Box>
-
-
-            </DialogContent>
-
+                </DialogContent>
+            </Box>
         </Dialog>
     )
 }

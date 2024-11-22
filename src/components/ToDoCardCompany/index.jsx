@@ -14,37 +14,49 @@ const ToDoCardCompany = ({ info, open, handleClose }) => {
         <Dialog onClose={() => handleClose()} open={open} PaperComponent='div' PaperProps={{
             'className': 'round-form'
         }} >
-            <DialogTitle>
-                {info['title']}
+            <DialogTitle className='title-card'  component="div">
+
+                <Typography variant='h4' fontWeight='bold' >
+                    {info['title']}
+                </Typography>
+
+                <Typography
+                    className={`${info['statusClass']} tag-status`}
+                    variant="h6"
+                    component="span"
+                >
+                    {info['statusName']}
+                </Typography>
             </DialogTitle>
             <DialogContent >
 
                 <Box component="div">
                     <Box component='div' className='margin-field section' >
 
-                        <Typography
-                            className={`${info['statusClass']} tag-status`}
-                            variant="h6"
-                            component="span"
-                        >
-                            {info['statusName']}
-                        </Typography>
-
-
                         <Typography component='h6'>
+                            <strong >
+                                Cliente:
+                            </strong>
                             {info['companyName']}
                         </Typography>
 
                         <Typography component='h6'>
+                            <strong >
+                                Empleado:
+                            </strong>
                             {info['employerName']}
                         </Typography>
 
                         <Typography component='h6'>
+                            <strong  >
+                                Fecha limite:
+                            </strong>
                             {info['expired']}
                         </Typography>
+
                     </Box>
                     <DialogActions>
-                        <Button onClick={() => handleClose()}>Close</Button>
+                        <Button onClick={() => handleClose()}>Cerrar</Button>
                     </DialogActions>
 
                 </Box>
