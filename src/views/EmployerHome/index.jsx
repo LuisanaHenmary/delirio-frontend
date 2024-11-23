@@ -19,6 +19,7 @@ const EmployerHome = () => {
     const { companies } = useCompaniesContext()
 
     const clickTodo = (e) => {
+        const end = e.event._instance.range.end
         const data = e.event._def.extendedProps.data
         const { id, title, expired, id_status, id_company } = data
 
@@ -34,9 +35,10 @@ const EmployerHome = () => {
             title,
             expired,
             id_status,
-            companyName
+            companyName,
+            end
         }
-    
+
         setToDoSelected(info)
         changeToOpen()
     }

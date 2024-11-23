@@ -10,18 +10,20 @@ import {
     Typography,
     Box
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useStatusContext } from '../../hooks/useStatusContext';
 import { useToDoContext } from "../../hooks/useToDoContext";
+import { useOpen } from "../../hooks/useOpen";
 
 const ToDoCardEmployer = ({ info, open, handleClose }) => {
 
     const { user } = useAuthContext()
     const { statues } = useStatusContext()
     const { todoes, dispatch } = useToDoContext()
+    const [enable, changeToEnable, changeToDisabled] = useOpen()
 
     const formik = useFormik({
         initialValues: {
@@ -67,6 +69,22 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
     const setInfo = async () => {
         formik.setFieldValue('id', parseInt(info['id']))
         formik.setFieldValue('status', parseInt(info['id_status']))
+
+        const now = new Date();
+
+        const day = now.getDate()
+        const month = now.getMonth()
+        const year = now.getFullYear()
+
+
+        const expiredDate = new Date(info.end);
+        const  currentDate = new Date(year, month,day)
+
+        if(currentDate.getTime() >= expiredDate.getTime()){
+            changeToDisabled()
+        }else{
+            changeToEnable()
+        }
     }
 
 
@@ -96,9 +114,11 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
                         inputProps={{
                             name: 'status',
                             id: 'status',
+                            disabled: !enable
                         }}
                         className='select-status'
                         onChange={formik.handleChange}
+                        
                     >
 
                         {statues.map((elem, index) => (
@@ -141,5 +161,3 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
 }
 
 export default ToDoCardEmployer
-
-/** */
