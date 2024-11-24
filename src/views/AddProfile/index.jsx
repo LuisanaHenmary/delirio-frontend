@@ -53,8 +53,8 @@ const AddProfile = ({ open, handleClose }) => {
             <DialogContent>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={value} onChange={handleChange}>
-                        <Tab label="Employer" />
-                        <Tab label="Company" />
+                        <Tab label="Empleado" />
+                        <Tab label="Empresa cliente" />
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>

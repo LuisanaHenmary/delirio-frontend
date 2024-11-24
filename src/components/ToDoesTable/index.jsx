@@ -8,14 +8,12 @@ import {
     TableContainer,
     Paper
 } from "@mui/material"
-import { useMemo, useState, useEffect } from "react";
-import { useToDoContext } from "../../hooks/useToDoContext";
+import { useMemo, useState } from "react";
 
-const ToDoesTable = () => {
+const ToDoesTable = ({rows}) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const { todoes } = useToDoContext()
-    const [rows, setRows] = useState([])
+    
 
     const visibleRows = useMemo(
         () =>
@@ -24,15 +22,7 @@ const ToDoesTable = () => {
         [page, rowsPerPage, rows],
     );
 
-    useEffect(() => {
-
-        const r = todoes.map((elem) => {
-            return elem.data
-        })
-
-        setRows(r)
-
-    }, [todoes])
+    
 
     const headCells = [
         {
@@ -43,6 +33,22 @@ const ToDoesTable = () => {
             id: 'expired',
             label: 'Fecha de expiración',
         },
+        {
+            id: 'employer',
+            label: 'Empleado',
+        },
+        {
+            id: 'company',
+            label: 'Cliente',
+        },
+        {
+            id: 'project',
+            label: 'Proyecto',
+        },
+        {
+            id: 'status',
+            label: 'Estado',
+        }
 
     ];
 
@@ -92,7 +98,16 @@ const ToDoesTable = () => {
                                     >
                                         {row.title}
                                     </TableCell>
+
                                     <TableCell align="center">{row.expired}</TableCell>
+
+                                    <TableCell align="center" >{row.employerName}</TableCell>
+
+                                    <TableCell align="center" >{row.companyName}</TableCell>
+
+                                    <TableCell align="center" >{row.projectName}</TableCell>
+
+                                    <TableCell align="center" className={row.statusClass} >{row.statusName}</TableCell>
                                 </TableRow>
                             );
                         })}
