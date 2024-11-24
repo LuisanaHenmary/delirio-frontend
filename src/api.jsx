@@ -16,7 +16,7 @@ export const getToDoes = async (user, dispatch) => {
         const data = await response.data
         
         const events = data.map((event) => {
-            const { id_todo, title, expired, id_status, id_employer, id_company } = event
+            const { id_todo, title, expired, id_status, id_employer, id_company, id_project } = event
             const date = new Date(expired);
             const day = date.getDate()
             const month = date.getMonth() + 1
@@ -33,7 +33,8 @@ export const getToDoes = async (user, dispatch) => {
                     'expired': formatDate,
                     'id_status': id_status,
                     'id_employer': id_employer,
-                    "id_company": id_company
+                    "id_company": id_company,
+                    "id_project": id_project
                 }
             }
         })
