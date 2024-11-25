@@ -81,8 +81,8 @@ const AddProject = ({ open, handleClose }) => {
                     <TextField
                         id="nameProject"
                         name='nameProject'
-                        label="Nombre"
-                        variant="standard"
+                        label="Nombre del proyecto"
+                        variant="outlined"
                         onChange={formik.handleChange}
                         value={formik.values.nameProject}
                         required

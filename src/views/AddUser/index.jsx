@@ -47,7 +47,7 @@ const AddUser = ({ formik }) => {
             </Box>
 
             <Box component='div' className='margin-field section'  >
-                <FormControl variant="outlined" >
+                <FormControl variant="outlined" required >
                     <InputLabel htmlFor="password">Password</InputLabel>
                     <Input
                         id="password"
@@ -67,7 +67,6 @@ const AddUser = ({ formik }) => {
                         onChange={formik.handleChange}
                         value={formik.values.password}
                         sx={{ width: '250px' }}
-                        required
                     />
                 </FormControl>
 

@@ -2,7 +2,8 @@ import {
     Box,
     Button,
     DialogActions,
-    TextField
+    TextField,
+    Alert
 } from '@mui/material';
 import AddUser from '../AddUser';
 import { useFormik } from 'formik';
@@ -10,6 +11,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useCompaniesContext } from '../../hooks/useCompanyContext';
 import axios from 'axios';
+import { CompanyValidation } from '../../Validations/CompanyValidation';
 
 const AddCompany = ({ handleClose }) => {
 
@@ -29,6 +31,7 @@ const AddCompany = ({ handleClose }) => {
             register_company(values)
             handleClose()
         },
+        validationSchema: CompanyValidation
     });
 
     const register_company = async (values) => {
@@ -103,6 +106,7 @@ const AddCompany = ({ handleClose }) => {
                     onChange={formik.handleChange}
                     value={formik.values.nit}
                     sx={{ width: '250px' }}
+                    required
                 />
 
                 <TextField
@@ -113,10 +117,27 @@ const AddCompany = ({ handleClose }) => {
                     onChange={formik.handleChange}
                     value={formik.values.full_name}
                     sx={{ width: '250px' }}
+                    required
                 />
             </Box>
 
             <AddUser formik={formik} />
+
+            {formik.errors.nit ? (
+                <Alert severity="error">{formik.errors.nit}</Alert>
+            ) : null}
+
+            {formik.errors.username ? (
+                <Alert severity="error">{formik.errors.username}</Alert>
+            ) : null}
+
+            {formik.errors.email ? (
+                <Alert severity="error">{formik.errors.email}</Alert>
+            ) : null}
+
+            {formik.errors.password ? (
+                <Alert severity="error">{formik.errors.password}</Alert>
+            ) : null}
 
             <DialogActions>
                 <Button variant="contained" endIcon={<SendIcon />} type='submit'>
