@@ -45,7 +45,6 @@ const EmployerHome = () => {
 
     return (
         <>
-            <Typography component="h2" > Bienvenido empleado </Typography>
             <CalendarView events={todoes} todoClick={clickTodo} />
             <ToDoCardEmployer open={open} info={toDoSelected} handleClose={changeToClose} />
         </>

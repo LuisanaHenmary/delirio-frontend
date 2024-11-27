@@ -1,28 +1,32 @@
-
 import {
     Box,
-    TextField,
     InputAdornment,
-    IconButton,
-    Input,
     Typography,
     Button,
-    InputLabel,
-    FormControl,
     Alert,
-    Container
+    Container,
+    Stack,
+    ListItem,
+    IconButton,
+    CircularProgress
 } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import SendIcon from '@mui/icons-material/Send';
 import { useFormik } from 'formik';
 import useShowPassword from '../../hooks/useShowPassword';
 import { useLogin } from '../../hooks/useLogin';
+import FingerprintIcon from '@mui/icons-material/Fingerprint';
+import SensorOccupiedIcon from '@mui/icons-material/SensorOccupied';
+import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
+import { DelirioInput } from './styled';
+import { useEffect } from 'react';
+
+import axios from 'axios';
 
 const Login = () => {
 
     const [showPassword, handleClickShowPassword] = useShowPassword()
-    const { login, error, isLoading } = useLogin()
+    const { login, error, isLoading, dispatch } = useLogin()
 
     const prevent = (event) => {
         event.preventDefault();
@@ -38,58 +42,130 @@ const Login = () => {
         },
     });
 
+    const isOpenSession = async () => {
+
+        const apiWordpress = import.meta.env.VITE_API_WORDPRESS
+        const currentUser = JSON.parse(localStorage.getItem('user'))
+
+        if (currentUser) {
+            const response = await axios({
+                method: 'get',
+                url: `${apiWordpress}/users/me`,
+                headers: {
+                    'Authorization': `Bearer ${currentUser.token}`,
+                },
+            });
+
+            if (response.status === 200) {
+                dispatch({ type: 'LOGIN', payload: currentUser })
+            }
+        }
+    }
+
+    useEffect(() => {
+
+        try {
+            isOpenSession()
+        } catch (e) {
+            console.log(e)
+        }
+
+    }, [])
+
     return (
+        <Box component="div" className='background-login' >
 
-        <Container className='form-center'>
-            <Box className="form-login" component="form" onSubmit={formik.handleSubmit}>
+            <Box sx={{ display: "flex" }}>
+                <Container className='form-center'>
+                    {isLoading ?
+                        <Box className="main-box" >
+                            <CircularProgress />
+                        </Box>
+                        :
+                        <Stack className='main-form' >
+                            <Typography variant='h6' component="div" className='title-login' >
+                                <strong>Inicio de sesión</strong>
 
-                <Typography variant="h3" gutterBottom>
-                    Login
-                </Typography>
+                                <ListItem sx={{ height: "25px", width: "50px" }} disablePadding component='a' href="http://localhost/Delirio" >
+                                    <IconButton >
+                                        <CancelPresentationIcon />
+                                    </IconButton>
+                                </ListItem>
 
-                <TextField
-                    id="username"
-                    name='username'
-                    label="Username"
-                    variant="outlined"
-                    component="div"
-                    sx={{ marginBottom: 5 }}
-                    onChange={formik.handleChange}
-                    value={formik.values.username}
-                    required
-                />
+                            </Typography>
 
-                <FormControl variant="outlined" required>
-                    <InputLabel htmlFor="password">Password</InputLabel>
-                    <Input
-                        id="password"
-                        name='password'
-                        type={showPassword ? 'text' : 'password'}
-                        sx={{ marginBottom: 5 }}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={prevent}
-                                    onMouseUp={prevent}
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                        onChange={formik.handleChange}
-                        value={formik.values.password}
-                    />
-                </FormControl>
+                            <Box className="form-login" component="form" onSubmit={formik.handleSubmit}>
 
+                                <DelirioInput
+                                    id="username"
+                                    name='username'
+                                    placeholder='Usuario'
+                                    startAdornment={
+                                        <InputAdornment position="start">
+                                            <SensorOccupiedIcon sx={{ color: "white" }} />
+                                        </InputAdornment>
 
-                <Button variant="contained" endIcon={<SendIcon />} type='submit'>
-                    Iniciar sesion
-                </Button>
-                {error && <Alert severity="error">{error}</Alert>}
+                                    }
+                                    onChange={formik.handleChange}
+                                    value={formik.values.username}
+                                    inputProps={{
+                                        style: {
+                                            background: "none",
+                                            border: 0,
+                                            color: "white",
+                                            borderRadius: "20px",
+                                        }
+                                    }}
+                                    fullWidth
+                                    required
+                                />
+
+                                <DelirioInput
+                                    id="password"
+                                    name='password'
+                                    placeholder='Contraseña'
+                                    type={showPassword ? 'text' : 'password'}
+                                    startAdornment={
+                                        <InputAdornment position="start">
+                                            <FingerprintIcon sx={{ color: "white" }} />
+                                        </InputAdornment>
+                                    }
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={prevent}
+                                                onMouseUp={prevent}
+                                            >
+                                                {showPassword ? <VisibilityOff sx={{ color: "white" }} /> : <Visibility sx={{ color: "white" }} />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                    onChange={formik.handleChange}
+                                    value={formik.values.password}
+                                    inputProps={{
+                                        style: {
+                                            background: "none",
+                                            border: 0,
+                                            color: "white",
+                                        }
+                                    }}
+                                    required
+                                    fullWidth
+                                />
+
+                                <Button className='agree-button' variant='contained' type='submit'>
+                                    <strong>Aceptar</strong>
+                                </Button>
+                                {error && <Alert severity="error">{error}</Alert>}
+
+                            </Box>
+
+                        </Stack>}
+                </Container>
 
             </Box>
-        </Container>
+        </Box>
     )
 }
 

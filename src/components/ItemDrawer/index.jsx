@@ -9,7 +9,7 @@ export const AdminOptions = ({ changeToOpenAddProfile }) => {
 
     return (
         <>
-            <ListItem disablePadding >
+            <ListItem disablePadding component={RouterLink} to="statistics" >
                 <ListItemButton  >
                     <ListItemText primary="Estadisticas" />
                 </ListItemButton>

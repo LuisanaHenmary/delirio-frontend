@@ -66,7 +66,6 @@ const CompanyHome = () => {
 
     return (
         <>
-            <Typography component="h2" > Bienvenido estimado cliente </Typography>
             <CalendarView events={todoes} todoClick={clickTodo} />
             <ToDoCardCompany open={open} info={toDoSelected} handleClose={changeToClose} />
         </>

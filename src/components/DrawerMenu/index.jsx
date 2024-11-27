@@ -5,56 +5,40 @@ import {
     ListItem,
     ListItemButton,
     ListItemText,
-    Divider
+    Box,
+    ListItemIcon
 } from '@mui/material';
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { Navigate, Link as RouterLink  } from "react-router-dom";
+import { Navigate, Link as RouterLink } from "react-router-dom";
 import { AdminOptions, EmployerOptions } from '../ItemDrawer';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { DelirioMenu } from './styled';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 
 const DrawerMenu = ({ openMenu, changeToCloseMenu, handleClick, changeToOpenAddProfile }) => {
     const { user } = useAuthContext()
 
     return (
-        <Drawer
-            variant="persistent"
-            anchor="left"
-            open={openMenu}
-            PaperProps={{
-                sx: {
-                    backgroundColor: "black",
-                    color: 'white',
-                    padding: '10px'
-                }
-            }}
-            className="menuCustom"
-        >
-            <div>
-                <IconButton onClick={changeToCloseMenu} sx={{
-                    backgroundColor: 'white', ":hover": {
-                        backgroundColor: 'rgba(228, 230, 232, 0.683)'
-                    }
-                }}>
-                    <ChevronLeftIcon />
-                </IconButton>
-            </div>
-            <Divider />
-            <List >
-
-                {!user && (
-                    <>
-                        <ListItem disablePadding component='a' href="http://localhost/Delirio" >
-                            <ListItemButton>
-                                <ListItemText primary="Wordpress" />
-                            </ListItemButton>
-                        </ListItem>
-
-                        <Navigate to="/login" />
-                    </>
-                )}
-                {user && (
-                    <>
+        <>{user && (
+            <Drawer
+                variant="persistent"
+                anchor="left"
+                open={openMenu}
+                PaperProps={DelirioMenu}
+                className="menuCustom"
+            >
+                <div>
+                    <IconButton onClick={changeToCloseMenu} sx={{
+                        backgroundColor: 'white', ":hover": {
+                            backgroundColor: 'rgba(228, 230, 232, 0.683)'
+                        }
+                    }}>
+                        <ChevronLeftIcon />
+                    </IconButton>
+                </div>
+                <List >
+                    <Box>
                         <Navigate to="/home" />
 
                         <ListItem disablePadding component={RouterLink} to="home" className="first" >
@@ -64,17 +48,27 @@ const DrawerMenu = ({ openMenu, changeToCloseMenu, handleClick, changeToOpenAddP
                         </ListItem>
                         {user.role == "admin" ? <AdminOptions changeToOpenAddProfile={changeToOpenAddProfile} /> : null}
                         {user.role == "employer" ? <EmployerOptions /> : null}
-                        <ListItem disablePadding className="last" >
-                            <ListItemButton onClick={handleClick}>
-                                <ListItemText primary="Log Out" />
+                    </Box>
+
+                    <Box sx={{ marginTop: "100%" }} >
+
+                        <ListItem disablePadding className="last"  >
+                            <ListItemButton onClick={handleClick} >
+                                <ListItemIcon>
+                                    <PowerSettingsNewIcon sx={{color:"white"}} />
+                                </ListItemIcon>
+                                <ListItemText primary="Salir" />
                             </ListItemButton>
+
                         </ListItem>
 
-                    </>
-                )}
-            </List>
+                    </Box>
 
-        </Drawer >
+                </List>
+
+            </Drawer >
+        )}
+        </>
     )
 }
 

@@ -1,10 +1,10 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import { Box } from "@mui/material";
 import NavBar from "../components/NavBars";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useToDoContext } from "../hooks/useToDoContext";
 import { useEffect } from "react";
-import { 
+import {
     getJobs,
     getStatus,
     getCompanies,
@@ -18,7 +18,7 @@ import { useStatusContext } from "../hooks/useStatusContext";
 import { useJobContext } from "../hooks/useJobContext";
 import { useProjectsContext } from "../hooks/useProjectsContexr";
 
-const Root = () =>{
+const Root = () => {
 
     const { user } = useAuthContext()
     const { dispatch } = useToDoContext()
@@ -29,6 +29,7 @@ const Root = () =>{
     const { dispatchProjects } = useProjectsContext()
 
     useEffect(() => {
+
         try {
             if (user) {
                 getToDoes(user, dispatch)
@@ -37,7 +38,7 @@ const Root = () =>{
                 getCompanies(user, dispatchCompanies)
                 getEmployers(user, dispatchEmployers)
                 getProjects(user, dispatchProjects)
-               
+
             }
         } catch (e) {
             console.log(e)
@@ -46,13 +47,18 @@ const Root = () =>{
     }, [user])
 
     return (
-        <Box>
-            <NavBar />
-            <Box component="div" id="detail" className="main-box">
+        <>
+            {!user && (
+                <>
+                    <Navigate to="/login" />
+                </>
+            )}
+            {user && (<NavBar username={user.user_display_name} />)}
+            <Box component="div">
                 <Outlet />
             </Box>
 
-        </Box>
+        </>
     )
 }
 

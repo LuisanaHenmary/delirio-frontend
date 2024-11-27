@@ -1,16 +1,51 @@
 .form-login {
-  border: 1px solid black;
   padding: 50px;
   display: flex;
   flex-direction: column;
-  width: 500px;
+  align-items: center;
+  border-radius: 0 0 20px 20px;
+}
+
+.background-login{
+  background-image: url(./assets/blueDeer.svg), url(./assets/blueAntlers.svg);
+  background-position: left top, right bottom;
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100px 200px, 200px 300px;
+}
+
+.main-form {
   margin-top: 10vmax;
   border: 0;
   border-radius: 20px;
   box-shadow: 2px 2px 2px 3px rgba(0, 0, 0, 0.2);
+  width: 500px;
+
 }
+
+.loading{
+  width: 500px;
+}
+
 .main-box {
   padding-top: 5vmax;
+  margin-top: 10vmax;
+}
+
+.title-login {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 20px 20px 0 0;
+  background: linear-gradient(#3DA2DB, #006096);
+  padding: 20px;
+  color: white;
+}
+
+.agree-button {
+  background: linear-gradient(#3DA2DB, #006096);
+  padding: 20px;
+  color: white;
+  align-items: center;
+  padding: 10px 100px 10px 100px;
 }
 
 .form-center {
@@ -19,36 +54,36 @@
   align-items: center;
 }
 
-.round-form{
+.round-form {
   background-color: white;
   border-radius: 20px;
   box-shadow: 2px 2px 2px 3px rgba(0, 0, 0, 0.2);
   width: 700px;
 }
 
-.margin-field{
+.margin-field {
   margin-bottom: 25px;
 }
 
-.section{
+.section {
   display: flex;
   justify-content: space-between;
   height: 50px;
 }
 
-.to-do{
+.to-do {
   background-color: antiquewhite;
 }
 
-.done{
+.done {
   background-color: greenyellow;
 }
 
-.in-progress{
+.in-progress {
   background-color: rgb(148, 152, 249);
 }
 
-.title-card{
+.title-card {
   display: flex;
   justify-content: space-between;
 }

@@ -7,7 +7,18 @@
 }
 
 .menuCustom li:hover{
-    background-color: rgba(7, 7, 173, 0.831);
+    background-color: rgba(7, 7, 173, 0);
+    color: white;
+}
+
+.menuCustom a:hover{
+    background-color: rgba(7, 7, 173, 0);
+    color: white;
+}
+
+.menuCustom a:active{
+    background-color: rgba(7, 7, 173, 0.487);
+    color: white;
 }
 
 .menuCustom li{
@@ -18,9 +29,7 @@
     color: white;
 }
 
-.menuCustom a:hover{
-    background-color: rgba(7, 7, 173, 0.831);
-}
+
 
 .first{
     border-radius: 25px 25px 0 0;

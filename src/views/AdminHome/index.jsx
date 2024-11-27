@@ -68,8 +68,6 @@ const AdminHome = () => {
 
     return (
         <>
-            <Typography component="h2" > Bienvenido administrador </Typography>
-
             <CalendarView events={todoes} todoClick={clickTodo} />
             <Box sx={{ display: "flex", justifyContent: "space-between", marginTop: '60px' }} >
                 <TableEmployers />
