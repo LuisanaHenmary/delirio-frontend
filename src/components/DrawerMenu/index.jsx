@@ -10,14 +10,17 @@ import {
 } from '@mui/material';
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { Navigate, Link as RouterLink } from "react-router-dom";
-import { AdminOptions, EmployerOptions } from '../ItemDrawer';
+import { Navigate, useLocation, Link as RouterLink } from "react-router-dom";
+import { AdminOptions, EmployerOptions, ItemDrawer, SelectedIcon } from '../ItemDrawer';
 import { useAuthContext } from '../../hooks/useAuthContext';
-import { DelirioMenu } from './styled';
+import { DelirioMenu, TypographyMenu } from './styled';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
+import WhiteDeer from "../../assets/whiteDeer.svg"
 
 const DrawerMenu = ({ openMenu, changeToCloseMenu, handleClick, changeToOpenAddProfile }) => {
     const { user } = useAuthContext()
+    const location = useLocation();
+    const roles = {"admin":"Administrador", "employer":"Empleado", "company":"Cliente"}
 
     return (
         <>{user && (
@@ -28,26 +31,35 @@ const DrawerMenu = ({ openMenu, changeToCloseMenu, handleClick, changeToOpenAddP
                 PaperProps={DelirioMenu}
                 className="menuCustom"
             >
-                <div>
-                    <IconButton onClick={changeToCloseMenu} sx={{
-                        backgroundColor: 'white', ":hover": {
-                            backgroundColor: 'rgba(228, 230, 232, 0.683)'
-                        }
-                    }}>
-                        <ChevronLeftIcon />
-                    </IconButton>
+                <div style={{ display: "flex" }} >
+                    <div>
+                        <IconButton onClick={changeToCloseMenu} sx={{
+                            backgroundColor: 'white', ":hover": {
+                                backgroundColor: 'rgba(228, 230, 232, 0.683)'
+                            }
+                        }}>
+                            <ChevronLeftIcon />
+                        </IconButton>
+                    </div>
+                    <div style={{marginLeft:"10px", marginTop:"3px"}}>
+                        <img src={WhiteDeer} alt='d' width={"40px"} height={"40px"} />
+                        <TypographyMenu >
+                            {roles[user.role]}
+                        </TypographyMenu>
+                    </div>
                 </div>
                 <List >
                     <Box>
                         <Navigate to="/home" />
 
-                        <ListItem disablePadding component={RouterLink} to="home" className="first" >
-                            <ListItemButton  >
-                                <ListItemText primary="Home" />
-                            </ListItemButton>
-                        </ListItem>
-                        {user.role == "admin" ? <AdminOptions changeToOpenAddProfile={changeToOpenAddProfile} /> : null}
-                        {user.role == "employer" ? <EmployerOptions /> : null}
+                        {user.role == "admin" ?
+                            <AdminOptions
+                                changeToOpenAddProfile={changeToOpenAddProfile}
+                                location={location}
+                            /> :
+                            null
+                        }
+                        {user.role == "employer" ? <EmployerOptions location={location} /> : null}
                     </Box>
 
                     <Box sx={{ marginTop: "100%" }} >
@@ -55,7 +67,7 @@ const DrawerMenu = ({ openMenu, changeToCloseMenu, handleClick, changeToOpenAddP
                         <ListItem disablePadding className="last"  >
                             <ListItemButton onClick={handleClick} >
                                 <ListItemIcon>
-                                    <PowerSettingsNewIcon sx={{color:"white"}} />
+                                    <PowerSettingsNewIcon sx={{ color: "white" }} />
                                 </ListItemIcon>
                                 <ListItemText primary="Salir" />
                             </ListItemButton>
