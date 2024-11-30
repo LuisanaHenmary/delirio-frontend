@@ -1,0 +1,14 @@
+.pie-container {
+    text-align: center;
+    padding: 1;
+    text-align: center;
+    border: 1px solid black;
+    margin: 5px;
+    border-radius: 5%;
+}
+
+.employer-progress {
+    display: flex;
+    justify-content: center;
+}
+
