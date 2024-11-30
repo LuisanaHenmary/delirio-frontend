@@ -4,6 +4,7 @@ import Root from './root.jsx'
 import Login from "../views/Login/index.jsx"
 import Home from "../views/Home/index.jsx"
 import ToDoes from "../views/ToDoes/index.jsx"
+import Statistics from "../views/Statistics/index.jsx"
 
 const router = createHashRouter([
     {
@@ -22,6 +23,10 @@ const router = createHashRouter([
         {
           path: "to-does",
           element: <ToDoes />,
+        },
+        {
+          path: "statistics",
+          element: <Statistics />,
         },
       ],
     }
