@@ -15,6 +15,8 @@ import { useStatusContext } from "../../hooks/useStatusContext";
 import { useEmployersContext } from "../../hooks/useEmployersContext";
 import { useCompaniesContext } from "../../hooks/useCompanyContext";
 import { useProjectsContext } from '../../hooks/useProjectsContexr';
+import { SaveButton, PlusIcon } from "./style";
+
 
 const ToDoes = () => {
     const { user } = useAuthContext()
@@ -39,22 +41,22 @@ const ToDoes = () => {
             const statusName = status[0]['name_status']
             const statusClass = status[0]['className']
 
-            const employer = employers.filter(value => 
+            const employer = employers.filter(value =>
                 parseInt(value.id_employer) == parseInt(id_employer)
             );
-    
+
             const employerName = employer[0]['name_employer']
 
             const company = companies.filter((value) => {
                 return parseInt(value.id_company) == parseInt(id_company)
             })
-    
+
             const companyName = company[0]['name_company']
 
             const project = projects.filter((value) => {
                 return parseInt(value.id_project) == parseInt(id_project)
             })
-    
+
             const projectName = project[0]['name_project']
 
             return {
@@ -80,8 +82,24 @@ const ToDoes = () => {
                 <>
                     {user.role == "admin" ?
                         <>
-                            <Button onClick={changeToOpenAddToDo} variant="contained" > Agregar tarea</Button>
-                            <Button onClick={changeToOpenAddProject} variant="contained" > Agregar Proyecto</Button>
+                            <Box component="div" sx={{ display: "flex", justifyContent: "end" }} >
+                                <SaveButton
+                                    onClick={changeToOpenAddToDo}
+                                    variant="contained"
+                                    startIcon={<PlusIcon />}
+                                >
+                                    Agregar tarea
+                                </SaveButton>
+
+                                <SaveButton
+                                    onClick={changeToOpenAddProject}
+                                    variant="contained"
+                                    startIcon={<PlusIcon />}
+                                >
+                                    Agregar Proyecto
+                                </SaveButton>
+                            </Box>
+
                             <AddToDo open={addTodo} handleClose={changeToCloseAddToDo} />
                             <AddProject open={addProject} handleClose={changeToCloseAddProject} />
                         </> : null}
@@ -90,7 +108,7 @@ const ToDoes = () => {
                             <Typography component="h4" >Sus tareas empleado {user.user_nicename}</Typography>
                         </> : null}
 
-                        {<ToDoesTable rows={rows} />}
+                    {<ToDoesTable rows={rows} />}
                 </>
             )}
 

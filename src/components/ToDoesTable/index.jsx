@@ -1,7 +1,6 @@
 import {
     Table,
     TableBody,
-    TableCell,
     TableHead,
     TablePagination,
     TableRow,
@@ -9,11 +8,12 @@ import {
     Paper
 } from "@mui/material"
 import { useMemo, useState } from "react";
+import { ToDoesTableCell, ToDoesTableRow } from "./styled";
 
-const ToDoesTable = ({rows}) => {
+const ToDoesTable = ({ rows }) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    
+
 
     const visibleRows = useMemo(
         () =>
@@ -22,7 +22,7 @@ const ToDoesTable = ({rows}) => {
         [page, rowsPerPage, rows],
     );
 
-    
+
 
     const headCells = [
         {
@@ -62,55 +62,50 @@ const ToDoesTable = ({rows}) => {
     };
 
     return (
-        <Paper sx={{marginTop: '20px'}}>
+        <Paper sx={{ marginTop: '20px' }}>
             <TableContainer>
                 <Table>
                     <TableHead>
                         <TableRow>
                             {headCells.map((headCell) => (
-                                <TableCell
+                                <ToDoesTableCell
                                     key={headCell.id}
                                     align="center"
                                 >
 
                                     {headCell.label}
 
-                                </TableCell>
+                                </ToDoesTableCell>
                             ))}
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {visibleRows.map((row, index) => {
+                        {visibleRows.length > 0 &&
+                            (<>
+                                {visibleRows.map((row, index) => (
+                                    <ToDoesTableRow key={index}>
+                                        <ToDoesTableCell
+                                            component="th"
+                                            id={index}
+                                            scope="row"
+                                            align="center"
+                                        >
+                                            {row.title}
+                                        </ToDoesTableCell>
 
-                            return (
-                                <TableRow
-                                    hover
+                                        <ToDoesTableCell align="center">{row.expired}</ToDoesTableCell>
 
-                                    tabIndex={-1}
-                                    key={index}
-                                    sx={{ cursor: 'pointer' }}
-                                >
-                                    <TableCell
-                                        component="th"
-                                        id={index}
-                                        scope="row"
-                                        align="center"
-                                    >
-                                        {row.title}
-                                    </TableCell>
+                                        <ToDoesTableCell align="center" >{row.employerName}</ToDoesTableCell>
 
-                                    <TableCell align="center">{row.expired}</TableCell>
+                                        <ToDoesTableCell align="center" >{row.companyName}</ToDoesTableCell>
 
-                                    <TableCell align="center" >{row.employerName}</TableCell>
+                                        <ToDoesTableCell align="center" >{row.projectName}</ToDoesTableCell>
 
-                                    <TableCell align="center" >{row.companyName}</TableCell>
-
-                                    <TableCell align="center" >{row.projectName}</TableCell>
-
-                                    <TableCell align="center" className={row.statusClass} >{row.statusName}</TableCell>
-                                </TableRow>
-                            );
-                        })}
+                                        <ToDoesTableCell align="center" className={row.statusClass} >{row.statusName}</ToDoesTableCell>
+                                    </ToDoesTableRow>
+                                )
+                                )}
+                            </>)}
                     </TableBody>
                 </Table>
             </TableContainer>
