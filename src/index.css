@@ -62,13 +62,14 @@
 }
 
 .margin-field {
-  margin-bottom: 25px;
+  margin-bottom: 35px;
 }
 
 .section {
   display: flex;
   justify-content: space-between;
-  height: 50px;
+  height: 60px;
+  padding: 10px;
 }
 
 .to-do {

@@ -1,17 +1,19 @@
 import CalendarView from "../Calendar"
 import {
-    Box, Typography
+    Box
 } from "@mui/material";
-import { useState, use } from "react";
+import { useState } from "react";
 import { useToDoContext } from "../../hooks/useToDoContext";
 import TableEmployers from "../../components/TableEmployers";
 import TableCompanies from "../../components/TableCompanies";
 import { useCompaniesContext } from "../../hooks/useCompanyContext";
 import { useStatusContext } from "../../hooks/useStatusContext";
 import { useEmployersContext } from "../../hooks/useEmployersContext";
+import { useProjectsContext } from "../../hooks/useProjectsContexr";
 import { useOpen } from "../../hooks/useOpen";
 import ToDoCardAdmin from "../../components/ToDoCardAdmin";
 import dayjs from 'dayjs';
+
 
 
 const AdminHome = () => {
@@ -19,6 +21,7 @@ const AdminHome = () => {
     const { companies } = useCompaniesContext()
     const { statues } = useStatusContext()
     const { employers } = useEmployersContext()
+    const { projects } = useProjectsContext()
     const [open, changeToOpen, changeToClose] = useOpen()
     const [toDoSelected, setToDoSelected] = useState({
         'id': 1,
@@ -33,7 +36,7 @@ const AdminHome = () => {
     const clickTodo = (e) => {
         const expired = e.event._instance.range.start
         const data = e.event._def.extendedProps.data
-        const { id, title, id_status, id_company, id_employer } = data
+        const { id, title, id_status, id_company, id_employer, id_project } = data
 
         const company = companies.filter((value) => {
             return parseInt(value.id_company) == parseInt(id_company)
@@ -52,6 +55,12 @@ const AdminHome = () => {
         const statusName = status[0]['name_status']
         const statusClass = status[0]['className']
 
+        const project = projects.filter((value) => {
+            return parseInt(value.id_project) == parseInt(id_project)
+        })
+
+        const projectName = project[0]['name_project']
+
         const info = {
             id,
             title,
@@ -59,7 +68,8 @@ const AdminHome = () => {
             statusName,
             companyName,
             statusClass,
-            employerIndex
+            employerIndex,
+            projectName
         }
 
         setToDoSelected(info)

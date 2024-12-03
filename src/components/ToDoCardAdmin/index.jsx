@@ -1,5 +1,5 @@
 import {
-    TextField,
+    DialogTitle,
     Button,
     Dialog,
     DialogContent,
@@ -8,8 +8,7 @@ import {
     MenuItem,
     Typography,
     Box,
-    FormControl,
-    InputLabel
+    FormControl
 } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -23,6 +22,7 @@ import { useEmployersContext } from '../../hooks/useEmployersContext';
 import { useToDoContext } from '../../hooks/useToDoContext';
 
 import "./index.css"
+import { DelirioInputCar, DelirioSelect, CustomStrong, DataTag } from './styled';
 
 const ToDoCardAdmin = ({ info, open, handleClose }) => {
 
@@ -112,53 +112,78 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
         <Dialog onClose={() => handleClose()} open={open} PaperComponent='div' PaperProps={{
             'className': 'round-form'
         }} >
-            <DialogContent >
 
-                <Box component="form" onSubmit={formik.handleSubmit}>
-                    <TextField
+            <Box component="form" onSubmit={formik.handleSubmit}>
+
+                <DialogTitle component="div" className='title-card' >
+                    <DelirioInputCar
+                        id="title"
                         name='title'
-                        label='Titulo'
-                        value={formik.values.title}
-                        variant="standard"
+                        placeholder='Titulo'
                         onChange={formik.handleChange}
+                        value={formik.values.title}
+                        inputProps={{
+                            style: {
+                                background: "none",
+                                border: 0,
+                                color: "white",
+                                borderRadius: "20px",
+                            }
+                        }}
                         fullWidth
-                        sx={{ marginBottom: '20px' }}
+                        required
                     />
+
+                    <Typography
+                        className={`${info['statusClass']} tag-status`}
+                        variant="h6"
+                        component="span"
+                    >
+                        {info['statusName']}
+                    </Typography>
+                </DialogTitle>
+
+                <DialogContent sx={{ marginTop: "15px" }} >
+
                     <Box component='div' className='margin-field section' >
 
-                        <Typography
-                            className={`${info['statusClass']} tag-status`}
-                            variant="h6"
-                            component="span"
-                        >
-                            {info['statusName']}
+                            <DelirioSelect
+                                labelId='employer'
+                                value={formik.values.employer}
+                                inputProps={{
+                                    name: 'employer',
+                                    id: 'employer',
+                                }}
+                                onChange={formik.handleChange}
+                                label="Empleado"
+                            >
+                                {employers.map((elem, index) => (
+                                    <MenuItem key={index} value={index} >
+                                        <Typography >{elem.name_employer}</Typography>
+                                    </MenuItem >
+                                ))}
+                            </DelirioSelect>
+                     
+
+                        <Typography component='h6'  >
+                            <CustomStrong >
+                                Cliente:
+                            </CustomStrong>
+                            <DataTag>
+                                {info['companyName']}
+                            </DataTag>
+
                         </Typography>
 
+                        <Typography component='h6' >
+                            <CustomStrong >
+                                Proyecto:
+                            </CustomStrong>
+                            <DataTag>
+                                {info['projectName']}
+                            </DataTag>
 
-                        <FormControl >
-                                    <InputLabel variant="outlined" htmlFor="employer" sx={{ backgroundColor: "none" }} >
-                                        Empleado
-                                    </InputLabel>
-                                    <Select
-                                        variant='outlined'
-                                        labelId='employer'
-                                        value={formik.values.employer}
-                                        inputProps={{
-                                            name: 'employer',
-                                            id: 'employer',
-                                        }}
-                                        onChange={formik.handleChange}
-                                        label="Empleado"
-                                    >
-
-                                        {employers.map((elem, index) => (
-                                            <MenuItem key={index} value={index} >
-                                                <Typography >{elem.name_employer}</Typography>
-                                            </MenuItem >
-                                        ))}
-
-                                    </Select>
-                                </FormControl>
+                        </Typography>
 
                     </Box>
 
@@ -177,15 +202,13 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
 
                     <DialogActions>
                         <Button variant="contained" type='submit'>
-                            Agregar
+                            Guardar
                         </Button>
                         <Button onClick={() => handleClose()}>Close</Button>
                     </DialogActions>
 
-                </Box>
-
-
-            </DialogContent>
+                </DialogContent>
+            </Box>
 
         </Dialog>
     )

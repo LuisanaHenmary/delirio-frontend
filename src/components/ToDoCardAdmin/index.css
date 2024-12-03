@@ -1,6 +1,11 @@
 .tag-status{
     padding: 10px;
     height: auto;
-    width: auto;
+    width: 200px;
     border-radius: 20px;
+    text-align: center;
+}
+
+.title-card{
+    background: linear-gradient(#3DA2DB, #006096);
 }
