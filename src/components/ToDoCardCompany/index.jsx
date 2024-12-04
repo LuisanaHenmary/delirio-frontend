@@ -7,6 +7,7 @@ import {
     Typography,
     Box
 } from '@mui/material';
+import { CustomStrong, DataTag } from "./styled";
 
 const ToDoCardCompany = ({ info, open, handleClose }) => {
 
@@ -14,9 +15,9 @@ const ToDoCardCompany = ({ info, open, handleClose }) => {
         <Dialog onClose={() => handleClose()} open={open} PaperComponent='div' PaperProps={{
             'className': 'round-form'
         }} >
-            <DialogTitle className='title-card'  component="div">
+            <DialogTitle className='title-card' component="div">
 
-                <Typography variant='h4' fontWeight='bold' >
+                <Typography variant='h4' fontWeight='bold' color='white' >
                     {info['title']}
                 </Typography>
 
@@ -28,30 +29,51 @@ const ToDoCardCompany = ({ info, open, handleClose }) => {
                     {info['statusName']}
                 </Typography>
             </DialogTitle>
-            <DialogContent >
+            <DialogContent sx={{ marginTop: "15px" }} >
 
                 <Box component="div">
                     <Box component='div' className='margin-field section' >
 
-                        <Typography component='h6'>
-                            <strong >
+                        <Typography component='h6'  >
+                            <CustomStrong >
                                 Cliente:
-                            </strong>
-                            {info['companyName']}
+                            </CustomStrong>
+                            <DataTag>
+                                {info['companyName']}
+                            </DataTag>
+
                         </Typography>
 
-                        <Typography component='h6'>
-                            <strong >
+                        <Typography component='h6'  >
+                            <CustomStrong >
                                 Empleado:
-                            </strong>
-                            {info['employerName']}
+                            </CustomStrong>
+                            <DataTag>
+                                {info['employerName']}
+                            </DataTag>
+
                         </Typography>
 
-                        <Typography component='h6'>
-                            <strong  >
+                    </Box>
+
+                    <Box component='div' className='margin-field section' >
+
+                        <Typography component='h6'  >
+                            <CustomStrong >
                                 Fecha limite:
-                            </strong>
-                            {info['expired']}
+                            </CustomStrong>
+                            <DataTag>
+                                {info['expired']}
+                            </DataTag>
+                        </Typography>
+
+                        <Typography component='h6'  >
+                            <CustomStrong >
+                                Proyecto:
+                            </CustomStrong>
+                            <DataTag>
+                                {info['projectName']}
+                            </DataTag>
                         </Typography>
 
                     </Box>

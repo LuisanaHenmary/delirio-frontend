@@ -1,11 +1,11 @@
 import CalendarView from "../Calendar"
-import { Typography } from "@mui/material";
 import { useState } from "react";
 import { useOpen } from "../../hooks/useOpen";
 import { useToDoContext } from "../../hooks/useToDoContext";
 import { useCompaniesContext } from "../../hooks/useCompanyContext";
 import { useEmployersContext } from "../../hooks/useEmployersContext";
 import { useStatusContext } from "../../hooks/useStatusContext";
+import { useProjectsContext } from "../../hooks/useProjectsContexr";
 import ToDoCardCompany from "../../components/ToDoCardCompany";
 
 
@@ -14,6 +14,7 @@ const CompanyHome = () => {
     const { companies } = useCompaniesContext()
     const { statues } = useStatusContext()
     const { employers } = useEmployersContext()
+    const { projects } = useProjectsContext()
     const [open, changeToOpen, changeToClose] = useOpen()
     const [toDoSelected, setToDoSelected] = useState({
         'id': 1,
@@ -22,13 +23,13 @@ const CompanyHome = () => {
         'statusName': "",
         "companyName": "",
         "statusClass": "",
-        "employerName": ""
-
+        "employerName": "",
+        "projectName":""
     })
 
     const clickTodo = (e) => {
         const data = e.event._def.extendedProps.data
-        const { id, title, expired, id_status, id_company , id_employer  } = data
+        const { id, title, expired, id_status, id_company , id_employer, id_project  } = data
 
         const company = companies.filter((value) => {
             return parseInt(value.id_company) == parseInt(id_company)
@@ -49,6 +50,12 @@ const CompanyHome = () => {
 
         const employerName = employer[0]['name_employer']
 
+        const project = projects.filter((value) => {
+            return parseInt(value.id_project) == parseInt(id_project)
+        })
+
+        const projectName = project[0]['name_project']
+
         const info = {
             id,
             title,
@@ -56,7 +63,8 @@ const CompanyHome = () => {
             statusName,
             companyName,
             statusClass,
-            employerName
+            employerName,
+            projectName
         }
   
         setToDoSelected(info)

@@ -30,7 +30,8 @@ const AdminHome = () => {
         'statusName': "",
         'employerIndex': 0,
         "companyNamey": "",
-        "statusClass": ""
+        "statusClass": "",
+        "projectName":""
     })
 
     const clickTodo = (e) => {
