@@ -8,7 +8,8 @@ import {
     Paper
 } from "@mui/material"
 import { useMemo, useState } from "react";
-import { ToDoesTableCell, ToDoesTableRow } from "./styled";
+import { ToDoesTableCell, ToDoesTableRow } from "../styledComponents";
+
 
 const ToDoesTable = ({ rows }) => {
     const [page, setPage] = useState(0);

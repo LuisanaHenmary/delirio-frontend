@@ -2,7 +2,6 @@ import {
     Box,
     Table,
     TableBody,
-    TableCell,
     TableHead,
     TablePagination,
     TableRow,
@@ -11,6 +10,7 @@ import {
 } from "@mui/material"
 import { useMemo, useState, useEffect } from "react";
 import { useCompaniesContext } from "../../hooks/useCompanyContext";
+import { ToDoesTableCell, ToDoesTableRow } from "../styledComponents";
 
 
 const TableCompanies = () => {
@@ -79,14 +79,14 @@ const TableCompanies = () => {
                         <TableHead>
                             <TableRow>
                                 {headCells.map((headCell) => (
-                                    <TableCell
+                                    <ToDoesTableCell
                                         align="center"
                                         key={headCell.id}
                                     >
 
                                         {headCell.label}
 
-                                    </TableCell>
+                                    </ToDoesTableCell>
                                 ))}
                             </TableRow>
                         </TableHead>
@@ -94,24 +94,24 @@ const TableCompanies = () => {
                             {visibleRows.map((row, index) => {
 
                                 return (
-                                    <TableRow
+                                    <ToDoesTableRow
                                         hover
 
                                         tabIndex={-1}
                                         key={index}
                                         sx={{ cursor: 'pointer' }}
                                     >
-                                        <TableCell
+                                        <ToDoesTableCell
                                             component="th"
                                             id={index}
                                             scope="row"
                                             align="center"
                                         >
                                             {row.nit}
-                                        </TableCell>
-                                        <TableCell align="center">{row.name}</TableCell>
-                                        <TableCell align="center">{row.phone}</TableCell>
-                                    </TableRow>
+                                        </ToDoesTableCell>
+                                        <ToDoesTableCell align="center">{row.name}</ToDoesTableCell>
+                                        <ToDoesTableCell align="center">{row.phone}</ToDoesTableCell>
+                                    </ToDoesTableRow>
                                 );
                             })}
                         </TableBody>
