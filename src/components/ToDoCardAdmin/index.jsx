@@ -1,14 +1,12 @@
 import {
     DialogTitle,
-    Button,
     Dialog,
     DialogContent,
     DialogActions,
-    Select,
     MenuItem,
     Typography,
     Box,
-    FormControl
+    IconButton
 } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -23,6 +21,8 @@ import { useToDoContext } from '../../hooks/useToDoContext';
 
 import "./index.css"
 import { DelirioInputCar, DelirioSelect, CustomStrong, DataTag } from './styled';
+import { SubmitButton } from '../styledComponents';
+import CloseIcon from '@mui/icons-material/Close';
 
 const ToDoCardAdmin = ({ info, open, handleClose }) => {
 
@@ -134,36 +134,45 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
                         required
                     />
 
-                    <Typography
-                        className={`${info['statusClass']} tag-status`}
-                        variant="h6"
-                        component="span"
-                    >
-                        {info['statusName']}
-                    </Typography>
+                    <>
+                        <Typography
+                            className={`${info['statusClass']} tag-status`}
+                            variant="h6"
+                            component="span"
+                            marginRight={"5px"}
+                        >
+                            {info['statusName']}
+                        </Typography>
+
+                        <IconButton onClick={() => handleClose()} >
+                            <CloseIcon sx={{ color: "white" }} />
+                        </IconButton>
+                    </>
+
+
                 </DialogTitle>
 
                 <DialogContent sx={{ marginTop: "15px" }} >
 
                     <Box component='div' className='margin-field section' >
 
-                            <DelirioSelect
-                                labelId='employer'
-                                value={formik.values.employer}
-                                inputProps={{
-                                    name: 'employer',
-                                    id: 'employer',
-                                }}
-                                onChange={formik.handleChange}
-                                label="Empleado"
-                            >
-                                {employers.map((elem, index) => (
-                                    <MenuItem key={index} value={index} >
-                                        <Typography >{elem.name_employer}</Typography>
-                                    </MenuItem >
-                                ))}
-                            </DelirioSelect>
-                     
+                        <DelirioSelect
+                            labelId='employer'
+                            value={formik.values.employer}
+                            inputProps={{
+                                name: 'employer',
+                                id: 'employer',
+                            }}
+                            onChange={formik.handleChange}
+                            label="Empleado"
+                        >
+                            {employers.map((elem, index) => (
+                                <MenuItem key={index} value={index} >
+                                    <Typography >{elem.name_employer}</Typography>
+                                </MenuItem >
+                            ))}
+                        </DelirioSelect>
+
 
                         <Typography component='h6'  >
                             <CustomStrong >
@@ -201,10 +210,9 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
                     </LocalizationProvider>
 
                     <DialogActions>
-                        <Button variant="contained" type='submit'>
+                        <SubmitButton type='submit'>
                             Guardar
-                        </Button>
-                        <Button onClick={() => handleClose()}>Close</Button>
+                        </SubmitButton>
                     </DialogActions>
 
                 </DialogContent>

@@ -1,13 +1,14 @@
 import {
-    Button,
     Dialog,
     DialogTitle,
     DialogContent,
-    DialogActions,
     Typography,
-    Box
+    Box,
+    IconButton,
+    Stack
 } from '@mui/material';
 import { CustomStrong, DataTag } from "./styled";
+import CloseIcon from '@mui/icons-material/Close';
 
 const ToDoCardCompany = ({ info, open, handleClose }) => {
 
@@ -21,18 +22,27 @@ const ToDoCardCompany = ({ info, open, handleClose }) => {
                     {info['title']}
                 </Typography>
 
-                <Typography
-                    className={`${info['statusClass']} tag-status`}
-                    variant="h6"
-                    component="span"
-                >
-                    {info['statusName']}
-                </Typography>
+                <div>
+                    <Typography
+                        className={`${info['statusClass']} tag-status`}
+                        variant="h6"
+                        component="span"
+                        marginRight={"5px"}
+                    >
+                        {info['statusName']}
+                    </Typography>
+                    <IconButton onClick={() => handleClose()} >
+                        <CloseIcon sx={{ color: "white" }} />
+                    </IconButton>
+
+                </div>
+
+
             </DialogTitle>
             <DialogContent sx={{ marginTop: "15px" }} >
 
-                <Box component="div">
-                    <Box component='div' className='margin-field section' >
+                <Box component="div" sx={{ display: "flex", justifyContent: "space-between" }}>
+                    <Stack component='div' className='margin-field section' spacing={5} >
 
                         <Typography component='h6'  >
                             <CustomStrong >
@@ -54,9 +64,9 @@ const ToDoCardCompany = ({ info, open, handleClose }) => {
 
                         </Typography>
 
-                    </Box>
+                    </Stack>
 
-                    <Box component='div' className='margin-field section' >
+                    <Stack component='div' className='margin-field section' spacing={5} >
 
                         <Typography component='h6'  >
                             <CustomStrong >
@@ -76,10 +86,7 @@ const ToDoCardCompany = ({ info, open, handleClose }) => {
                             </DataTag>
                         </Typography>
 
-                    </Box>
-                    <DialogActions>
-                        <Button onClick={() => handleClose()}>Cerrar</Button>
-                    </DialogActions>
+                    </Stack>
 
                 </Box>
             </DialogContent>
