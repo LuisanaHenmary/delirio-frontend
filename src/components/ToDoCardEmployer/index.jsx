@@ -20,7 +20,7 @@ import { useToDoContext } from "../../hooks/useToDoContext";
 import { useOpen } from "../../hooks/useOpen";
 import { CustomStrong, DataTag } from "./styled";
 import CloseIcon from '@mui/icons-material/Close';
-import { SubmitButton } from "../styledComponents";
+import { SubmitButton, DelirioSelectForm } from "../styledComponents";
 
 const ToDoCardEmployer = ({ info, open, handleClose }) => {
 
@@ -114,7 +114,7 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
                     </Typography>
 
                     <div>
-                        <Select
+                        <DelirioSelectForm
                             value={formik.values.status}
                             inputProps={{
                                 name: 'status',
@@ -131,7 +131,7 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
                                     <Typography className={`${elem.className} tag`}  >{elem.name_status}</Typography>
                                 </MenuItem >
                             ))}
-                        </Select>
+                        </DelirioSelectForm>
                         <IconButton onClick={() => handleClose()} >
                             <CloseIcon sx={{ color: "white" }} />
                         </IconButton>

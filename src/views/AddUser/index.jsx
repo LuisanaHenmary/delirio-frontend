@@ -10,6 +10,7 @@ import {
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import useShowPassword from '../../hooks/useShowPassword';
+import { InputDelirioForm } from '../../components/styledComponents';
 
 const AddUser = ({ formik }) => {
 
@@ -21,68 +22,88 @@ const AddUser = ({ formik }) => {
     return (
         <>
             <Box component='div' className='margin-field section' >
-                <TextField
+                <InputDelirioForm
                     id="username"
                     name='username'
-                    label="Username"
-                    variant="outlined"
+                    placeholder='Nombre de usuario'
                     onChange={formik.handleChange}
                     value={formik.values.username}
-                    sx={{ width: '250px' }}
                     required
+                    inputProps={{
+                        style: {
+                            background: "none",
+                            border: 0,
+                            color: "white",
+                        }
+                    }}
                 />
 
-                <TextField
+                <InputDelirioForm
                     id="email"
                     name='email'
-                    label="email"
-                    variant="outlined"
+                    placeholder='Correo'
                     onChange={formik.handleChange}
                     value={formik.values.email}
-                    sx={{ width: '250px' }}
                     required
+                    inputProps={{
+                        style: {
+                            background: "none",
+                            border: 0,
+                            color: "white"
+                        }
+                    }}
                 />
 
 
             </Box>
 
             <Box component='div' className='margin-field section'  >
-                <FormControl variant="outlined" required >
-                    <InputLabel htmlFor="password">Password</InputLabel>
-                    <Input
-                        id="password"
-                        name='password'
-                        type={showPassword ? 'text' : 'password'}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={prevent}
-                                    onMouseUp={prevent}
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                        onChange={formik.handleChange}
-                        value={formik.values.password}
-                        sx={{ width: '250px' }}
-                    />
-                </FormControl>
 
-                <TextField
+                <InputDelirioForm
+                    id="password"
+                    name='password'
+                    placeholder='Contraseña'
+                    type={showPassword ? 'text' : 'password'}
+                    endAdornment={
+                        <InputAdornment position="end">
+                            <IconButton
+                                onClick={handleClickShowPassword}
+                                onMouseDown={prevent}
+                                onMouseUp={prevent}
+                            >
+                                {showPassword ? <VisibilityOff sx={{ color: "white" }} /> : <Visibility sx={{ color: "white" }} />}
+                            </IconButton>
+                        </InputAdornment>
+                    }
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
+                    inputProps={{
+                        style: {
+                            background: "none",
+                            border: 0,
+                            color: "white",
+                        }
+                    }}
+                    required
+                />
+
+                <InputDelirioForm
                     id="phone_number"
                     name='phone_number'
-                    label="Telefono"
-                    variant="outlined"
-                    sx={{ width: '250px' }}
+                    placeholder='Telefono'
                     onChange={formik.handleChange}
                     value={formik.values.phone_number}
+                    required
+                    inputProps={{
+                        style: {
+                            background: "none",
+                            border: 0,
+                            color: "white",
+                        }
+                    }}
                 />
+
             </Box>
-
-
-
         </>
     )
 }

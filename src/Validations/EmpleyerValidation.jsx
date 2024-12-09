@@ -15,4 +15,6 @@ export  const EmployerValidation = Yup.object().shape({
         "Las contraseña debe tener al menos 8 caracteres, unas mayuscula, un numero y un caracter especial"
       ),
     email: Yup.string().email('email invalido'),
+    job: Yup.string()
+    .required('Elija un cargo para el empledo')
   });

@@ -12,6 +12,7 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { useCompaniesContext } from '../../hooks/useCompanyContext';
 import axios from 'axios';
 import { CompanyValidation } from '../../Validations/CompanyValidation';
+import { InputDelirioForm, SubmitButton } from '../../components/styledComponents';
 
 const AddCompany = ({ handleClose }) => {
 
@@ -98,26 +99,37 @@ const AddCompany = ({ handleClose }) => {
         <Box className="form-employer" component="form" onSubmit={formik.handleSubmit}>
 
             <Box component='div' className='margin-field section'  >
-                <TextField
+                <InputDelirioForm
                     id="nit"
                     name='nit'
-                    label="NIT"
-                    variant="outlined"
+                    placeholder='NIT'
                     onChange={formik.handleChange}
                     value={formik.values.nit}
-                    sx={{ width: '250px' }}
                     required
+                    inputProps={{
+                        style: {
+                            background: "none",
+                            border: 0,
+                            color: "white",
+                        }
+                    }}
                 />
 
-                <TextField
+                <InputDelirioForm
                     id="full_name"
                     name='full_name'
-                    label="Nombre"
-                    variant="outlined"
+                    placeholder='Nombre completo'
                     onChange={formik.handleChange}
                     value={formik.values.full_name}
-                    sx={{ width: '250px' }}
                     required
+                    inputProps={{
+                        style: {
+                            background: "none",
+                            border: 0,
+                            color: "white",
+                        }
+                    }}
+                    
                 />
             </Box>
 
@@ -140,9 +152,9 @@ const AddCompany = ({ handleClose }) => {
             ) : null}
 
             <DialogActions>
-                <Button variant="contained" endIcon={<SendIcon />} type='submit'>
+                <SubmitButton endIcon={<SendIcon />} type='submit'>
                     Registrar
-                </Button>
+                </SubmitButton>
             </DialogActions>
         </Box>
     )

@@ -1,12 +1,12 @@
 import {
     Box,
-    Button,
+    InputLabel,
     DialogActions,
-    TextField,
     Select,
     MenuItem,
     Typography,
-    Alert
+    Alert,
+    FormControl
 } from '@mui/material';
 import AddUser from '../AddUser';
 import { useFormik } from 'formik';
@@ -17,6 +17,7 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { useEmployersContext } from '../../hooks/useEmployersContext';
 import axios from 'axios';
 import { EmployerValidation } from '../../Validations/EmpleyerValidation';
+import { InputDelirioForm, DelirioSelectForm, SubmitButton } from '../../components/styledComponents';
 
 const AddEmployer = ({ handleClose }) => {
 
@@ -33,7 +34,7 @@ const AddEmployer = ({ handleClose }) => {
             username: '',
             email: '',
             password: '',
-            job: 0
+            job: ''
         },
         onSubmit: values => {
 
@@ -46,100 +47,111 @@ const AddEmployer = ({ handleClose }) => {
 
     const register_employer = async (values) => {
 
-                const apiUrl = import.meta.env.VITE_API_URL
-                const apiUrlWordpress = import.meta.env.VITE_API_WORDPRESS
-        
-                const {
-                    ci,
-                    full_name,
-                    address,
-                    phone_number,
-                    username,
-                    email,
-                    password,
-                    job
-                } = values;
-        
-        
-        
-                const id = parseInt(jobs[job].id_job)
-        
-                try {
-                    const response = await axios({
-                        method: 'post',
-                        url: `${apiUrlWordpress}/users/`,
-                        data: {
-                            'username': username,
-                            'email': email,
-                            'password': password,
-                            'roles': [
-                                "employer"
-                            ],
-                        },
-                        headers: {
-                            'Authorization': `Bearer ${user.token}`,
-                        },
-                    });
-        
-                    const id_user = await response.data.id
-        
-                    const response2 = await axios({
-                        method: 'post',
-                        url: `${apiUrl}/employers`,
-                        data: {
-                            'ci': ci,
-                            'name': full_name,
-                            'phone': phone_number,
-                            'address': address,
-                            'id_job': id,
-                            'id_user': id_user
-                        },
-                        headers: {
-                            'Authorization': `Bearer ${user.token}`,
-                        },
-                    });
-        
-                    const employer_info = await response2.data['employer']
-                    dispatchEmployers({ type: 'CREATE_EMPLOYER', payload: employer_info })
-        
-        
-                } catch (e) {
-                    console.log(e)
-                }
-        
+        const apiUrl = import.meta.env.VITE_API_URL
+        const apiUrlWordpress = import.meta.env.VITE_API_WORDPRESS
+
+        const {
+            ci,
+            full_name,
+            address,
+            phone_number,
+            username,
+            email,
+            password,
+            job
+        } = values;
+
+
+
+        const id = parseInt(jobs[job].id_job)
+
+        try {
+            const response = await axios({
+                method: 'post',
+                url: `${apiUrlWordpress}/users/`,
+                data: {
+                    'username': username,
+                    'email': email,
+                    'password': password,
+                    'roles': [
+                        "employer"
+                    ],
+                },
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                },
+            });
+
+            const id_user = await response.data.id
+
+            const response2 = await axios({
+                method: 'post',
+                url: `${apiUrl}/employers`,
+                data: {
+                    'ci': ci,
+                    'name': full_name,
+                    'phone': phone_number,
+                    'address': address,
+                    'id_job': id,
+                    'id_user': id_user
+                },
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                },
+            });
+
+            const employer_info = await response2.data['employer']
+            dispatchEmployers({ type: 'CREATE_EMPLOYER', payload: employer_info })
+
+
+        } catch (e) {
+            console.log(e)
+        }
+
     }
 
     return (
 
         <Box className="form-employer" component="form" onSubmit={formik.handleSubmit}>
             <Box component='div' className='margin-field section' >
-                <Select
+
+
+                <DelirioSelectForm
                     value={formik.values.job}
                     inputProps={{
                         name: 'job',
                         id: 'job',
                     }}
                     onChange={formik.handleChange}
-                    sx={{ width: '200px' }}
+                    displayEmpty
                 >
+                    <MenuItem value='' >
+                    <em>Cargo</em>
+                    </MenuItem >
 
                     {jobs.map((elem, index) => (
-                        <MenuItem key={index} value={index} >
+                        <MenuItem key={index} value={`${index}`} >
                             <Typography >{elem.name_job}</Typography>
                         </MenuItem >
                     ))}
 
-                </Select>
+                </DelirioSelectForm>
 
 
-                <TextField
+                <InputDelirioForm
                     id="ci"
                     name='ci'
-                    label="CI"
+                    placeholder="CI"
                     variant="outlined"
                     onChange={formik.handleChange}
                     value={formik.values.ci}
-                    sx={{ width: '250px' }}
+                    inputProps={{
+                        style: {
+                            background: "none",
+                            border: 0,
+                            color: "white",
+                        }
+                    }}
                     required
                 />
 
@@ -147,24 +159,36 @@ const AddEmployer = ({ handleClose }) => {
 
             <Box component='div' className='margin-field section' >
 
-                <TextField
+                <InputDelirioForm
                     id="full_name"
                     name='full_name'
-                    label="Nombre"
+                    placeholder="Nombre"
                     variant="outlined"
                     onChange={formik.handleChange}
                     value={formik.values.full_name}
-                    sx={{ width: '250px' }}
+                    inputProps={{
+                        style: {
+                            background: "none",
+                            border: 0,
+                            color: "white",
+                        }
+                    }}
                     required
                 />
 
-                <TextField
+                <InputDelirioForm
                     id="address"
                     name='address'
-                    label="Direccion"
+                    placeholder="Direccion"
                     variant="outlined"
                     onChange={formik.handleChange}
-                    sx={{ width: '250px' }}
+                    inputProps={{
+                        style: {
+                            background: "none",
+                            border: 0,
+                            color: "white",
+                        }
+                    }}
                 />
 
             </Box>
@@ -172,7 +196,11 @@ const AddEmployer = ({ handleClose }) => {
 
             <AddUser formik={formik} />
 
-            
+            {formik.errors.job ? (
+                <Alert severity="error">{formik.errors.job}</Alert>
+            ) : null}
+
+
             {formik.errors.ci ? (
                 <Alert severity="error">{formik.errors.ci}</Alert>
             ) : null}
@@ -190,9 +218,9 @@ const AddEmployer = ({ handleClose }) => {
             ) : null}
 
             <DialogActions>
-                <Button variant="contained" endIcon={<SendIcon />} type='submit'>
+                <SubmitButton endIcon={<SendIcon />} type='submit'>
                     Registrar
-                </Button>
+                </SubmitButton>
             </DialogActions>
         </Box>
     )
