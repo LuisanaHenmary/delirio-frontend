@@ -1,18 +1,14 @@
 import axios from 'axios';
 import {
     Box,
-    TextField,
-    Button,
     Dialog,
     DialogTitle,
     DialogContent,
     DialogActions,
-    Select,
     MenuItem,
     Typography,
     Alert,
-    FormControl,
-    InputLabel
+    IconButton
 } from '@mui/material';
 import dayjs from 'dayjs';
 import { useFormik } from 'formik';
@@ -25,6 +21,9 @@ import { useCompaniesContext } from '../../hooks/useCompanyContext';
 import { useProjectsContext } from '../../hooks/useProjectsContexr';
 import { useToDoContext } from '../../hooks/useToDoContext';
 import { useEffect, useState } from 'react';
+import { SubmitButton, DelirioSelectForm, InputFullDelerio } from '../../components/styledComponents';
+import CloseIcon from '@mui/icons-material/Close';
+import { ToDoValidation } from '../../Validations/ToDoValidation';
 
 const AddToDo = ({ open, handleClose }) => {
 
@@ -34,20 +33,21 @@ const AddToDo = ({ open, handleClose }) => {
     const { projects } = useProjectsContext()
     const { dispatch } = useToDoContext()
     const [avalibleProjects, setAvalibleProjects] = useState([])
-    const [avalibleSubmit, setAvalibleSubmit] = useState(true)
+    const [avalibleSubmit, setAvalibleSubmit] = useState(false)
 
     const formik = useFormik({
         initialValues: {
             titleTodo: '',
             expired: dayjs(),
-            employer: 0,
-            company: 0,
-            project: 0
+            employer: '',
+            company: '',
+            project: ''
         },
         onSubmit: values => {
             sendInfo(values)
             handleClose()
         },
+        validationSchema: ToDoValidation
     });
 
     const sendInfo = async (values) => {
@@ -102,23 +102,38 @@ const AddToDo = ({ open, handleClose }) => {
 
     useEffect(() => {
 
-        const index = formik.values.company
-
-        const projects_list = projects.filter((value) => {
-            return parseInt(value.id_company) == parseInt(companies[index].id_company)
-        })
-
-        setAvalibleProjects(projects_list)
-
-        if ((projects_list.length > 0) && (employers.length > 0) && (companies.length > 0)) {
-            setAvalibleSubmit(true)
-        } else {
+        if ((formik.errors.company)) {
             setAvalibleSubmit(false)
+        } else {
+
+            const index = formik.values.company
+
+            if (index !== "") {
+                const projects_list = projects.filter((value) => {
+                    return parseInt(value.id_company) == parseInt(companies[index].id_company)
+                })
+
+                setAvalibleProjects(projects_list)
+
+                if ((projects_list.length > 0) && (employers.length > 0) && (companies.length > 0)) {
+                    setAvalibleSubmit(true)
+                } 
+                else if((formik.errors.company)){
+                    setAvalibleProjects([])
+                    setAvalibleSubmit(false)
+                }
+                else {
+                    setAvalibleSubmit(false)
+                }
+            }
+
         }
 
 
 
-    }, [projects, formik.values.company])
+
+
+    }, [projects, formik.errors, formik.values])
 
     return (
         <Dialog
@@ -128,136 +143,147 @@ const AddToDo = ({ open, handleClose }) => {
                 'className': 'round-form'
             }}
         >
-            <DialogTitle>Agregar To-do </DialogTitle>
+            <Box component="form" onSubmit={formik.handleSubmit}>
+            <DialogTitle component='div' className="title-card">
+                <InputFullDelerio
+                    id="titleTodo"
+                    name='titleTodo'
+                    placeholder='Titulo de la nueva tarea'
+                    onChange={formik.handleChange}
+                    value={formik.values.titleTodo}
+                    inputProps={{
+                        style: {
+                            background: "none",
+                            border: 0,
+                            color: "white",
+                            borderRadius: "20px",
+                        }
+                    }}
+                    fullWidth
+                    required
+                />
+
+                <IconButton onClick={() => handleClose()} >
+                    <CloseIcon sx={{ color: "white" }} />
+                </IconButton>
+            </DialogTitle>
+
             <DialogContent>
-                <Box component="form" onSubmit={formik.handleSubmit}>
-                    <TextField
-                        id="titleTodo"
-                        name='titleTodo'
-                        placeholder='Titulo'
-                        variant="standard"
-                        onChange={formik.handleChange}
-                        value={formik.values.titleTodo}
-                        required
-                        sx={{ marginBottom: '40px', marginTop: '20px' }}
-                        fullWidth
-                    />
+                
+
 
                     <Box component='div' className='margin-field section' >
 
                         {
                             employers.length > 0 && (
-                                <FormControl >
-                                    <InputLabel variant="outlined" htmlFor="employer" >
-                                        Empleado
-                                    </InputLabel>
-                                    <Select
-                                        variant='outlined'
-                                        value={formik.values.employer}
-                                        inputProps={{
-                                            name: 'employer',
-                                            id:'employer',
-                                        }}
-                                        onChange={formik.handleChange}
-                                        label="Empleado"
-                                    >
 
-                                        {employers.map((elem, index) => (
-                                            <MenuItem key={index} value={index} >
-                                                <Typography >{elem.name_employer}</Typography>
-                                            </MenuItem >
-                                        ))}
+                                <DelirioSelectForm
+                                    value={formik.values.employer}
+                                    inputProps={{
+                                        name: 'employer',
+                                        id: 'employer',
+                                    }}
+                                    onChange={formik.handleChange}
+                                    displayEmpty
+                                >
+                                    <MenuItem value='' >
+                                        <em>Empleado</em>
+                                    </MenuItem >
 
-                                    </Select>
-                                </FormControl>
+                                    {employers.map((elem, index) => (
+                                        <MenuItem key={index} value={index} >
+                                            <Typography >{elem.name_employer}</Typography>
+                                        </MenuItem >
+                                    ))}
 
+                                </DelirioSelectForm>
                             )
                         }
 
                         {
                             companies.length > 0 && (
-                                <FormControl >
-                                    <InputLabel variant="outlined" htmlFor="company" sx={{ backgroundColor: "none" }} >
-                                        Cliente
-                                    </InputLabel>
-                                    <Select
-                                        label="Cliente"
-                                        value={formik.values.company}
-                                        variant='outlined'
-                                        inputProps={{
-                                            name: 'company',
-                                            id:'company',
-                                        }}
-                                        onChange={formik.handleChange}
-                                    >
+                                <DelirioSelectForm
+                                    value={formik.values.company}
+                                    inputProps={{
+                                        name: 'company',
+                                        id: 'company',
+                                    }}
+                                    onChange={formik.handleChange}
+                                    displayEmpty
+                                >
+                                    <MenuItem value='' >
+                                        <em>Cliente</em>
+                                    </MenuItem >
 
-                                        {companies.map((elem, index) => (
-                                            <MenuItem key={index} value={index} >
-                                                <Typography >{elem.name_company}</Typography>
-                                            </MenuItem >
-                                        ))}
+                                    {companies.map((elem, index) => (
+                                        <MenuItem key={index} value={index} >
+                                            <Typography >{elem.name_company}</Typography>
+                                        </MenuItem >
+                                    ))}
 
-                                    </Select>
-                                </FormControl>)
-                        }
-
-                        {
-                            avalibleProjects.length > 0 && (
-                                <FormControl >
-                                    <InputLabel variant="outlined" htmlFor="project" sx={{ backgroundColor: "none" }} >
-                                        Proyecto
-                                    </InputLabel>
-                                    <Select
-                                        
-                                        labelId='project'
-                                        label="Proyecto"
-                                        variant='outlined'
-                                        value={formik.values.project}
-                                        inputProps={{
-                                            name: 'project',
-                                            id:'project',
-                                        }}
-                                        onChange={formik.handleChange}
-                                    >
-
-                                        {avalibleProjects.map((elem, index) => (
-                                            <MenuItem key={index} value={index} >
-                                                <Typography >{elem.name_project}</Typography>
-                                            </MenuItem >
-                                        ))}
-
-                                    </Select>
-                                </FormControl>
-
-                            )
+                                </DelirioSelectForm>)
                         }
 
                     </Box>
 
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            name="expired"
-                            label="Fecha Limite"
-                            value={formik.values.expired}
-                            onChange={(value) => formik.setFieldValue('expired', value)}
-                            slotProps={{ textField: { fullWidth: true } }}
-                            sx={{ marginBottom: '20px' }}
-                        />
-                    </LocalizationProvider>
+                    <Box component='div' className='margin-field section' >
+
+                        {
+                            avalibleProjects.length > 0 && (
+
+                                <DelirioSelectForm
+                                    value={formik.values.project}
+                                    inputProps={{
+                                        name: 'project',
+                                        id: 'project',
+                                    }}
+                                    onChange={formik.handleChange}
+                                    displayEmpty
+                                >
+                                    <MenuItem value='' >
+                                        <em>Proyecto</em>
+                                    </MenuItem >
+
+                                    {avalibleProjects.map((elem, index) => (
+                                        <MenuItem key={index} value={index} >
+                                            <Typography >{elem.name_project}</Typography>
+                                        </MenuItem >
+                                    ))}
+
+                                </DelirioSelectForm>
+
+                            )
+                        }
+
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                name="expired"
+                                label="Fecha Limite"
+                                value={formik.values.expired}
+                                onChange={(value) => formik.setFieldValue('expired', value)}
+                                slotProps={{ textField: { sx: { width: "250px" } } }}
+                                sx={{ marginBottom: '20px' }}
+                            />
+                        </LocalizationProvider>
+
+                    </Box>
+
+
 
 
                     <DialogActions>
-
-                        {avalibleSubmit && <Button variant="contained" type='submit' >
+                        {avalibleSubmit && (<SubmitButton type='submit' >
                             Agregar
-                        </Button>}
-                        <Button onClick={() => handleClose()}>Close</Button>
+                        </SubmitButton>)}
                     </DialogActions>
-                </Box>
-                {(avalibleProjects < 1) && (<Alert severity="error">La compañia debe tener al menos un projecto</Alert>)}
+                
+                {(formik.errors.employer) && (<Alert severity="error"> {formik.errors.employer} </Alert>)}
+                {(formik.errors.company) && (<Alert severity="error"> {formik.errors.company} </Alert>)}
+                {(formik.errors.project) && (<Alert severity="error"> {formik.errors.project}</Alert>)}
                 {(employers < 1) && (<Alert severity="error">Debe haber al menos un empleado registrado</Alert>)}
                 {(companies < 1) && (<Alert severity="error">Debe haber al menos una empresa cliente registrada</Alert>)}
             </DialogContent>
+            </Box>
 
         </Dialog>
     )

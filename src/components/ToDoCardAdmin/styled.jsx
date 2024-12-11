@@ -14,17 +14,6 @@ export const DelirioInputCar = styled(Input)(({ theme }) => ({
     },
 }));
 
-
-
-export const DelirioSelect = styled(Select)(({ theme }) => ({
-    '& .MuiSelect-select': {
-        color: "white", // Color del texto
-        background: "linear-gradient(#3DA2DB, #006096)", // Fondo
-        borderRadius: '10px',
-    },
-}));
-
-
 export const CustomStrong = styled('strong')(({ theme }) => ({
     background: "linear-gradient(#3DA2DB, #006096)",
     color: "white",

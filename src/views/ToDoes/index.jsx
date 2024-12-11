@@ -1,6 +1,5 @@
 import {
     Box,
-    Button,
     Typography
 } from "@mui/material"
 import ToDoesTable from "../../components/ToDoesTable";
@@ -29,8 +28,7 @@ const ToDoes = () => {
     const [addProject, changeToOpenAddProject, changeToCloseAddProject] = useOpen()
     const [rows, setRows] = useState([])
 
-    useEffect(() => {
-
+    const loadRows = () => {
         const r = todoes.map((elem) => {
             const { title, expired, id_status, id_employer, id_company, id_project } = elem.data
 
@@ -71,6 +69,19 @@ const ToDoes = () => {
         })
 
         setRows(r)
+    }
+
+    useEffect(() => {
+
+        try {
+            loadRows()
+        }
+        catch (e) {
+            console.log(e)
+        }
+
+        /* */
+
 
     }, [todoes])
 
@@ -108,14 +119,14 @@ const ToDoes = () => {
                             <Typography component="h4" >Sus tareas empleado {user.user_nicename}</Typography>
                         </> : null}
 
-                    {<ToDoesTable rows={rows} />}
+                    <ToDoesTable rows={rows} />
                 </>
             )}
-
         </Box>
     )
 }
 
 export default ToDoes
 
-/**/
+/*
+*/

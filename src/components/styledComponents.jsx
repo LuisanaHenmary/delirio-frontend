@@ -68,3 +68,13 @@ export const DelirioSelectForm = styled(Select)(({ theme }) => ({
     border: "none", // Elimina el borde del select
   },
 }));
+
+export const InputFullDelerio = styled(Input)(({ theme }) => ({
+  background: "linear-gradient(#3DA2DB, #006096)", // Cambia este color
+  padding: "8px",
+  fontWeight:"bold",
+  border: 0,
+  "&::before, &::after": {
+      display: "none", // Oculta las líneas
+  },
+}));

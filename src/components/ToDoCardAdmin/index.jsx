@@ -20,8 +20,8 @@ import { useEmployersContext } from '../../hooks/useEmployersContext';
 import { useToDoContext } from '../../hooks/useToDoContext';
 
 import "./index.css"
-import { DelirioInputCar, DelirioSelect, CustomStrong, DataTag } from './styled';
-import { SubmitButton } from '../styledComponents';
+import { CustomStrong, DataTag } from './styled';
+import { SubmitButton, InputFullDelerio, DelirioSelectForm } from '../styledComponents';
 import CloseIcon from '@mui/icons-material/Close';
 
 const ToDoCardAdmin = ({ info, open, handleClose }) => {
@@ -116,10 +116,9 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
             <Box component="form" onSubmit={formik.handleSubmit}>
 
                 <DialogTitle component="div" className='title-card' >
-                    <DelirioInputCar
+                    <InputFullDelerio
                         id="title"
                         name='title'
-                        placeholder='Titulo'
                         onChange={formik.handleChange}
                         value={formik.values.title}
                         inputProps={{
@@ -156,24 +155,6 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
 
                     <Box component='div' className='margin-field section' >
 
-                        <DelirioSelect
-                            labelId='employer'
-                            value={formik.values.employer}
-                            inputProps={{
-                                name: 'employer',
-                                id: 'employer',
-                            }}
-                            onChange={formik.handleChange}
-                            label="Empleado"
-                        >
-                            {employers.map((elem, index) => (
-                                <MenuItem key={index} value={index} >
-                                    <Typography >{elem.name_employer}</Typography>
-                                </MenuItem >
-                            ))}
-                        </DelirioSelect>
-
-
                         <Typography component='h6'  >
                             <CustomStrong >
                                 Cliente:
@@ -197,17 +178,39 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
                     </Box>
 
 
+                    <Box component='div' className='margin-field section' >
 
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            name="expired"
-                            label="Fecha limite"
-                            value={formik.values.expired}
-                            onChange={(value) => formik.setFieldValue('expired', value)}
-                            slotProps={{ textField: { fullWidth: true } }}
-                            sx={{ marginBottom: '20px' }}
-                        />
-                    </LocalizationProvider>
+                        <DelirioSelectForm
+                            labelId='employer'
+                            value={formik.values.employer}
+                            inputProps={{
+                                name: 'employer',
+                                id: 'employer',
+                            }}
+                            onChange={formik.handleChange}
+                            label="Empleado"
+                        >
+                            {employers.map((elem, index) => (
+                                <MenuItem key={index} value={index} >
+                                    <Typography >{elem.name_employer}</Typography>
+                                </MenuItem >
+                            ))}
+                        </DelirioSelectForm>
+
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                name="expired"
+                                label="Fecha limite"
+                                value={formik.values.expired}
+                                onChange={(value) => formik.setFieldValue('expired', value)}
+                                slotProps={{ textField: { sx: { width: "250px" } } }}
+                                sx={{ marginBottom: '20px' }}
+                            />
+                        </LocalizationProvider>
+
+                    </Box>
+
+
 
                     <DialogActions>
                         <SubmitButton type='submit'>
