@@ -103,6 +103,7 @@ const AddToDo = ({ open, handleClose }) => {
     useEffect(() => {
 
         if ((formik.errors.company)) {
+            setAvalibleProjects([])
             setAvalibleSubmit(false)
         } else {
 
@@ -117,10 +118,6 @@ const AddToDo = ({ open, handleClose }) => {
 
                 if ((projects_list.length > 0) && (employers.length > 0) && (companies.length > 0)) {
                     setAvalibleSubmit(true)
-                } 
-                else if((formik.errors.company)){
-                    setAvalibleProjects([])
-                    setAvalibleSubmit(false)
                 }
                 else {
                     setAvalibleSubmit(false)

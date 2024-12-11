@@ -39,7 +39,7 @@ const ToDoCardCompany = ({ info, open, handleClose }) => {
 
 
             </DialogTitle>
-            <DialogContent sx={{ marginTop: "15px" }} >
+            <DialogContent sx={{ height: "150px",margin:"20px" }} >
 
                 <Box component="div" sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Stack component='div' className='margin-field section' spacing={5} >
