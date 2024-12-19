@@ -1,5 +1,14 @@
 import axios from "axios";
 
+export const formatedDate = (fullDate) => {
+    const date = new Date(fullDate);
+    const day = date.getDate()
+    const month = date.getMonth() + 1
+    const year = date.getFullYear()
+
+    return `${day}-${month}-${year}`
+}
+
 export const getToDoes = async (user, dispatch) => {
 
     const apiUrl = import.meta.env.VITE_API_URL
@@ -14,27 +23,50 @@ export const getToDoes = async (user, dispatch) => {
         });
 
         const data = await response.data
-        
+
         const events = data.map((event) => {
-            const { id_todo, title, expired, id_status, id_employer, id_company, id_project } = event
-            const date = new Date(expired);
-            const day = date.getDate()
-            const month = date.getMonth() + 1
-            const year = date.getFullYear()
-            const formatDate = `${day}-${month}-${year}`;
+            const {
+                id_todo,
+                title,
+                delivery_date,
+                assignment_date,
+                description_todo,
+                content_todo,
+                material_link,
+                copy_text,
+                by_instragram,
+                by_facebook,
+                by_tiktok,
+                id_type,
+                id_status,
+                id_employer,
+                id_company
+            } = event
+            
+            const formatedDelivery = formatedDate(delivery_date);
+            const formatedAssignment = formatedDate(assignment_date);
 
             return {
                 'title': title,
-                'start': date,
-                'end': date,
+                'start': formatedDelivery,
+                'end': formatedDelivery,
                 'data': {
                     'id': parseInt(id_todo),
                     'title': title,
-                    'expired': formatDate,
+                    'delivery_date': formatedDelivery,
+                    'assignment_date': formatedAssignment,
+                    'description_todo':description_todo,
+                    'content_todo':content_todo,
+                    'material_link':material_link,
+                    'copy_text':copy_text,
+                    'by_instragram':by_instragram,
+                    'by_facebook':by_facebook,
+                    'by_tiktok':by_tiktok,
+                    'id_type':id_type,
                     'id_status': id_status,
                     'id_employer': id_employer,
-                    "id_company": id_company,
-                    "id_project": id_project
+                    'id_company': id_company,
+
                 }
             }
         })
@@ -53,27 +85,52 @@ export const getToDoes = async (user, dispatch) => {
         const data = await response.data
 
         const events = data.map((event) => {
-            const { id_todo, title, expired, id_status, id_employer, id_company, id_project } = event
-            const date = new Date(expired);
-            const day = date.getDate()
-            const month = date.getMonth() + 1
-            const year = date.getFullYear()
-            const formatDate = `${day}-${month}-${year}`;
+
+            const {
+                id_todo,
+                title,
+                delivery_date,
+                assignment_date,
+                description_todo,
+                content_todo,
+                material_link,
+                copy_text,
+                by_instragram,
+                by_facebook,
+                by_tiktok,
+                id_type,
+                id_status,
+                id_employer,
+                id_company
+            } = event
+            
+            const formatedDelivery = formatedDate(delivery_date);
+            const formatedAssignment = formatedDate(assignment_date);
 
             return {
                 'title': title,
-                'start': date,
-                'end': date,
+                'start': formatedDelivery,
+                'end': formatedDelivery,
                 'data': {
                     'id': parseInt(id_todo),
                     'title': title,
-                    'expired': formatDate,
+                    'delivery_date': formatedDelivery,
+                    'assignment_date': formatedAssignment,
+                    'description_todo':description_todo,
+                    'content_todo':content_todo,
+                    'material_link':material_link,
+                    'copy_text':copy_text,
+                    'by_instragram':by_instragram,
+                    'by_facebook':by_facebook,
+                    'by_tiktok':by_tiktok,
+                    'id_type':id_type,
                     'id_status': id_status,
                     'id_employer': id_employer,
-                    "id_company": id_company,
-                    "id_project": id_project
+                    'id_company': id_company,
+
                 }
             }
+            
         })
 
         dispatch({ type: 'SET_TO_DOES', payload: events })
@@ -90,25 +147,48 @@ export const getToDoes = async (user, dispatch) => {
         const data = await response.data
 
         const events = data.map((event) => {
-            const { id_todo, title, expired, id_status, id_employer, id_company, id_project } = event
-            const date = new Date(expired);
-            const day = date.getDate()
-            const month = date.getMonth() + 1
-            const year = date.getFullYear()
-            const formatDate = `${day}-${month}-${year}`;
+            const {
+                id_todo,
+                title,
+                delivery_date,
+                assignment_date,
+                description_todo,
+                content_todo,
+                material_link,
+                copy_text,
+                by_instragram,
+                by_facebook,
+                by_tiktok,
+                id_type,
+                id_status,
+                id_employer,
+                id_company
+            } = event
+            
+            const formatedDelivery = formatedDate(delivery_date);
+            const formatedAssignment = formatedDate(assignment_date);
 
             return {
                 'title': title,
-                'start': date,
-                'end': date,
+                'start': formatedDelivery,
+                'end': formatedDelivery,
                 'data': {
-                    'id': id_todo,
+                    'id': parseInt(id_todo),
                     'title': title,
-                    'expired': formatDate,
+                    'delivery_date': formatedDelivery,
+                    'assignment_date': formatedAssignment,
+                    'description_todo':description_todo,
+                    'content_todo':content_todo,
+                    'material_link':material_link,
+                    'copy_text':copy_text,
+                    'by_instragram':by_instragram,
+                    'by_facebook':by_facebook,
+                    'by_tiktok':by_tiktok,
+                    'id_type':id_type,
                     'id_status': id_status,
                     'id_employer': id_employer,
-                    "id_company": id_company,
-                    "id_project": id_project
+                    'id_company': id_company,
+
                 }
             }
         })
@@ -192,18 +272,34 @@ export const getJobs = async (user, dispatchJob) => {
     dispatchJob({ type: 'SET_JOBS', payload: data })
 }
 
-export const getProjects = async (user, dispatchProjects) => {
+export const getToDoTypes = async (user, dispatchTypes) => {
 
     const apiUrl = import.meta.env.VITE_API_URL
 
     const response = await axios({
         method: 'get',
-        url: `${apiUrl}/projects`,
+        url: `${apiUrl}/types`,
         headers: {
             'Authorization': `Bearer ${user.token}`,
         },
     });
 
     const data = await response.data
-    dispatchProjects({ type: 'SET_PROJECTS', payload: data })
+    dispatchTypes({ type: 'SET_TO_DO_TYPES', payload: data })
+}
+
+export const getPlans = async (user, dispatchPlan) => {
+
+    const apiUrl = import.meta.env.VITE_API_URL
+
+    const response = await axios({
+        method: 'get',
+        url: `${apiUrl}/plans`,
+        headers: {
+            'Authorization': `Bearer ${user.token}`,
+        },
+    });
+
+    const data = await response.data
+    dispatchPlan({ type: 'SET_PLANS', payload: data })
 }

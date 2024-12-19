@@ -9,14 +9,16 @@ import {
     getStatus,
     getCompanies,
     getEmployers,
-    getProjects,
     getToDoes,
+    getToDoTypes,
+    getPlans
 } from "../api";
 import { useEmployersContext } from "../hooks/useEmployersContext";
 import { useCompaniesContext } from "../hooks/useCompanyContext";
 import { useStatusContext } from "../hooks/useStatusContext";
 import { useJobContext } from "../hooks/useJobContext";
-import { useProjectsContext } from "../hooks/useProjectsContexr";
+import { usePlanContext } from "../hooks/usePlanContext";
+import { useToDotypeContext } from "../hooks/useToDoTypeContext";
 
 const Root = () => {
 
@@ -26,7 +28,8 @@ const Root = () => {
     const { dispatchCompanies } = useCompaniesContext()
     const { dispatchStatus } = useStatusContext()
     const { dispatchJob } = useJobContext()
-    const { dispatchProjects } = useProjectsContext()
+    const { dispatchPlan } = usePlanContext()
+    const { dispatchTypes } = useToDotypeContext()
 
     useEffect(() => {
 
@@ -37,8 +40,8 @@ const Root = () => {
                 getStatus(user, dispatchStatus)
                 getCompanies(user, dispatchCompanies)
                 getEmployers(user, dispatchEmployers)
-                getProjects(user, dispatchProjects)
-
+                getToDoTypes(user, dispatchTypes)
+                getPlans(user, dispatchPlan)
             }
         } catch (e) {
             console.log(e)

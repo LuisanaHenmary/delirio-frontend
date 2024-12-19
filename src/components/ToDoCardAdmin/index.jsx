@@ -18,7 +18,6 @@ import { useFormik } from 'formik';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useEmployersContext } from '../../hooks/useEmployersContext';
 import { useToDoContext } from '../../hooks/useToDoContext';
-
 import "./index.css"
 import { CustomStrong, DataTag } from './styled';
 import { SubmitButton, InputFullDelerio, DelirioSelectForm } from '../styledComponents';
@@ -165,15 +164,6 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
 
                         </Typography>
 
-                        <Typography component='h6' >
-                            <CustomStrong >
-                                Proyecto:
-                            </CustomStrong>
-                            <DataTag>
-                                {info['projectName']}
-                            </DataTag>
-
-                        </Typography>
 
                     </Box>
 

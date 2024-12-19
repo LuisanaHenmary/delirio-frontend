@@ -77,15 +77,6 @@ const ToDoCardCompany = ({ info, open, handleClose }) => {
                             </DataTag>
                         </Typography>
 
-                        <Typography component='h6'  >
-                            <CustomStrong >
-                                Proyecto:
-                            </CustomStrong>
-                            <DataTag>
-                                {info['projectName']}
-                            </DataTag>
-                        </Typography>
-
                     </Stack>
 
                 </Box>

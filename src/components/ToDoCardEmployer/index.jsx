@@ -4,7 +4,6 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
-    Select,
     MenuItem,
     Typography,
     Box,
@@ -153,15 +152,6 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
                                     {info['companyName']}
                                 </DataTag>
 
-                            </Typography>
-
-                            <Typography component='h6'  >
-                                <CustomStrong >
-                                    Proyecto:
-                                </CustomStrong>
-                                <DataTag>
-                                    {info['projectName']}
-                                </DataTag>
                             </Typography>
 
                         </Stack>
