@@ -1,10 +1,6 @@
 import {
-    TextField,
     InputAdornment,
     IconButton,
-    Input,
-    InputLabel,
-    FormControl,
     Box
 } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
@@ -93,7 +89,6 @@ const AddUser = ({ formik }) => {
                     placeholder='Telefono'
                     onChange={formik.handleChange}
                     value={formik.values.phone_number}
-                    required
                     inputProps={{
                         style: {
                             background: "none",

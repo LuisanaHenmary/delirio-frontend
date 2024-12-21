@@ -1,7 +1,9 @@
 import {
     Box,
     DialogActions,
-    Alert
+    Alert,
+    MenuItem,
+    Typography
 } from '@mui/material';
 import AddUser from '../AddUser';
 import { useFormik } from 'formik';
@@ -10,12 +12,15 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { useCompaniesContext } from '../../hooks/useCompanyContext';
 import axios from 'axios';
 import { CompanyValidation } from '../../Validations/CompanyValidation';
-import { InputDelirioForm, SubmitButton } from '../../components/styledComponents';
+import { InputDelirioForm, SubmitButton, DelirioFullWidthSelectForm } from '../../components/styledComponents';
+import { usePlanContext } from '../../hooks/usePlanContext';
+
 
 const AddCompany = ({ handleClose }) => {
 
     const { user } = useAuthContext()
     const { dispatchCompanies } = useCompaniesContext()
+    const { plans } = usePlanContext()
 
     const formik = useFormik({
         initialValues: {
@@ -24,7 +29,8 @@ const AddCompany = ({ handleClose }) => {
             phone_number: '',
             username: '',
             email: '',
-            password: ''
+            password: '',
+            plan: ''
         },
         onSubmit: values => {
             register_company(values)
@@ -38,17 +44,21 @@ const AddCompany = ({ handleClose }) => {
         const apiUrl = import.meta.env.VITE_API_URL
         const apiUrlWordpress = import.meta.env.VITE_API_WORDPRESS
 
-        const {
-            nit,
-            full_name,
-            phone_number,
-            username,
-            email,
-            password
-        } = values;
-
-
         try {
+            const {
+                nit,
+                full_name,
+                phone_number,
+                username,
+                email,
+                password,
+                plan
+            } = values;
+
+            const id = parseInt(plans[plan].id_plan)
+
+            console.log(id)
+
             const response = await axios({
                 method: 'post',
                 url: `${apiUrlWordpress}/users/`,
@@ -74,7 +84,8 @@ const AddCompany = ({ handleClose }) => {
                     'nit': nit,
                     'name': full_name,
                     'phone': phone_number,
-                    'id_user': id_user
+                    'id_user': id_user,
+                    'id_plan': id,
                 },
                 headers: {
                     'Authorization': `Bearer ${user.token}`,
@@ -95,6 +106,29 @@ const AddCompany = ({ handleClose }) => {
     return (
 
         <Box className="form-employer" component="form" onSubmit={formik.handleSubmit}>
+            <Box component='div' className='margin-field section'  >
+                <DelirioFullWidthSelectForm
+                    value={formik.values.plan}
+                    inputProps={{
+                        name: 'plan',
+                        id: 'plan',
+                    }}
+                    onChange={formik.handleChange}
+                    displayEmpty
+                    fullWidth
+                >
+                    <MenuItem value='' >
+                        <em>Plan</em>
+                    </MenuItem >
+
+                    {plans.map((elem, index) => (
+                        <MenuItem key={index} value={`${index}`} >
+                            <Typography >{elem.name_plan}  </Typography>
+                        </MenuItem >
+                    ))}
+
+                </DelirioFullWidthSelectForm>
+            </Box>
 
             <Box component='div' className='margin-field section'  >
                 <InputDelirioForm
@@ -127,7 +161,7 @@ const AddCompany = ({ handleClose }) => {
                             color: "white",
                         }
                     }}
-                    
+
                 />
             </Box>
 

@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { ToDoTypeContext } from '../contexts/toDoTypeContext' 
 
-export const useToDotypeContext = () => {
+export const useToDoTypeContext = () => {
   const context = useContext(ToDoTypeContext)
 
   if (!context) {

@@ -18,7 +18,7 @@ import { useCompaniesContext } from "../hooks/useCompanyContext";
 import { useStatusContext } from "../hooks/useStatusContext";
 import { useJobContext } from "../hooks/useJobContext";
 import { usePlanContext } from "../hooks/usePlanContext";
-import { useToDotypeContext } from "../hooks/useToDoTypeContext";
+import { useToDoTypeContext } from "../hooks/useToDoTypeContext";
 
 const Root = () => {
 
@@ -29,7 +29,7 @@ const Root = () => {
     const { dispatchStatus } = useStatusContext()
     const { dispatchJob } = useJobContext()
     const { dispatchPlan } = usePlanContext()
-    const { dispatchTypes } = useToDotypeContext()
+    const { dispatchTypes } = useToDoTypeContext()
 
     useEffect(() => {
 

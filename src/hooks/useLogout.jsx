@@ -2,9 +2,10 @@ import { useAuthContext } from './useAuthContext'
 import { useStatusContext } from './useStatusContext'
 import { useJobContext } from './useJobContext'
 import { useToDoContext } from './useToDoContext'
-import { useProjectsContext } from './useProjectsContexr'
+import { usePlanContext } from './usePlanContext' 
 import { useEmployersContext } from './useEmployersContext'
 import { useCompaniesContext } from './useCompanyContext'
+import { useToDoTypeContext } from './useToDoTypeContext'
 
 export const useLogout = () => {
   const { dispatch } = useAuthContext()
@@ -27,7 +28,8 @@ export const useClear = () => {
   const { dispatchCompanies } = useCompaniesContext()
   const { dispatchStatus } = useStatusContext()
   const { dispatchJob } = useJobContext()
-  const { dispatchProjects } = useProjectsContext()
+  const { dispatchPlan } = usePlanContext()
+  const { dispatchTypes } = useToDoTypeContext()
 
   const clearLists = () => {
 
@@ -36,7 +38,8 @@ export const useClear = () => {
     dispatchCompanies({ type: 'SET_COMPANIES', payload: [] })
     dispatchStatus({ type: 'SET_STATUS', payload: [] })
     dispatchJob({ type: 'SET_JOBS', payload: [] })
-    dispatchProjects({ type: 'SET_PROJECTS', payload: [] })
+    dispatchPlan({ type: 'SET_PLANS', payload: [] })
+    dispatchTypes({ type: 'SET_TO_DO_TYPES', payload: [] })
   }
 
   return { clearLists }

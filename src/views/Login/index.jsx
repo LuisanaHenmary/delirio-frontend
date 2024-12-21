@@ -60,6 +60,7 @@ const Login = () => {
                 dispatch({ type: 'LOGIN', payload: currentUser })
             }
         }
+
     }
 
     useEffect(() => {
