@@ -77,16 +77,10 @@ export const DelirioFullWidthSelectForm = styled(Select)(({ theme }) => ({
   background: "linear-gradient(#3DA2DB, #006096)",
   borderRadius: "10px",
   margin: 0,
-  color: "#fff",
   "& .MuiSelect-icon": {
     color: "#fff", // Icono desplegable
   },
-  "&:hover": {
-    backgroundColor: "#1c86ee",
-  },
-  "& .MuiOutlinedInput-notchedOutline": {
-    border: "none", // Elimina el borde del select
-  },
+
 }));
 
 export const InputFullDelerio = styled(Input)(({ theme }) => ({

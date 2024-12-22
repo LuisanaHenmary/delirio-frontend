@@ -108,8 +108,8 @@ export const getToDoes = async (user, dispatch) => {
 
             return {
                 'title': title,
-                'start': formatedDelivery,
-                'end': formatedDelivery,
+                'start': delivery_date,
+                'end': delivery_date,
                 'data': {
                     'id': parseInt(id_todo),
                     'title': title,
@@ -169,8 +169,8 @@ export const getToDoes = async (user, dispatch) => {
 
             return {
                 'title': title,
-                'start': formatedDelivery,
-                'end': formatedDelivery,
+                'start': delivery_date,
+                'end': delivery_date,
                 'data': {
                     'id': parseInt(id_todo),
                     'title': title,
