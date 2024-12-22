@@ -44,17 +44,16 @@ export const getToDoes = async (user, dispatch) => {
             } = event
             
             const formatedDelivery = formatedDate(delivery_date);
-            const formatedAssignment = formatedDate(assignment_date);
 
             return {
                 'title': title,
-                'start': formatedDelivery,
-                'end': formatedDelivery,
+                'start': delivery_date,
+                'end': delivery_date,
                 'data': {
                     'id': parseInt(id_todo),
                     'title': title,
                     'delivery_date': formatedDelivery,
-                    'assignment_date': formatedAssignment,
+                    'assignment_date': assignment_date,
                     'description_todo':description_todo,
                     'content_todo':content_todo,
                     'material_link':material_link,

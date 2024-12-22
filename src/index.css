@@ -72,17 +72,26 @@
   padding: 10px;
 }
 
-.to-do {
+.sin-contenido{
   background-color: antiquewhite;
 }
 
-.done {
+.pendiente-aprob {
+  background-color: rgb(249, 148, 202);
+}
+
+.aprobado {
+  background-color: rgb(47, 113, 255);
+}
+
+.en-proceso {
+  background-color: rgb(148, 152, 249);
+}
+
+.publicado {
   background-color: greenyellow;
 }
 
-.in-progress {
-  background-color: rgb(148, 152, 249);
-}
 
 .title-card {
   display: flex;

@@ -7,43 +7,37 @@ import { useOpen } from "../../hooks/useOpen";
 import AddToDo from "../AddToDo";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { Navigate } from "react-router-dom";
-import AddProject from "../AddProject";
 import { useToDoContext } from "../../hooks/useToDoContext";
 import { useEffect, useState } from "react";
-import { useStatusContext } from "../../hooks/useStatusContext";
-import { useEmployersContext } from "../../hooks/useEmployersContext";
 import { useCompaniesContext } from "../../hooks/useCompanyContext";
-import { useProjectsContext } from '../../hooks/useProjectsContexr';
+import { useToDoTypeContext } from "../../hooks/useToDoTypeContext";
 import { SaveButton, PlusIcon } from "./style";
 
 
 const ToDoes = () => {
     const { user } = useAuthContext()
     const { todoes } = useToDoContext()
-    const { statues } = useStatusContext()
-    const { employers } = useEmployersContext()
-    const { projects } = useProjectsContext()
     const { companies } = useCompaniesContext()
+    const { to_do_types } = useToDoTypeContext()
     const [addTodo, changeToOpenAddToDo, changeToCloseAddToDo] = useOpen()
-    const [addProject, changeToOpenAddProject, changeToCloseAddProject] = useOpen()
     const [rows, setRows] = useState([])
 
     const loadRows = () => {
         const r = todoes.map((elem) => {
-            const { title, expired, id_status, id_employer, id_company, id_project } = elem.data
+            const {
+                title,
+                delivery_date,
+                description_todo,
+                material_link,
+                id_type,
+                id_company
+            } = elem.data
 
-            const status = statues.filter((value) => {
-                return parseInt(value.id_status) == parseInt(id_status)
+            const typeTodo = to_do_types.filter((value) => {
+                return parseInt(value.id_type) == parseInt(id_type)
             })
 
-            const statusName = status[0]['name_status']
-            const statusClass = status[0]['className']
-
-            const employer = employers.filter(value =>
-                parseInt(value.id_employer) == parseInt(id_employer)
-            );
-
-            const employerName = employer[0]['name_employer']
+            const typeName = typeTodo[0]['name_type']
 
             const company = companies.filter((value) => {
                 return parseInt(value.id_company) == parseInt(id_company)
@@ -51,20 +45,13 @@ const ToDoes = () => {
 
             const companyName = company[0]['name_company']
 
-            const project = projects.filter((value) => {
-                return parseInt(value.id_project) == parseInt(id_project)
-            })
-
-            const projectName = project[0]['name_project']
-
             return {
                 title,
-                expired,
-                statusName,
-                statusClass,
-                employerName,
+                delivery_date,
+                typeName,
                 companyName,
-                projectName
+                description_todo,
+                material_link
             }
         })
 
@@ -79,10 +66,6 @@ const ToDoes = () => {
         catch (e) {
             console.log(e)
         }
-
-        /* */
-
-
     }, [todoes])
 
     return (
@@ -96,30 +79,20 @@ const ToDoes = () => {
                             <Box component="div" sx={{ display: "flex", justifyContent: "end" }} >
                                 <SaveButton
                                     onClick={changeToOpenAddToDo}
-                                    variant="contained"
                                     startIcon={<PlusIcon />}
                                 >
                                     Agregar tarea
                                 </SaveButton>
-
-                                <SaveButton
-                                    onClick={changeToOpenAddProject}
-                                    variant="contained"
-                                    startIcon={<PlusIcon />}
-                                >
-                                    Agregar Proyecto
-                                </SaveButton>
                             </Box>
 
                             <AddToDo open={addTodo} handleClose={changeToCloseAddToDo} />
-                            <AddProject open={addProject} handleClose={changeToCloseAddProject} />
                         </> : null}
                     {user.role == "employer" ?
                         <>
                             <Typography component="h4" >Sus tareas empleado {user.user_nicename}</Typography>
                         </> : null}
 
-                    <ToDoesTable rows={rows} />
+                        <ToDoesTable rows={rows} />
                 </>
             )}
         </Box>
@@ -127,6 +100,3 @@ const ToDoes = () => {
 }
 
 export default ToDoes
-
-/*
-*/

@@ -31,24 +31,24 @@ const ToDoesTable = ({ rows }) => {
             label: 'Titulo',
         },
         {
-            id: 'expired',
-            label: 'Fecha de expiración',
+            id: 'delivery_date',
+            label: 'Fecha de Entrega',
         },
         {
-            id: 'employer',
-            label: 'Empleado',
+            id: 'type_todo',
+            label: 'Tipo',
         },
         {
             id: 'company',
             label: 'Cliente',
         },
         {
-            id: 'project',
-            label: 'Proyecto',
+            id: 'description',
+            label: 'Descripción',
         },
         {
-            id: 'status',
-            label: 'Estado',
+            id: 'matirial_link',
+            label: 'Link material',
         }
 
     ];
@@ -81,7 +81,7 @@ const ToDoesTable = ({ rows }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {visibleRows.length > 0 &&
+                    {visibleRows.length > 0 &&
                             (<>
                                 {visibleRows.map((row, index) => (
                                     <ToDoesTableRow key={index}>
@@ -94,15 +94,15 @@ const ToDoesTable = ({ rows }) => {
                                             {row.title}
                                         </ToDoesTableCell>
 
-                                        <ToDoesTableCell align="center">{row.expired}</ToDoesTableCell>
+                                        <ToDoesTableCell align="center">{row.delivery_date}</ToDoesTableCell>
 
-                                        <ToDoesTableCell align="center" >{row.employerName}</ToDoesTableCell>
+                                        <ToDoesTableCell align="center" >{row.typeName}</ToDoesTableCell>
 
                                         <ToDoesTableCell align="center" >{row.companyName}</ToDoesTableCell>
 
-                                        <ToDoesTableCell align="center" >{row.projectName}</ToDoesTableCell>
+                                        <ToDoesTableCell align="center" >{row.description_todo}</ToDoesTableCell>
 
-                                        <ToDoesTableCell align="center" className={row.statusClass} >{row.statusName}</ToDoesTableCell>
+                                        <ToDoesTableCell align="center"  >{row.material_link}</ToDoesTableCell>
                                     </ToDoesTableRow>
                                 )
                                 )}
@@ -125,3 +125,6 @@ const ToDoesTable = ({ rows }) => {
 }
 
 export default ToDoesTable
+
+/* 
+ */

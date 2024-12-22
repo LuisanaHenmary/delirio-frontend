@@ -20,8 +20,9 @@ import { useEmployersContext } from '../../hooks/useEmployersContext';
 import { useToDoContext } from '../../hooks/useToDoContext';
 import "./index.css"
 import { CustomStrong, DataTag } from './styled';
-import { SubmitButton, InputFullDelerio, DelirioSelectForm } from '../styledComponents';
+import { SubmitButton, InputFullDelerio, DelirioSelectForm, SocialMedios, TextArea } from '../styledComponents';
 import CloseIcon from '@mui/icons-material/Close';
+import { formatedDate } from '../../api';
 
 const ToDoCardAdmin = ({ info, open, handleClose }) => {
 
@@ -34,8 +35,15 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
         initialValues: {
             id: 1,
             title: '',
-            expired: dayjs(),
-            employer: 0
+            delivery_date: dayjs(),
+            assignment_date: dayjs(),
+            employer: '',
+            description_todo: '',
+            material_link: '',
+            copy_text: '',
+            by_instragram: false,
+            by_facebook: false,
+            by_tiktok: false
         },
         onSubmit: values => {
             updateInfo(values)
@@ -45,7 +53,20 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
 
     const updateInfo = async (values) => {
 
-        const { id, title, employer, expired } = values
+        const {
+            id,
+            title,
+            employer,
+            delivery_date,
+            assignment_date,
+            description_todo,
+            material_link,
+            copy_text,
+            by_instragram,
+            by_facebook,
+            by_tiktok,
+        } = values
+
         const apiUrl = import.meta.env.VITE_API_URL
 
         const id_employer = employers[employer]['id_employer']
@@ -55,8 +76,15 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
             url: `${apiUrl}/to-does/admin/${id}`,
             data: {
                 id_employer,
-                'title': title,
-                'expired': expired.$d,
+                title,
+                description_todo,
+                material_link,
+                copy_text,
+                by_instragram,
+                by_facebook,
+                by_tiktok,
+                'assignment_date': assignment_date.$d,
+                'delivery_date': delivery_date.$d,
 
             },
             headers: {
@@ -64,38 +92,55 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
             },
         });
 
-        const dateExpired = new Date(expired.$d);
-        const day = dateExpired.getDate()
-        const month = dateExpired.getMonth() + 1
-        const year = dateExpired.getFullYear()
-        const formatDate = `${day}-${month}-${year}`;
+        
+        const dateDelivery = new Date(delivery_date.$d);
+
+        const formatDateDelivery = formatedDate(delivery_date.$d);
 
         const updatedList = todoes.map((x) => {
             return parseInt(x.data.id) == parseInt(id) ? ({
 
                 ...x,
-                'title': title,
-                'start': dateExpired,
-                'end': dateExpired,
+                title,
+                'start': dateDelivery,
+                'end': dateDelivery,
                 data: {
                     ...x.data,
+                    title,
                     id_employer,
-                    'title': title,
-                    'expired': formatDate
+                    assignment_date,
+                    description_todo,
+                    material_link,
+                    copy_text,
+                    'by_instragram': by_instragram ? "1" : "0",
+                    'by_facebook': by_facebook ? "1" : "0",
+                    'by_tiktok': by_tiktok ? "1" : "0",
+                    'delivery_date': formatDateDelivery
                 }
             }) : x
         })
 
         dispatch({ type: 'SET_TO_DOES', payload: updatedList })
+
     }
 
     const getStatus = () => {
+        const checked_instragram = info['by_instragram'] === "1"
+        const checked_facebook = info['by_facebook'] === "1"
+        const checked_tiktok = info['by_tiktok'] === "1"
+
         formik.setFieldValue('id', parseInt(info['id']))
         formik.setFieldValue('title', info['title'])
-        formik.setFieldValue('expired', dayjs(info['expired']))
+        formik.setFieldValue('delivery_date', dayjs(info['delivery_date']))
+        formik.setFieldValue('assignment_date', dayjs(info['assignment']))
         formik.setFieldValue('employer', parseInt(info['employerIndex']))
+        formik.setFieldValue('description_todo', info['description_todo'])
+        formik.setFieldValue('material_link', info['material_link'])
+        formik.setFieldValue('copy_text', info['copy_text'])
+        formik.setFieldValue('by_instragram', checked_instragram)
+        formik.setFieldValue('by_facebook', checked_facebook)
+        formik.setFieldValue('by_tiktok', checked_tiktok)
     }
-
 
     useEffect(() => {
         try {
@@ -156,6 +201,20 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
 
                         <Typography component='h6'  >
                             <CustomStrong >
+                                Tipo de tarea:
+                            </CustomStrong>
+                            <DataTag>
+                                {info['typeName']}
+                            </DataTag>
+
+                        </Typography>
+
+                    </Box>
+
+                    <Box component='div' className='margin-field section' >
+
+                        <Typography component='h6'  >
+                            <CustomStrong >
                                 Cliente:
                             </CustomStrong>
                             <DataTag>
@@ -165,10 +224,6 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
                         </Typography>
 
 
-                    </Box>
-
-
-                    <Box component='div' className='margin-field section' >
 
                         <DelirioSelectForm
                             labelId='employer'
@@ -187,12 +242,28 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
                             ))}
                         </DelirioSelectForm>
 
+
+                    </Box>
+
+                    <Box component='div' className='margin-field section' >
+
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
-                                name="expired"
-                                label="Fecha limite"
-                                value={formik.values.expired}
-                                onChange={(value) => formik.setFieldValue('expired', value)}
+                                name="assignment_date"
+                                label="Fecha de asignación"
+                                value={formik.values.assignment_date}
+                                onChange={(value) => formik.setFieldValue('assignment_date', value)}
+                                slotProps={{ textField: { sx: { width: "250px" } } }}
+                                sx={{ marginBottom: '20px' }}
+                            />
+                        </LocalizationProvider>
+
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                name="delivery_date"
+                                label="Fecha de entrega"
+                                value={formik.values.delivery_date}
+                                onChange={(value) => formik.setFieldValue('delivery_date', value)}
                                 slotProps={{ textField: { sx: { width: "250px" } } }}
                                 sx={{ marginBottom: '20px' }}
                             />
@@ -200,15 +271,50 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
 
                     </Box>
 
+                    <Box component='div' className='margin-field section' >
+
+                        <SocialMedios formik={formik} />
 
 
-                    <DialogActions>
-                        <SubmitButton type='submit'>
-                            Guardar
-                        </SubmitButton>
-                    </DialogActions>
+
+                    </Box>
+
+                    <Box component='div' className='margin-field section' >
+
+                        <Typography component='h6'  >
+                            <CustomStrong >
+                                Copy:
+                            </CustomStrong>
+                            <DataTag>
+                                {info['copy_text']}
+                            </DataTag>
+
+                        </Typography>
+
+                    </Box>
+
+                    <Box component='div' className='margin-field section' >
+
+                        <TextArea
+                            name='description_todo'
+                            id='description_todo'
+                            value={formik.values.description_todo}
+                            onChange={formik.handleChange}
+                            minRows={3}
+                            maxRows={3}
+                            required
+                        />
+
+                    </Box>
+
 
                 </DialogContent>
+
+                <DialogActions>
+                    <SubmitButton type='submit'>
+                        Guardar
+                    </SubmitButton>
+                </DialogActions>
             </Box>
 
         </Dialog>

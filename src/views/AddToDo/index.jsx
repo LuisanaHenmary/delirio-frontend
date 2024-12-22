@@ -18,30 +18,40 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useEmployersContext } from '../../hooks/useEmployersContext';
 import { useCompaniesContext } from '../../hooks/useCompanyContext';
-import { useProjectsContext } from '../../hooks/useProjectsContexr';
+import { useToDoTypeContext } from '../../hooks/useToDoTypeContext';
 import { useToDoContext } from '../../hooks/useToDoContext';
-import { useEffect, useState } from 'react';
-import { SubmitButton, DelirioSelectForm, InputFullDelerio } from '../../components/styledComponents';
+import { useState, useEffect } from 'react';
+import { SubmitButton, DelirioSelectForm, InputFullDelerio, SocialMedios, TextArea } from '../../components/styledComponents';
 import CloseIcon from '@mui/icons-material/Close';
 import { ToDoValidation } from '../../Validations/ToDoValidation';
+import { formatedDate } from '../../api';
+
 
 const AddToDo = ({ open, handleClose }) => {
 
     const { user } = useAuthContext()
     const { employers } = useEmployersContext()
     const { companies } = useCompaniesContext()
-    const { projects } = useProjectsContext()
+    const { to_do_types } = useToDoTypeContext()
     const { dispatch } = useToDoContext()
-    const [avalibleProjects, setAvalibleProjects] = useState([])
-    const [avalibleSubmit, setAvalibleSubmit] = useState(false)
+
+    const [avalibleSubmit, setAvalibleSubmit] = useState(true)
 
     const formik = useFormik({
         initialValues: {
             titleTodo: '',
-            expired: dayjs(),
+            delivery_date: dayjs(),
+            assignment_date: dayjs(),
+            to_do_type: '',
             employer: '',
             company: '',
-            project: ''
+            by_instragram: true,
+            by_facebook: false,
+            by_tiktok: false,
+            description_todo: '',
+            copy_text: '',
+            material_link: ''
+
         },
         onSubmit: values => {
             sendInfo(values)
@@ -51,24 +61,45 @@ const AddToDo = ({ open, handleClose }) => {
     });
 
     const sendInfo = async (values) => {
-
+        console.log(values)
         const apiUrl = import.meta.env.VITE_API_URL
 
-        const { titleTodo, expired, employer, company, project } = values
+        const {
+            titleTodo,
+            to_do_type,
+            employer,
+            company,
+            assignment_date,
+            delivery_date,
+            by_instragram,
+            by_facebook,
+            by_tiktok,
+            description_todo,
+            copy_text,
+            material_link,
+        } = values
 
         const id1 = parseInt(employers[employer]['id_employer'])
         const id2 = parseInt(companies[company]['id_company'])
-        const id3 = parseInt(projects[project]['id_project'])
+        const id3 = parseInt(to_do_types[to_do_type]['id_type'])
 
         const response = await axios({
             method: 'post',
             url: `${apiUrl}/to-does`,
             data: {
                 'title': titleTodo,
-                'expired': expired.$d,
                 'id_employer': id1,
                 'id_company': id2,
-                'id_project': id3
+                'id_type': id3,
+                'by_instragram':by_instragram,
+                'by_facebook':by_facebook,
+                'by_tiktok':by_tiktok,
+                'assignment_date': assignment_date.$d,
+                'delivery_date':delivery_date.$d,
+                'description_todo':description_todo,
+                'content_todo':'',
+                'material_link':material_link,
+                'copy_text':copy_text
             },
             headers: {
                 'Authorization': `Bearer ${user.token}`,
@@ -77,22 +108,18 @@ const AddToDo = ({ open, handleClose }) => {
 
         const data = response.data['to-do']
         const id_todo = response.data['id']
-        const dateExpired = new Date(expired.$d);
-        const day = dateExpired.getDate()
-        const month = dateExpired.getMonth() + 1
-        const year = dateExpired.getFullYear()
-        const formatDate = `${day}-${month}-${year}`;
-
+        const dateDeliverycalendar = new Date(delivery_date.$d);
+        const dateDelivery = formatedDate(delivery_date.$d) 
+        
         const new_to_do = {
             'title': titleTodo,
-            'start': dateExpired,
-            'end': dateExpired,
+            'start': dateDeliverycalendar,
+            'end': dateDeliverycalendar,
             'data': {
                 ...data,
                 'id': id_todo,
-                'expired': formatDate
-
-
+                'delivery_date': dateDelivery,
+                'assignment_date': assignment_date.$d
             }
         }
 
@@ -102,35 +129,16 @@ const AddToDo = ({ open, handleClose }) => {
 
     useEffect(() => {
 
-        if ((formik.errors.company)) {
-            setAvalibleProjects([])
-            setAvalibleSubmit(false)
+        if (formik.errors.company || formik.errors.employer || formik.errors.to_do_type) {
+            setAvalibleSubmit(true)
         } else {
 
-            const index = formik.values.company
-
-            if (index !== "") {
-                const projects_list = projects.filter((value) => {
-                    return parseInt(value.id_company) == parseInt(companies[index].id_company)
-                })
-
-                setAvalibleProjects(projects_list)
-
-                if ((projects_list.length > 0) && (employers.length > 0) && (companies.length > 0)) {
-                    setAvalibleSubmit(true)
-                }
-                else {
-                    setAvalibleSubmit(false)
-                }
-            }
+            setAvalibleSubmit(false)
 
         }
 
+    }, [formik.errors, formik.values])
 
-
-
-
-    }, [projects, formik.errors, formik.values])
 
     return (
         <Dialog
@@ -141,32 +149,53 @@ const AddToDo = ({ open, handleClose }) => {
             }}
         >
             <Box component="form" onSubmit={formik.handleSubmit}>
-            <DialogTitle component='div' className="title-card">
-                <InputFullDelerio
-                    id="titleTodo"
-                    name='titleTodo'
-                    placeholder='Titulo de la nueva tarea'
-                    onChange={formik.handleChange}
-                    value={formik.values.titleTodo}
-                    inputProps={{
-                        style: {
-                            background: "none",
-                            border: 0,
-                            color: "white",
-                            borderRadius: "20px",
-                        }
-                    }}
-                    fullWidth
-                    required
-                />
+                <DialogTitle component='div' className="title-card">
+                    <InputFullDelerio
+                        id="titleTodo"
+                        name='titleTodo'
+                        placeholder='Titulo de la nueva tarea'
+                        onChange={formik.handleChange}
+                        value={formik.values.titleTodo}
+                        inputProps={{
+                            style: {
+                                background: "none",
+                                border: 0,
+                                color: "white",
+                                borderRadius: "20px",
+                            }
+                        }}
+                        fullWidth
+                        required
+                    />
 
-                <IconButton onClick={() => handleClose()} >
-                    <CloseIcon sx={{ color: "white" }} />
-                </IconButton>
-            </DialogTitle>
+                    <DelirioSelectForm
+                        value={formik.values.to_do_type}
+                        inputProps={{
+                            name: 'to_do_type',
+                            id: 'to_do_type',
+                        }}
+                        onChange={formik.handleChange}
+                        displayEmpty
+                    >
+                        <MenuItem value='' >
+                            <em>Tipo de tarea</em>
+                        </MenuItem >
 
-            <DialogContent>
-                
+                        {to_do_types.map((elem, index) => (
+                            <MenuItem key={index} value={index} >
+                                <Typography >{elem.name_type}</Typography>
+                            </MenuItem >
+                        ))}
+
+                    </DelirioSelectForm>
+
+                    <IconButton onClick={() => handleClose()} >
+                        <CloseIcon sx={{ color: "white" }} />
+                    </IconButton>
+                </DialogTitle>
+
+                <DialogContent sx={{ height: "550px" }} >
+
 
 
                     <Box component='div' className='margin-field section' >
@@ -225,39 +254,23 @@ const AddToDo = ({ open, handleClose }) => {
 
                     <Box component='div' className='margin-field section' >
 
-                        {
-                            avalibleProjects.length > 0 && (
-
-                                <DelirioSelectForm
-                                    value={formik.values.project}
-                                    inputProps={{
-                                        name: 'project',
-                                        id: 'project',
-                                    }}
-                                    onChange={formik.handleChange}
-                                    displayEmpty
-                                >
-                                    <MenuItem value='' >
-                                        <em>Proyecto</em>
-                                    </MenuItem >
-
-                                    {avalibleProjects.map((elem, index) => (
-                                        <MenuItem key={index} value={index} >
-                                            <Typography >{elem.name_project}</Typography>
-                                        </MenuItem >
-                                    ))}
-
-                                </DelirioSelectForm>
-
-                            )
-                        }
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                name="assignment_date"
+                                label="Fecha de asignacion"
+                                value={formik.values.assignment_date}
+                                onChange={(value) => formik.setFieldValue('assignment_date', value)}
+                                slotProps={{ textField: { sx: { width: "250px" } } }}
+                                sx={{ marginBottom: '20px' }}
+                            />
+                        </LocalizationProvider>
 
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
-                                name="expired"
-                                label="Fecha Limite"
-                                value={formik.values.expired}
-                                onChange={(value) => formik.setFieldValue('expired', value)}
+                                name="delivery_date"
+                                label="Fecha de entrega"
+                                value={formik.values.delivery_date}
+                                onChange={(value) => formik.setFieldValue('delivery_date', value)}
                                 slotProps={{ textField: { sx: { width: "250px" } } }}
                                 sx={{ marginBottom: '20px' }}
                             />
@@ -265,24 +278,89 @@ const AddToDo = ({ open, handleClose }) => {
 
                     </Box>
 
+                    <Box component='div' className='margin-field section' >
 
+                        <SocialMedios formik={formik} />
 
+                    </Box>
 
-                    <DialogActions>
-                        {avalibleSubmit && (<SubmitButton type='submit' >
-                            Agregar
-                        </SubmitButton>)}
-                    </DialogActions>
-                
-                {(formik.errors.employer) && (<Alert severity="error"> {formik.errors.employer} </Alert>)}
-                {(formik.errors.company) && (<Alert severity="error"> {formik.errors.company} </Alert>)}
-                {(formik.errors.project) && (<Alert severity="error"> {formik.errors.project}</Alert>)}
-                {(employers < 1) && (<Alert severity="error">Debe haber al menos un empleado registrado</Alert>)}
-                {(companies < 1) && (<Alert severity="error">Debe haber al menos una empresa cliente registrada</Alert>)}
-            </DialogContent>
+                    <Box component='div' className='margin-field section' >
+
+                        <InputFullDelerio
+                            id="copy_text"
+                            name='copy_text'
+                            placeholder='Copy'
+                            onChange={formik.handleChange}
+                            value={formik.values.copy_text}
+                            inputProps={{
+                                style: {
+                                    background: "none",
+                                    border: 0,
+                                    color: "white",
+                                    borderRadius: "20px",
+                                }
+                            }}
+                            fullWidth
+                        />
+
+                    </Box>
+
+                    <Box component='div' className='margin-field section' >
+
+                        <InputFullDelerio
+                            id="material_link"
+                            name='material_link'
+                            placeholder='Link del material'
+                            onChange={formik.handleChange}
+                            value={formik.values.material_link}
+                            inputProps={{
+                                style: {
+                                    background: "none",
+                                    border: 0,
+                                    color: "white",
+                                    borderRadius: "20px",
+                                }
+                            }}
+                            fullWidth
+                        />
+
+                    </Box>
+
+                    <Box component='div' className='margin-field section' >
+
+                        <TextArea
+                            name='description_todo'
+                            id='description_todo'
+                            placeholder='Descripción de la tarea'
+                            value={formik.values.description_todo}
+                            onChange={formik.handleChange}
+                            minRows={5}
+                            maxRows={5}
+                            required
+                        />
+
+                    </Box>
+
+                </DialogContent>
+
+                <DialogActions>
+                    <SubmitButton type='submit' disabled={avalibleSubmit} >
+                        Agregar
+                    </SubmitButton>
+                </DialogActions>
+
             </Box>
 
-        </Dialog>
+
+
+            {(formik.errors.employer) && (<Alert severity="error"> {formik.errors.employer} </Alert>)}
+            {(formik.errors.company) && (<Alert severity="error"> {formik.errors.company} </Alert>)}
+            {(formik.errors.to_do_type) && (<Alert severity="error"> {formik.errors.to_do_type} </Alert>)}
+            {(employers < 1) && (<Alert severity="error">Debe haber al menos un empleado registrado</Alert>)}
+            {(companies < 1) && (<Alert severity="error">Debe haber al menos una empresa cliente registrada</Alert>)}
+
+
+        </Dialog >
     )
 }
 
