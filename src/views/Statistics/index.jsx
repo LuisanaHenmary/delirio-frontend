@@ -46,8 +46,8 @@ const Statistics = () => {
                         </>
                     )
                 }
-            </Box>
-
+            </Box> 
+            
         </Container>
     );
 }

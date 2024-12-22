@@ -16,19 +16,19 @@ const WeekStatistics = ({ todoes }) => {
         let indexDay = dayList.indexOf(today.toLocaleDateString("es-ES", { weekday: 'short' }))
         d = today.getDate()
 
-        while( indexDay > 0 ){
+        while (indexDay > 0) {
             indexDay--
             d--
         }
 
 
-        const weekDays = dayList.map((day,index)=>{
+        const weekDays = dayList.map((day, index) => {
             const refence = new Date();
             refence.setDate(d + index);
             return refence.toLocaleDateString("es-ES", { weekday: 'short', month: 'short', day: 'numeric' })
         })
 
-   
+
         return weekDays;
     }
 
@@ -54,24 +54,34 @@ const WeekStatistics = ({ todoes }) => {
             })
 
             const data = week.map((day, index) => {
-                const noStartCount = weekTodoes.reduce((conteo, toDo) => {
+                const withoutContentCount = weekTodoes.reduce((conteo, toDo) => {
                     return ((toDo.id_status == 1) && (toDo.date === day)) ? conteo + 1 : conteo;
                 }, 0);
 
-                const inProcesingCount = weekTodoes.reduce((conteo, toDo) => {
+                const pendingAprobCount = weekTodoes.reduce((conteo, toDo) => {
                     return ((toDo.id_status == 2) && (toDo.date === day)) ? conteo + 1 : conteo;
                 }, 0);
 
-                const doneCount = weekTodoes.reduce((conteo, toDo) => {
+                const aprobCount = weekTodoes.reduce((conteo, toDo) => {
                     return ((toDo.id_status == 3) && (toDo.date === day)) ? conteo + 1 : conteo;
+                }, 0);
+
+                const inProcesingCount = weekTodoes.reduce((conteo, toDo) => {
+                    return ((toDo.id_status == 4) && (toDo.date === day)) ? conteo + 1 : conteo;
+                }, 0);
+
+                const publishedCount = weekTodoes.reduce((conteo, toDo) => {
+                    return ((toDo.id_status == 5) && (toDo.date === day)) ? conteo + 1 : conteo;
                 }, 0);
 
                 return {
                     key: index,
                     x: day,
-                    y1: noStartCount,
-                    y2: inProcesingCount,
-                    y3: doneCount
+                    y1: withoutContentCount,
+                    y2: pendingAprobCount,
+                    y3: aprobCount,
+                    y4: inProcesingCount,
+                    y5: publishedCount
                 }
             })
 
@@ -93,20 +103,32 @@ const WeekStatistics = ({ todoes }) => {
                         series={[
                             {
                                 data: data.map((v) => { return v.y1 }),
-                                label: 'To-do',
+                                label: 'Sin contenido',
                                 id: 'toDoId1',
                                 color: "antiquewhite"
                             },
                             {
                                 data: data.map((v) => { return v.y2 }),
-                                label: 'In progresing',
+                                label: 'Pendiente por aprobacion',
                                 id: 'toDoId2',
-                                color: "rgb(148, 152, 249)"
+                                color: "rgb(249, 148, 202)"
                             },
                             {
                                 data: data.map((v) => { return v.y3 }),
-                                label: 'Done', id:
-                                    'toDoId3',
+                                label: 'Aprobado',
+                                id: 'toDoId3',
+                                color: "rgb(47, 113, 255)"
+                            },
+                            {
+                                data: data.map((v) => { return v.y4 }),
+                                label: 'En Proceso',
+                                id: 'toDoId4',
+                                color: "rgb(148, 152, 249)"
+                            },
+                            {
+                                data: data.map((v) => { return v.y5 }),
+                                label: 'Publicado', id:
+                                    'toDoId5',
                                 color: "greenyellow"
                             },
                         ]}

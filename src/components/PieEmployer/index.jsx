@@ -19,22 +19,33 @@ const PieEmployer = ({ data }) => {
 
 
         if (todoes.length > 0) {
-            const noStartCount = todoes.reduce((conteo, toDo) => {
+
+            const withoutContentCount = todoes.reduce((conteo, toDo) => {
                 return toDo.data.id_status == 1 ? conteo + 1 : conteo;
             }, 0);
 
-            const inProcesingCount = todoes.reduce((conteo, toDo) => {
+            const pendingAprobCount = todoes.reduce((conteo, toDo) => {
                 return toDo.data.id_status == 2 ? conteo + 1 : conteo;
             }, 0);
 
-            const doneCount = todoes.reduce((conteo, toDo) => {
+            const aprobCount = todoes.reduce((conteo, toDo) => {
                 return toDo.data.id_status == 3 ? conteo + 1 : conteo;
             }, 0);
 
+            const inProcesingCount = todoes.reduce((conteo, toDo) => {
+                return toDo.data.id_status == 4 ? conteo + 1 : conteo;
+            }, 0);
+
+            const publishedCount = todoes.reduce((conteo, toDo) => {
+                return toDo.data.id_status == 5 ? conteo + 1 : conteo;
+            }, 0);
+
             const info = [
-                { label: 'To-do', value: noStartCount, color: 'antiquewhite' },
-                { label: 'In procesing', value: inProcesingCount, color: 'rgb(148, 152, 249)' },
-                { label: 'Done', value: doneCount, color: 'greenyellow' },
+                { label: 'Sin contenido', value: withoutContentCount, color: 'antiquewhite' },
+                { label: 'Pendiente por aprobacion', value: pendingAprobCount, color: 'rgb(249, 148, 202)' },
+                { label: 'Aprobado', value: aprobCount, color: 'rgb(47, 113, 255)' },
+                { label: 'En proceso', value: inProcesingCount, color: 'rgb(148, 152, 249)' },
+                { label: 'Publicado', value: publishedCount, color: 'greenyellow' },
             ];
 
             setDataPie(info)
