@@ -19,7 +19,7 @@ import { useToDoContext } from "../../hooks/useToDoContext";
 import { useOpen } from "../../hooks/useOpen";
 import { CustomStrong, DataTag } from "./styled";
 import CloseIcon from '@mui/icons-material/Close';
-import { SubmitButton, DelirioSelectForm } from "../styledComponents";
+import { SubmitButton, DelirioFullWidthSelectForm, InputFullDelerio } from "../styledComponents";
 
 const ToDoCardEmployer = ({ info, open, handleClose }) => {
 
@@ -32,6 +32,8 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
         initialValues: {
             id: 1,
             status: 0,
+            copy_text: '',
+            content_todo: '',
         },
         onSubmit: values => {
             updateInfo(values)
@@ -41,14 +43,21 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
 
     const updateInfo = async (values) => {
 
-        const { id, status } = values
+        const {
+            id,
+            status,
+            copy_text,
+            content_todo
+        } = values
         const apiUrl = import.meta.env.VITE_API_URL
 
         await axios({
             method: 'put',
             url: `${apiUrl}/to-does/${id}`,
             data: {
-                'id_status': status
+                'id_status': status,
+                'copy_text': copy_text,
+                'content_todo': content_todo,
             },
             headers: {
                 'Authorization': `Bearer ${user.token}`,
@@ -61,7 +70,9 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
                 ...x,
                 data: {
                     ...x.data,
-                    'id_status': status
+                    'id_status': status,
+                    'copy_text': copy_text,
+                    'content_todo': content_todo
                 }
             }) : x
         })
@@ -72,7 +83,8 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
     const setInfo = async () => {
         formik.setFieldValue('id', parseInt(info['id']))
         formik.setFieldValue('status', parseInt(info['id_status']))
-
+        formik.setFieldValue('copy_text', info['copy_text'])
+        formik.setFieldValue('content_todo', info['content_todo'])
         const now = new Date();
 
         const day = now.getDate()
@@ -89,7 +101,6 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
             changeToEnable()
         }
     }
-
 
     useEffect(() => {
 
@@ -113,16 +124,15 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
                     </Typography>
 
                     <div>
-                        <DelirioSelectForm
+                        <DelirioFullWidthSelectForm
                             value={formik.values.status}
                             inputProps={{
                                 name: 'status',
                                 id: 'status',
-                                disabled: !enable
+                                disabled: !enable,
                             }}
                             className='select-status'
                             onChange={formik.handleChange}
-
                         >
 
                             {statues.map((elem, index) => (
@@ -130,7 +140,7 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
                                     <Typography className={`${elem.className} tag`}  >{elem.name_status}</Typography>
                                 </MenuItem >
                             ))}
-                        </DelirioSelectForm>
+                        </DelirioFullWidthSelectForm>
                         <IconButton onClick={() => handleClose()} >
                             <CloseIcon sx={{ color: "white" }} />
                         </IconButton>
@@ -139,54 +149,125 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
 
 
                 </DialogTitle>
+
                 <DialogContent sx={{ marginTop: "15px" }}  >
 
-                    <Box component="div" sx={{ display: "flex", justifyContent: "space-between" }} >
-                        <Stack component='div' className='margin-field section' spacing={5}>
+                    <Box component='div' className='margin-field section'>
 
-                            <Typography component='h6' >
-                                <CustomStrong >
-                                    Cliente:
-                                </CustomStrong>
-                                <DataTag>
-                                    {info['companyName']}
-                                </DataTag>
+                        <Typography component='h6'  >
+                            <CustomStrong >
+                                Fecha de asignación:
+                            </CustomStrong>
+                            <DataTag>
+                                {info['assignment_date']}
+                            </DataTag>
+                        </Typography>
 
-                            </Typography>
+                        <Typography component='h6'  >
+                            <CustomStrong >
+                                Fecha limite:
+                            </CustomStrong>
+                            <DataTag>
+                                {info['delivery_date']}
+                            </DataTag>
+                        </Typography>
 
-                        </Stack>
 
-                        <Stack component='div' className='margin-field section' spacing={5}>
-
-                            <Typography component='h6' >
-                                <CustomStrong >
-                                    Empleado:
-                                </CustomStrong>
-                                <DataTag>
-                                    {info['employerName']}
-                                </DataTag>
-
-                            </Typography>
-
-                            <Typography component='h6'  >
-                                <CustomStrong >
-                                    Fecha limite:
-                                </CustomStrong>
-                                <DataTag>
-                                    {info['expired']}
-                                </DataTag>
-                            </Typography>
-
-                        </Stack>
                     </Box>
 
-                    <DialogActions sx={{ marginTop: "30px" }} >
-                        <SubmitButton type='submit'>
-                            Aceptar
-                        </SubmitButton>
-                    </DialogActions>
+                    <Box component='div' className='margin-field section'>
+
+
+                        <Typography component='h6' >
+                            <CustomStrong >
+                                Cliente:
+                            </CustomStrong>
+                            <DataTag>
+                                {info['companyName']}
+                            </DataTag>
+
+                        </Typography>
+
+                        <Typography component='h6' >
+                            <CustomStrong >
+                                Tipo:
+                            </CustomStrong>
+                            <DataTag>
+                                {info['typeName']}
+                            </DataTag>
+
+                        </Typography>
+
+                    </Box>
+
+                    <Box component='div' className='margin-field section' >
+                        <InputFullDelerio
+                            id="copy_text"
+                            name='copy_text'
+                            onChange={formik.handleChange}
+                            value={formik.values.copy_text}
+                            inputProps={{
+                                style: {
+                                    background: "none",
+                                    border: 0,
+                                    color: "white",
+                                    borderRadius: "20px",
+                                }
+                            }}
+                            fullWidth
+                        />
+                    </Box>
+
+                    <Box component='div' className='margin-field section' >
+                        <InputFullDelerio
+                            id="content_todo"
+                            name='content_todo'
+                            onChange={formik.handleChange}
+                            value={formik.values.content_todo}
+                            inputProps={{
+                                style: {
+                                    background: "none",
+                                    border: 0,
+                                    color: "white",
+                                    borderRadius: "20px",
+                                }
+                            }}
+                            fullWidth
+                        />
+                    </Box>
+
+                    <Box component='div' className='margin-field section'>
+
+                        <Typography component='h6'  >
+                            <CustomStrong >
+                                Descripción:
+                            </CustomStrong>
+                            <DataTag>
+                                {info['description_todo']}
+                            </DataTag>
+                        </Typography>
+
+                    </Box>
+
+                    <Box component='div' className='margin-field section'>
+
+                        <Typography component='h6'  >
+                            <CustomStrong >
+                                Material:
+                            </CustomStrong>
+                            <DataTag>
+                                {info['material_link']}
+                            </DataTag>
+                        </Typography>
+
+                    </Box>
 
                 </DialogContent>
+                <DialogActions >
+                    <SubmitButton type='submit'>
+                        Aceptar
+                    </SubmitButton>
+                </DialogActions>
             </Box>
         </Dialog>
     )

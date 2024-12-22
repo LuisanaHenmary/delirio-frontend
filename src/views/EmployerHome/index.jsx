@@ -2,32 +2,48 @@ import CalendarView from "../Calendar"
 import { useToDoContext } from "../../hooks/useToDoContext";
 import { useOpen } from "../../hooks/useOpen";
 import ToDoCardEmployer from "../../components/ToDoCardEmployer";
-import { useProjectsContext } from "../../hooks/useProjectsContexr";
-import { useEmployersContext } from "../../hooks/useEmployersContext";
 import { useState } from "react";
 import { useCompaniesContext } from "../../hooks/useCompanyContext";
+import dayjs from 'dayjs';
+import { useToDoTypeContext } from "../../hooks/useToDoTypeContext";
 
 const EmployerHome = () => {
     const { todoes } = useToDoContext()
     const { companies } = useCompaniesContext()
-    const { projects } = useProjectsContext()
-    const { employers } = useEmployersContext()
+    const { to_do_types } = useToDoTypeContext()
     const [open, changeToOpen, changeToClose] = useOpen()
     const [toDoSelected, setToDoSelected] = useState({
         'id': 1,
         'title': "",
-        'expired': "",
+        'delivery_date': dayjs(),
+        'assignment_date': dayjs(),
+        'description_todo': "",
+        'content_todo':'',
+        'material_link': "",
+        'copy_text':'',
         'id_status': 1,
         "companyName": '',
-        "projectName":"",
-        "employerName":"",
+        "typeName":"",
+        
     })
     
 
     const clickTodo = (e) => {
         const end = e.event._instance.range.end
         const data = e.event._def.extendedProps.data
-        const { id, title, expired, id_status, id_company,id_employer, id_project } = data
+        const {
+            id,
+            title,
+            delivery_date,
+            assignment_date,
+            description_todo,
+            content_todo,
+            material_link,
+            copy_text,
+            id_type,
+            id_status,
+            id_company
+        } = data
 
         const company = companies.filter((value) => {
             return parseInt(value.id_company) == parseInt(id_company)
@@ -35,27 +51,24 @@ const EmployerHome = () => {
 
         const companyName = company[0]['name_company']
 
-        const employer = employers.filter(value => 
-            parseInt(value.id_employer) == parseInt(id_employer)
-        );
-
-        const employerName = employer[0]['name_employer']
-
-        const project = projects.filter((value) => {
-            return parseInt(value.id_project) == parseInt(id_project)
+        const typeTodo = to_do_types.filter((value) => {
+            return parseInt(value.id_type) == parseInt(id_type)
         })
 
-        const projectName = project[0]['name_project']
-
+        const typeName = typeTodo[0]['name_type']
 
         const info = {
             id,
             title,
-            expired,
+            delivery_date,
+            assignment_date,
+            description_todo,
+            content_todo,
+            material_link,
+            copy_text,
             id_status,
             companyName,
-            projectName,
-            employerName,
+            typeName,
             end
         }
 
