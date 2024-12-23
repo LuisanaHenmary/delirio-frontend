@@ -4,13 +4,44 @@ import {
     DialogContent,
     Typography,
     Box,
-    IconButton,
-    Stack
+    IconButton
 } from '@mui/material';
 import { CustomStrong, DataTag } from "./styled";
 import CloseIcon from '@mui/icons-material/Close';
+import { SocialMedios } from '../styledComponents';
+import { useEffect } from 'react';
+import { useFormik } from 'formik';
 
 const ToDoCardCompany = ({ info, open, handleClose }) => {
+
+    const formik = useFormik({
+        initialValues: {
+            by_instragram: false,
+            by_facebook: false,
+            by_tiktok: false
+        },
+        onSubmit: values => { },
+    });
+
+    const getStatus = () => {
+        const checked_instragram = info['by_instragram'] === "1"
+        const checked_facebook = info['by_facebook'] === "1"
+        const checked_tiktok = info['by_tiktok'] === "1"
+
+        formik.setFieldValue('by_instragram', checked_instragram)
+        formik.setFieldValue('by_facebook', checked_facebook)
+        formik.setFieldValue('by_tiktok', checked_tiktok)
+    }
+
+    useEffect(() => {
+        try {
+            getStatus()
+
+        } catch (e) {
+            console.log(e)
+        }
+
+    }, [info])
 
     return (
         <Dialog onClose={() => handleClose()} open={open} PaperComponent='div' PaperProps={{
@@ -39,45 +70,64 @@ const ToDoCardCompany = ({ info, open, handleClose }) => {
 
 
             </DialogTitle>
-            <DialogContent sx={{ height: "150px",margin:"20px" }} >
+            <DialogContent sx={{ height: "auto", margin: "20px" }} >
 
-                <Box component="div" sx={{ display: "flex", justifyContent: "space-between" }}>
-                    <Stack component='div' className='margin-field section' spacing={5} >
+                <Box component='div' className='margin-field section'>
 
-                        <Typography component='h6'  >
-                            <CustomStrong >
-                                Cliente:
-                            </CustomStrong>
-                            <DataTag>
-                                {info['companyName']}
-                            </DataTag>
+                    <Typography component='h6'  >
+                        <CustomStrong >
+                            Fecha:
+                        </CustomStrong>
+                        <DataTag>
+                            {info['delivery_date']}
+                        </DataTag>
+                    </Typography>
 
-                        </Typography>
+                    <Typography component='h6'  >
+                        <CustomStrong >
+                            Fecha limite:
+                        </CustomStrong>
+                        <DataTag>
+                            {info['typeName']}
+                        </DataTag>
+                    </Typography>
 
-                        <Typography component='h6'  >
-                            <CustomStrong >
-                                Empleado:
-                            </CustomStrong>
-                            <DataTag>
-                                {info['employerName']}
-                            </DataTag>
+                </Box>
 
-                        </Typography>
+                <Box component='div' className='margin-field section'>
 
-                    </Stack>
+                    <Typography component='h6'  >
+                        <CustomStrong >
+                            Copy:
+                        </CustomStrong>
+                        <DataTag>
+                            {info['copy_text']}
+                        </DataTag>
 
-                    <Stack component='div' className='margin-field section' spacing={5} >
+                    </Typography>
 
-                        <Typography component='h6'  >
-                            <CustomStrong >
-                                Fecha limite:
-                            </CustomStrong>
-                            <DataTag>
-                                {info['expired']}
-                            </DataTag>
-                        </Typography>
 
-                    </Stack>
+                </Box>
+
+                <Box component='div' className='margin-field section'>
+
+                    <Typography component='h6'  >
+                        <CustomStrong >
+                            Contenido:
+                        </CustomStrong>
+                        <DataTag>
+                            {info['content_todo']}
+                        </DataTag>
+
+                    </Typography>
+
+
+                </Box>
+
+                <Box component='div' className='margin-field section'>
+
+                    <SocialMedios formik={formik} isDisable={true} />
+
 
                 </Box>
             </DialogContent>

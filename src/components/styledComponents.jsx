@@ -93,19 +93,19 @@ export const InputFullDelerio = styled(Input)(({ theme }) => ({
   },
 }));
 
-export const SocialMedios = ({ formik }) => {
+export const SocialMedios = ({ formik, isDisable=false }) => {
   return (
     <>
       <FormGroup >
 
         <FormControlLabel
           name="by_instragram"
-          
           checked={formik.values.by_instragram}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           control={<Checkbox />}
           label="Instagram"
+          disabled={isDisable}
         />
 
         <FormControlLabel
@@ -115,6 +115,7 @@ export const SocialMedios = ({ formik }) => {
           onBlur={formik.handleBlur}
           control={<Checkbox />}
           label="Facebook"
+          disabled={isDisable}
         />
 
         <FormControlLabel
@@ -124,6 +125,7 @@ export const SocialMedios = ({ formik }) => {
           onBlur={formik.handleBlur}
           control={<Checkbox />}
           label="Tiktok"
+          disabled={isDisable}
         />
 
       </FormGroup>

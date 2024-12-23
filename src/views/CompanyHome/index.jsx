@@ -2,40 +2,44 @@ import CalendarView from "../Calendar"
 import { useState } from "react";
 import { useOpen } from "../../hooks/useOpen";
 import { useToDoContext } from "../../hooks/useToDoContext";
-import { useCompaniesContext } from "../../hooks/useCompanyContext";
-import { useEmployersContext } from "../../hooks/useEmployersContext";
+import { useToDoTypeContext } from "../../hooks/useToDoTypeContext";
 import { useStatusContext } from "../../hooks/useStatusContext";
-import { useProjectsContext } from "../../hooks/useProjectsContexr";
 import ToDoCardCompany from "../../components/ToDoCardCompany";
-
 
 const CompanyHome = () => {
     const { todoes } = useToDoContext()
-    const { companies } = useCompaniesContext()
     const { statues } = useStatusContext()
-    const { employers } = useEmployersContext()
-    const { projects } = useProjectsContext()
+    const { to_do_types } = useToDoTypeContext()
     const [open, changeToOpen, changeToClose] = useOpen()
     const [toDoSelected, setToDoSelected] = useState({
         'id': 1,
         'title': "",
-        'expired': "",
+        'delivery_date': "",
         'statusName': "",
-        "companyName": "",
-        "statusClass": "",
-        "employerName": "",
-        "projectName":""
+        'statusClass': "",
+        'by_instragram':false,
+        'by_facebook':false,
+        'by_tiktok':false,
+        'typeName':"",
+        'content_todo':"",
+        'copy_text': "",
     })
 
     const clickTodo = (e) => {
         const data = e.event._def.extendedProps.data
-        const { id, title, expired, id_status, id_company , id_employer, id_project  } = data
+        const {
+            id,
+            title,
+            delivery_date,
+            content_todo,
+            copy_text,
+            by_instragram,
+            by_facebook,
+            by_tiktok,
+            id_type,
+            id_status
+        } = data
 
-        const company = companies.filter((value) => {
-            return parseInt(value.id_company) == parseInt(id_company)
-        })
-
-        const companyName = company[0]['name_company']
 
         const status = statues.filter((value) => {
             return parseInt(value.id_status) == parseInt(id_status)
@@ -44,32 +48,30 @@ const CompanyHome = () => {
         const statusName = status[0]['name_status']
         const statusClass = status[0]['className']
 
-        const employer = employers.filter(value => 
-            parseInt(value.id_employer) == parseInt(id_employer)
-        );
 
-        const employerName = employer[0]['name_employer']
-
-        const project = projects.filter((value) => {
-            return parseInt(value.id_project) == parseInt(id_project)
+        const typeTodo = to_do_types.filter((value) => {
+            return parseInt(value.id_type) == parseInt(id_type)
         })
 
-        const projectName = project[0]['name_project']
+        const typeName = typeTodo[0]['name_type']
 
         const info = {
             id,
             title,
-            expired,
+            delivery_date,
             statusName,
-            companyName,
             statusClass,
-            employerName,
-            projectName
+            typeName,
+            content_todo,
+            copy_text,
+            by_instragram,
+            by_facebook,
+            by_tiktok,
         }
-  
+
         setToDoSelected(info)
         changeToOpen()
-        
+
     }
 
     return (
