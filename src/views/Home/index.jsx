@@ -7,6 +7,7 @@ import CompanyHome from "../CompanyHome";
 
 const Home = () => {
     const { user } = useAuthContext()
+
     return (
         <Container>
             {!user && (
@@ -16,7 +17,7 @@ const Home = () => {
                 <>
                     {user.role == "admin" ? <AdminHome /> : null}
                     {user.role == "employer" ? <EmployerHome /> : null}
-                    {user.role == "company" ? <CompanyHome /> : null}
+                    {user.role == "company" ? <CompanyHome user={user} /> : null}
                 </>
             )}
 

@@ -228,6 +228,7 @@ export const getCompanies = async (user, dispatchCompanies) => {
     });
 
     const data = await response.data
+    
     dispatchCompanies({ type: 'SET_COMPANIES', payload: data })
 }
 
