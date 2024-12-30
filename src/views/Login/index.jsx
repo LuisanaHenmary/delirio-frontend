@@ -8,13 +8,14 @@ import {
     Stack,
     ListItem,
     IconButton,
-    CircularProgress
+    CircularProgress,
 } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useFormik } from 'formik';
 import useShowPassword from '../../hooks/useShowPassword';
 import { useLogin } from '../../hooks/useLogin';
+import { useLogout, useClear } from '../../hooks/useLogout';
 import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import SensorOccupiedIcon from '@mui/icons-material/SensorOccupied';
 import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
@@ -27,6 +28,8 @@ const Login = () => {
 
     const [showPassword, handleClickShowPassword] = useShowPassword()
     const { login, error, isLoading, dispatch } = useLogin()
+    const { logout } = useLogout()
+    const { clearLists } = useClear()
 
     const prevent = (event) => {
         event.preventDefault();
@@ -48,16 +51,21 @@ const Login = () => {
         const currentUser = JSON.parse(localStorage.getItem('user'))
 
         if (currentUser) {
-            const response = await axios({
-                method: 'get',
-                url: `${apiWordpress}/users/me`,
-                headers: {
-                    'Authorization': `Bearer ${currentUser.token}`,
-                },
-            });
+            try {
+                const response = await axios({
+                    method: 'get',
+                    url: `${apiWordpress}/users/me`,
+                    headers: {
+                        'Authorization': `Bearer ${currentUser.token}`,
+                    },
+                });
 
-            if (response.status === 200) {
-                dispatch({ type: 'LOGIN', payload: currentUser })
+                if (response.status === 200) {
+                    dispatch({ type: 'LOGIN', payload: currentUser })
+                }
+            } catch (e) {
+                logout()
+                clearLists()
             }
         }
 
