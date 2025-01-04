@@ -10,10 +10,7 @@ export const employersReducer = (state, action) => {
       return {
         employers: action.payload
       }
-    case 'CREATE_EMPLOYER':
-      return {
-        employers: [...state.employers, action.payload]
-      }
+      
     default:
       return state
   }

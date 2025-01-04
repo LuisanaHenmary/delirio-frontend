@@ -4,8 +4,6 @@ import { useOpen } from "../../hooks/useOpen";
 import { useToDoContext } from "../../hooks/useToDoContext";
 import { useToDoTypeContext } from "../../hooks/useToDoTypeContext";
 import { useStatusContext } from "../../hooks/useStatusContext";
-import { useCompaniesContext } from "../../hooks/useCompanyContext";
-import { usePlanContext } from "../../hooks/usePlanContext";
 import ToDoCardCompany from "../../components/ToDoCardCompany";
 import { Typography } from "@mui/material";
 import axios from "axios";
@@ -14,8 +12,6 @@ const CompanyHome = ({ user }) => {
     const { todoes } = useToDoContext()
     const { statues } = useStatusContext()
     const { to_do_types } = useToDoTypeContext()
-    const { companies } = useCompaniesContext()
-    const { plans } = usePlanContext()
     const [open, changeToOpen, changeToClose] = useOpen()
     const [toDoSelected, setToDoSelected] = useState({
         'id': 1,

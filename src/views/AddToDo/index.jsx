@@ -24,7 +24,7 @@ import { useState, useEffect } from 'react';
 import { SubmitButton, DelirioSelectForm, InputFullDelerio, SocialMedios, TextArea } from '../../components/styledComponents';
 import CloseIcon from '@mui/icons-material/Close';
 import { ToDoValidation } from '../../Validations/ToDoValidation';
-import { formatedDate } from '../../api';
+import { getToDoes } from '../../api';
 
 
 const AddToDo = ({ open, handleClose }) => {
@@ -61,7 +61,7 @@ const AddToDo = ({ open, handleClose }) => {
     });
 
     const sendInfo = async (values) => {
-        console.log(values)
+
         const apiUrl = import.meta.env.VITE_API_URL
 
         const {
@@ -83,48 +83,40 @@ const AddToDo = ({ open, handleClose }) => {
         const id2 = parseInt(companies[company]['id_company'])
         const id3 = parseInt(to_do_types[to_do_type]['id_type'])
 
-        const response = await axios({
-            method: 'post',
-            url: `${apiUrl}/to-does`,
-            data: {
-                'title': titleTodo,
-                'id_employer': id1,
-                'id_company': id2,
-                'id_type': id3,
-                'by_instragram':by_instragram,
-                'by_facebook':by_facebook,
-                'by_tiktok':by_tiktok,
-                'assignment_date': assignment_date.$d,
-                'delivery_date':delivery_date.$d,
-                'description_todo':description_todo,
-                'content_todo':'',
-                'material_link':material_link,
-                'copy_text':copy_text
-            },
-            headers: {
-                'Authorization': `Bearer ${user.token}`,
-            },
-        });
+        try {
+            const response = await axios({
+                method: 'post',
+                url: `${apiUrl}/to-does`,
+                data: {
+                    'title': titleTodo,
+                    'id_employer': id1,
+                    'id_company': id2,
+                    'id_type': id3,
+                    'by_instragram': by_instragram,
+                    'by_facebook': by_facebook,
+                    'by_tiktok': by_tiktok,
+                    'assignment_date': assignment_date.$d,
+                    'delivery_date': delivery_date.$d,
+                    'description_todo': description_todo,
+                    'content_todo': '',
+                    'material_link': material_link,
+                    'copy_text': copy_text
+                },
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                },
+            });
 
-        const data = response.data['to-do']
-        const id_todo = response.data['id']
-        const dateDeliverycalendar = new Date(delivery_date.$d);
-        const dateDelivery = formatedDate(delivery_date.$d) 
-        
-        const new_to_do = {
-            'title': titleTodo,
-            'start': dateDeliverycalendar,
-            'end': dateDeliverycalendar,
-            'data': {
-                ...data,
-                'id': id_todo,
-                'delivery_date': dateDelivery,
-                'assignment_date': assignment_date.$d
+            if (response.status === 200) {
+                getToDoes(user, dispatch)
             }
+        } catch (e) {
+            console.log(e)
+        }
+        finally {
+            formik.resetForm()
         }
 
-        dispatch({ type: 'CREATE_TO_DO', payload: new_to_do })
-        formik.resetForm()
     }
 
     useEffect(() => {

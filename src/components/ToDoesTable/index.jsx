@@ -5,13 +5,18 @@ import {
     TablePagination,
     TableRow,
     TableContainer,
-    Paper
+    Paper,
+    IconButton
 } from "@mui/material"
 import { useMemo, useState } from "react";
 import { ToDoesTableCell, ToDoesTableRow } from "../styledComponents";
+import { useToDoContext } from "../../hooks/useToDoContext";
+import { getToDoes } from "../../api";
+import DeleteIcon from '@mui/icons-material/Delete';
+import axios from "axios";
 
-
-const ToDoesTable = ({ rows }) => {
+const ToDoesTable = ({ rows, actions = false, user = {} }) => {
+    const { dispatch } = useToDoContext()
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -62,6 +67,31 @@ const ToDoesTable = ({ rows }) => {
         setPage(0);
     };
 
+    const deleteToDo = async (id) => {
+        const apiUrl = import.meta.env.VITE_API_URL
+
+
+        try {
+            const response = await axios({
+                method: 'delete',
+                url: `${apiUrl}/to-does/delete/${id}`,
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                },
+            });
+
+            if (response.status === 200) {
+                getToDoes(user, dispatch)
+            }
+        } catch (e) {
+            console.log(e)
+        }
+        finally {
+            setPage(0)
+        }
+        
+    }
+
     return (
         <Paper sx={{ marginTop: '20px' }}>
             <TableContainer>
@@ -78,10 +108,19 @@ const ToDoesTable = ({ rows }) => {
 
                                 </ToDoesTableCell>
                             ))}
+
+                            {actions && (
+                                <ToDoesTableCell
+                                    key="actions"
+                                    align="center"
+                                >
+                                    Acciones
+                                </ToDoesTableCell>
+                            )}
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                    {visibleRows.length > 0 &&
+                        {visibleRows.length > 0 &&
                             (<>
                                 {visibleRows.map((row, index) => (
                                     <ToDoesTableRow key={index}>
@@ -103,6 +142,13 @@ const ToDoesTable = ({ rows }) => {
                                         <ToDoesTableCell align="center" >{row.description_todo}</ToDoesTableCell>
 
                                         <ToDoesTableCell align="center"  >{row.material_link}</ToDoesTableCell>
+                                        {actions && (
+                                            <ToDoesTableCell align="center"  >
+                                                <IconButton onClick={() => deleteToDo(row.id)} >
+                                                    <DeleteIcon sx={{ color: "#81041c" }} />
+                                                </IconButton>
+                                            </ToDoesTableCell>
+                                        )}
                                     </ToDoesTableRow>
                                 )
                                 )}

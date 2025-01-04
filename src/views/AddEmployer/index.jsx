@@ -17,6 +17,7 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { useEmployersContext } from '../../hooks/useEmployersContext';
 import axios from 'axios';
 import { EmployerValidation } from '../../Validations/EmpleyerValidation';
+import { getEmployers } from '../../api';
 import { InputDelirioForm, DelirioSelectForm, SubmitButton } from '../../components/styledComponents';
 
 const AddEmployer = ({ handleClose }) => {
@@ -100,8 +101,10 @@ const AddEmployer = ({ handleClose }) => {
                 },
             });
 
-            const employer_info = await response2.data['employer']
-            dispatchEmployers({ type: 'CREATE_EMPLOYER', payload: employer_info })
+            if (response2.status === 200) {
+                getEmployers(user, dispatchEmployers)
+            }
+
 
 
         } catch (e) {
@@ -126,7 +129,7 @@ const AddEmployer = ({ handleClose }) => {
                     displayEmpty
                 >
                     <MenuItem value='' >
-                    <em>Cargo</em>
+                        <em>Cargo</em>
                     </MenuItem >
 
                     {jobs.map((elem, index) => (

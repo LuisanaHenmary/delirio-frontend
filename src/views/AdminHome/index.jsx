@@ -14,6 +14,24 @@ import { useOpen } from "../../hooks/useOpen";
 import ToDoCardAdmin from "../../components/ToDoCardAdmin";
 import dayjs from 'dayjs';
 
+const initialValues = {
+    'id': 1,
+    'title': "",
+    'delivery_date': dayjs(),
+    'assignment_date': dayjs(), 
+    'statusName': "",
+    'className': "",
+    'employerIndex': 0,
+    'description_todo': "",
+    'copy_text':'',
+    'material_link': "",
+    'companyName': "",
+    'by_instragram':false,
+    'by_facebook':false,
+    'by_tiktok':false,
+    'typeName':""
+}
+
 const AdminHome = () => {
     const { todoes } = useToDoContext()
     const { companies } = useCompaniesContext()
@@ -21,23 +39,7 @@ const AdminHome = () => {
     const { employers } = useEmployersContext()
     const { to_do_types } = useToDoTypeContext()
     const [open, changeToOpen, changeToClose] = useOpen()
-    const [toDoSelected, setToDoSelected] = useState({
-        'id': 1,
-        'title': "",
-        'delivery_date': dayjs(),
-        'assignment_date': dayjs(), 
-        'statusName': "",
-        'className': "",
-        'employerIndex': 0,
-        'description_todo': "",
-        'copy_text':'',
-        'material_link': "",
-        'companyNamey': "",
-        'by_instragram':false,
-        'by_facebook':false,
-        'by_tiktok':false,
-        'typeName':""
-    })
+    const [toDoSelected, setToDoSelected] = useState(initialValues)
 
     const clickTodo = (e) => {
         const delivery_date = e.event._instance.range.start

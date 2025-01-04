@@ -13,7 +13,6 @@ import { useCompaniesContext } from "../../hooks/useCompanyContext";
 import { useToDoTypeContext } from "../../hooks/useToDoTypeContext";
 import { SaveButton, PlusIcon } from "./style";
 
-
 const ToDoes = () => {
     const { user } = useAuthContext()
     const { todoes } = useToDoContext()
@@ -25,6 +24,7 @@ const ToDoes = () => {
     const loadRows = () => {
         const r = todoes.map((elem) => {
             const {
+                id,
                 title,
                 delivery_date,
                 description_todo,
@@ -46,6 +46,7 @@ const ToDoes = () => {
             const companyName = company[0]['name_company']
 
             return {
+                id,
                 title,
                 delivery_date,
                 typeName,
@@ -86,13 +87,15 @@ const ToDoes = () => {
                             </Box>
 
                             <AddToDo open={addTodo} handleClose={changeToCloseAddToDo} />
+                            <ToDoesTable rows={rows} actions={true} user={user} />
                         </> : null}
                     {user.role == "employer" ?
                         <>
                             <Typography component="h4" >Sus tareas empleado {user.user_nicename}</Typography>
+                            <ToDoesTable rows={rows} />
                         </> : null}
 
-                        <ToDoesTable rows={rows} />
+                        
                 </>
             )}
         </Box>

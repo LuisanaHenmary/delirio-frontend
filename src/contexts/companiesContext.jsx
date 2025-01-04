@@ -10,10 +10,7 @@ export const companiesReducer = (state, action) => {
       return {
         companies: action.payload
       }
-    case 'CREATE_COMPANY':
-      return {
-        companies: [...state.companies, action.payload]
-      }
+
     default:
       return state
   }

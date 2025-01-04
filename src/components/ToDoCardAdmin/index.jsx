@@ -22,7 +22,7 @@ import "./index.css"
 import { CustomStrong, DataTag } from './styled';
 import { SubmitButton, InputFullDelerio, DelirioSelectForm, SocialMedios, TextArea } from '../styledComponents';
 import CloseIcon from '@mui/icons-material/Close';
-import { formatedDate } from '../../api';
+import { getToDoes } from '../../api';
 
 const ToDoCardAdmin = ({ info, open, handleClose }) => {
 
@@ -71,60 +71,39 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
 
         const id_employer = employers[employer]['id_employer']
 
-        await axios({
-            method: 'put',
-            url: `${apiUrl}/to-does/admin/${id}`,
-            data: {
-                id_employer,
-                title,
-                description_todo,
-                material_link,
-                copy_text,
-                by_instragram,
-                by_facebook,
-                by_tiktok,
-                'assignment_date': assignment_date.$d,
-                'delivery_date': delivery_date.$d,
-
-            },
-            headers: {
-                'Authorization': `Bearer ${user.token}`,
-            },
-        });
-
-        
-        const dateDelivery = new Date(delivery_date.$d);
-
-        const formatDateDelivery = formatedDate(delivery_date.$d);
-
-        const updatedList = todoes.map((x) => {
-            return parseInt(x.data.id) == parseInt(id) ? ({
-
-                ...x,
-                title,
-                'start': dateDelivery,
-                'end': dateDelivery,
+        try {
+            const response = await axios({
+                method: 'put',
+                url: `${apiUrl}/to-does/admin/${id}`,
                 data: {
-                    ...x.data,
-                    title,
                     id_employer,
-                    assignment_date,
+                    title,
                     description_todo,
                     material_link,
                     copy_text,
-                    'by_instragram': by_instragram ? "1" : "0",
-                    'by_facebook': by_facebook ? "1" : "0",
-                    'by_tiktok': by_tiktok ? "1" : "0",
-                    'delivery_date': formatDateDelivery
-                }
-            }) : x
-        })
+                    by_instragram,
+                    by_facebook,
+                    by_tiktok,
+                    'assignment_date': assignment_date.$d,
+                    'delivery_date': delivery_date.$d,
 
-        dispatch({ type: 'SET_TO_DOES', payload: updatedList })
+                },
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                },
+            });
+
+            if (response.status === 200) {
+                getToDoes(user, dispatch)
+            }
+        } catch (e) {
+            console.log(e)
+        }
 
     }
 
     const getStatus = () => {
+
         const checked_instragram = info['by_instragram'] === "1"
         const checked_facebook = info['by_facebook'] === "1"
         const checked_tiktok = info['by_tiktok'] === "1"

@@ -20,12 +20,13 @@ import { useOpen } from "../../hooks/useOpen";
 import { CustomStrong, DataTag } from "./styled";
 import CloseIcon from '@mui/icons-material/Close';
 import { SubmitButton, DelirioFullWidthSelectForm, InputFullDelerio } from "../styledComponents";
+import { getToDoes } from "../../api";
 
 const ToDoCardEmployer = ({ info, open, handleClose }) => {
 
     const { user } = useAuthContext()
     const { statues } = useStatusContext()
-    const { todoes, dispatch } = useToDoContext()
+    const { dispatch } = useToDoContext()
     const [enable, changeToEnable, changeToDisabled] = useOpen()
 
     const formik = useFormik({
@@ -51,33 +52,26 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
         } = values
         const apiUrl = import.meta.env.VITE_API_URL
 
-        await axios({
-            method: 'put',
-            url: `${apiUrl}/to-does/${id}`,
-            data: {
-                'id_status': status,
-                'copy_text': copy_text,
-                'content_todo': content_todo,
-            },
-            headers: {
-                'Authorization': `Bearer ${user.token}`,
-            },
-        });
-
-        const updatedList = todoes.map((x) => {
-            return parseInt(x.data.id) == parseInt(id) ? ({
-
-                ...x,
+        try {
+            const response = await axios({
+                method: 'put',
+                url: `${apiUrl}/to-does/${id}`,
                 data: {
-                    ...x.data,
                     'id_status': status,
                     'copy_text': copy_text,
-                    'content_todo': content_todo
-                }
-            }) : x
-        })
+                    'content_todo': content_todo,
+                },
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                },
+            });
 
-        dispatch({ type: 'SET_TO_DOES', payload: updatedList })
+            if (response.status === 200) {
+                getToDoes(user, dispatch)
+            }
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     const setInfo = async () => {
