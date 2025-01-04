@@ -1,12 +1,9 @@
 import {
     Box,
-    InputLabel,
     DialogActions,
-    Select,
     MenuItem,
     Typography,
-    Alert,
-    FormControl
+    Alert
 } from '@mui/material';
 import AddUser from '../AddUser';
 import { useFormik } from 'formik';
@@ -19,6 +16,8 @@ import axios from 'axios';
 import { EmployerValidation } from '../../Validations/EmpleyerValidation';
 import { getEmployers } from '../../api';
 import { InputDelirioForm, DelirioSelectForm, SubmitButton } from '../../components/styledComponents';
+import Swal from 'sweetalert2'
+
 
 const AddEmployer = ({ handleClose }) => {
 
@@ -108,7 +107,18 @@ const AddEmployer = ({ handleClose }) => {
 
 
         } catch (e) {
-            console.log(e)
+            if (e.status === 500) {
+                const message = e.response.data.message
+
+                Swal.fire({
+                    title: 'Error!',
+                    text: message,
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                })
+            } else {
+                console.log(e)
+            }
         }
 
     }
