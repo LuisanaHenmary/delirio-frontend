@@ -42,7 +42,8 @@ const TableEmployers = () => {
                 'id_user': elem.id_user,
                 'ci': elem.ci,
                 'name': elem.name_employer,
-                'phone': elem.phone
+                'phone': elem.phone,
+                'job': elem.name_job
             }
         })
 
@@ -62,6 +63,10 @@ const TableEmployers = () => {
         {
             id: 'phone',
             label: 'Numero de telefono',
+        },
+        {
+            id: 'job',
+            label: 'Cargo',
         },
         {
             id: 'actions',
@@ -109,7 +114,7 @@ const TableEmployers = () => {
     }
 
     return (
-        <Box>
+        <Box sx={{marginRight:'30px'}}>
             <Paper>
 
                 <TableContainer>
@@ -149,6 +154,7 @@ const TableEmployers = () => {
                                         </ToDoesTableCell>
                                         <ToDoesTableCell align="center">{row.name}</ToDoesTableCell>
                                         <ToDoesTableCell align="center">{row.phone}</ToDoesTableCell>
+                                        <ToDoesTableCell align="center">{row.job}</ToDoesTableCell>
                                         <ToDoesTableCell align="center"  >
                                             <IconButton onClick={() => deleteEmployer(row.id_user)} >
                                                 <DeleteIcon sx={{ color: "#81041c" }} />
