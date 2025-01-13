@@ -41,11 +41,11 @@ const PieEmployer = ({ data }) => {
             }, 0);
 
             const info = [
-                { label: 'Sin contenido', value: withoutContentCount, color: 'antiquewhite' },
-                { label: 'Pendiente por aprobacion', value: pendingAprobCount, color: 'rgb(249, 148, 202)' },
-                { label: 'Aprobado', value: aprobCount, color: 'rgb(47, 113, 255)' },
-                { label: 'En proceso', value: inProcesingCount, color: 'rgb(148, 152, 249)' },
-                { label: 'Publicado', value: publishedCount, color: 'greenyellow' },
+                { label: 'Sin contenido', value: withoutContentCount, color: '#FAEBD7' },
+                { label: 'Pendiente por aprobacion', value: pendingAprobCount, color: '#E17EB3' },
+                { label: 'Aprobado', value: aprobCount, color: '#153F9B' },
+                { label: 'En proceso', value: inProcesingCount, color: '#9498F9' },
+                { label: 'Publicado', value: publishedCount, color: '#A1CA62' },
             ];
 
             setDataPie(info)

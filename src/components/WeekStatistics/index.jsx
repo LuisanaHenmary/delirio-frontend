@@ -105,31 +105,31 @@ const WeekStatistics = ({ todoes }) => {
                                 data: data.map((v) => { return v.y1 }),
                                 label: 'Sin contenido',
                                 id: 'toDoId1',
-                                color: "antiquewhite"
+                                color: "#FAEBD7"
                             },
                             {
                                 data: data.map((v) => { return v.y2 }),
                                 label: 'Pendiente por aprobacion',
                                 id: 'toDoId2',
-                                color: "rgb(249, 148, 202)"
+                                color: "#E17EB3"
                             },
                             {
                                 data: data.map((v) => { return v.y3 }),
                                 label: 'Aprobado',
                                 id: 'toDoId3',
-                                color: "rgb(47, 113, 255)"
+                                color: "#153F9B"
                             },
                             {
                                 data: data.map((v) => { return v.y4 }),
                                 label: 'En Proceso',
                                 id: 'toDoId4',
-                                color: "rgb(148, 152, 249)"
+                                color: "#9498F9"
                             },
                             {
                                 data: data.map((v) => { return v.y5 }),
                                 label: 'Publicado', id:
                                     'toDoId5',
-                                color: "greenyellow"
+                                color: "#A1CA62"
                             },
                         ]}
                         xAxis={[{ data: daysWeek, scaleType: 'band' }]}

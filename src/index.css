@@ -73,23 +73,23 @@
 }
 
 .sin-contenido{
-  background-color: antiquewhite;
+  background-color: #FAEBD7;
 }
 
 .pendiente-aprob {
-  background-color: rgb(249, 148, 202);
+  background-color: #E17EB3;
 }
 
 .aprobado {
-  background-color: rgb(47, 113, 255);
+  background-color: #153F9B;
 }
 
 .en-proceso {
-  background-color: rgb(148, 152, 249);
+  background-color: #9498F9;
 }
 
 .publicado {
-  background-color: greenyellow;
+  background-color: #A1CA62;
 }
 
 
