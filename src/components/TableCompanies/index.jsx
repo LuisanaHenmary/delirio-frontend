@@ -37,12 +37,14 @@ const TableCompanies = () => {
 
     useEffect(() => {
 
+
         const r = companies.map((elem) => {
             return {
                 'id_user': elem.id_user,
                 'nit': elem.nit,
                 'name': elem.name_company,
-                'phone': elem.phone
+                'phone': elem.phone,
+                'plan': elem.name_plan
             }
         })
 
@@ -62,6 +64,10 @@ const TableCompanies = () => {
         {
             id: 'phone',
             label: 'Numero de telefono',
+        },
+        {
+            id: 'plan',
+            label: 'Plan',
         },
         {
             id: 'actions',
@@ -147,6 +153,7 @@ const TableCompanies = () => {
                                         </ToDoesTableCell>
                                         <ToDoesTableCell align="center">{row.name}</ToDoesTableCell>
                                         <ToDoesTableCell align="center">{row.phone}</ToDoesTableCell>
+                                        <ToDoesTableCell align="center">{row.plan}</ToDoesTableCell>
                                         <ToDoesTableCell align="center"  >
                                             <IconButton onClick={() => deleteCompany(row.id_user)} >
                                                 <DeleteIcon sx={{ color: "#81041c" }} />

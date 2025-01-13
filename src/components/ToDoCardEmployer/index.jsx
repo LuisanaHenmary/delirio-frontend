@@ -218,6 +218,7 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
                             name='content_todo'
                             onChange={formik.handleChange}
                             value={formik.values.content_todo}
+                            placeholder="Contenido"
                             inputProps={{
                                 style: {
                                     background: "none",
