@@ -144,7 +144,7 @@ const AddEmployer = ({ handleClose }) => {
 
                     {jobs.map((elem, index) => (
                         <MenuItem key={index} value={`${index}`} >
-                            <Typography >{elem.name_job}</Typography>
+                            {elem.name_job}
                         </MenuItem >
                     ))}
 

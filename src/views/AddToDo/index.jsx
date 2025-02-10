@@ -175,7 +175,7 @@ const AddToDo = ({ open, handleClose }) => {
 
                         {to_do_types.map((elem, index) => (
                             <MenuItem key={index} value={index} >
-                                <Typography >{elem.name_type}</Typography>
+                                {elem.name_type}
                             </MenuItem >
                         ))}
 
@@ -210,7 +210,7 @@ const AddToDo = ({ open, handleClose }) => {
 
                                     {employers.map((elem, index) => (
                                         <MenuItem key={index} value={index} >
-                                            <Typography >{elem.name_employer}</Typography>
+                                            {elem.name_employer}
                                         </MenuItem >
                                     ))}
 
@@ -235,7 +235,7 @@ const AddToDo = ({ open, handleClose }) => {
 
                                     {companies.map((elem, index) => (
                                         <MenuItem key={index} value={index} >
-                                            <Typography >{elem.name_company}</Typography>
+                                            {elem.name_company}
                                         </MenuItem >
                                     ))}
 

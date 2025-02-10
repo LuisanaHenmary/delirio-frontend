@@ -69,7 +69,7 @@ const DrawerMenu = ({ openMenu, changeToCloseMenu, handleClick, changeToOpenAddP
                                 <ListItemIcon>
                                     <PowerSettingsNewIcon sx={{ color: "white" }} />
                                 </ListItemIcon>
-                                <ListItemText primary="Salir" />
+                                <ListItemText primary="Salir" sx={{ color: "white" }} />
                             </ListItemButton>
 
                         </ListItem>

@@ -72,7 +72,7 @@ export const AdminOptions = ({ changeToOpenAddProfile, location }) => {
 
             <ListItem disablePadding >
                 <ItemDrawer onClick={changeToOpenAddProfile} >
-                    <ListItemText primary="Crear perfil" />
+                    <ListItemText primary="Crear perfil" sx={{color: "white"}} />
                 </ItemDrawer>
             </ListItem>
 
