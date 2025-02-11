@@ -216,7 +216,7 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
                         >
                             {employers.map((elem, index) => (
                                 <MenuItem key={index} value={index} >
-                                    <Typography >{elem.name_employer}</Typography>
+                                    {elem.name_employer}
                                 </MenuItem >
                             ))}
                         </DelirioSelectForm>

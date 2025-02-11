@@ -76,7 +76,7 @@ const ToDoCardCompany = ({ info, open, handleClose }) => {
 
                     <Typography component='h6'  >
                         <CustomStrong >
-                            Fecha:
+                            Fecha de entrega:
                         </CustomStrong>
                         <DataTag>
                             {info['delivery_date']}
@@ -85,7 +85,7 @@ const ToDoCardCompany = ({ info, open, handleClose }) => {
 
                     <Typography component='h6'  >
                         <CustomStrong >
-                            Fecha limite:
+                            Tipo de tarea:
                         </CustomStrong>
                         <DataTag>
                             {info['typeName']}

@@ -11,11 +11,6 @@ export const toDoReducer = (state, action) => {
         todoes: action.payload
       }
 
-    case 'CREATE_TO_DO':
-      return {
-        todoes: [...state.todoes, action.payload]
-      }
-
     default:
       return state
   }
