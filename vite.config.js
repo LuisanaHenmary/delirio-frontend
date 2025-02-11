@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig(({ command }) => {
   if (command === 'build') {
     return {
-      base: "/Delirio/wp-content/reactpress/apps/frontend/dist/",
+      base: "/Delirio/wp-content/reactpress/apps/delirio-frontend-main/dist/",
       plugins: [react()],
     }
   } else {

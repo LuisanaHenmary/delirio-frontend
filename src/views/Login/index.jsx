@@ -30,6 +30,7 @@ const Login = () => {
     const { login, error, isLoading, dispatch } = useLogin()
     const { logout } = useLogout()
     const { clearLists } = useClear()
+    const urlSite = import.meta.env.VITE_URL_SITE
 
     const prevent = (event) => {
         event.preventDefault();
@@ -95,7 +96,7 @@ const Login = () => {
                             <Typography variant='h6' component="div" className='title-login' >
                                 <strong>Inicio de sesión</strong>
 
-                                <ListItem sx={{ height: "25px", width: "50px" }} disablePadding component='a' href="http://localhost/Delirio" >
+                                <ListItem sx={{ height: "25px", width: "50px" }} disablePadding component='a' href={`${urlSite}`} >
                                     <IconButton >
                                         <CancelPresentationIcon />
                                     </IconButton>

@@ -2,7 +2,8 @@ import Fullcalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { Box, Typography } from "@mui/material"
+import { styled, Typography } from "@mui/material"
+import esLocale from '@fullcalendar/core/locales/es';
 
 const CalendarView = ({ events, todoClick }) => {
 
@@ -41,9 +42,24 @@ const CalendarView = ({ events, todoClick }) => {
     );
   };
 
+  const CalendarWrapper = styled('div')(({ theme }) => ({
+    '& .fc': {
+      fontFamily: 'Montserrat, sans-serif',
+    },
+    '& .fc-toolbar-title': {
+      fontFamily: 'Montserrat, sans-serif',
+      fontSize: '1.5rem',
+      fontWeight: 700,
+    },
+    '& .fc-daygrid-day-number, & .fc-col-header-cell': {
+      fontFamily: 'Montserrat, sans-serif',
+      fontWeight: 400,
+    },
+  }));
+
 
   return (
-    <Box height={"50%"} width={"100%"}>
+    <CalendarWrapper>
       <Fullcalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView={"dayGridMonth"}
@@ -51,16 +67,12 @@ const CalendarView = ({ events, todoClick }) => {
           start: "title",
           end: "today prev,next",
         }}
-        dateClick={(e) => {
-          console.log(e)
-          console.log(events)
-        }}
         events={events}
         eventClick={todoClick}
         eventContent={renderEventContent}
-
+        locale={esLocale}
       />
-    </Box>
+    </CalendarWrapper>
   )
 }
 

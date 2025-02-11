@@ -50,6 +50,7 @@ export const InputDelirioForm = styled(Input)(({ theme }) => ({
   width: "250px",
   height: "35px",
   border: 0,
+  padding: '15px',
   margin: "20px",
   "&::before, &::after": {
     display: "none", // Oculta las líneas
@@ -74,6 +75,7 @@ export const DelirioSelectForm = styled(Select)(({ theme }) => ({
 }));
 
 export const DelirioFullWidthSelectForm = styled(Select)(({ theme }) => ({
+  color: "#fff",
   background: "linear-gradient(#3DA2DB, #006096)",
   borderRadius: "10px",
   margin: 0,

@@ -16,7 +16,7 @@ import AddProfile from "../../views/AddProfile";
 import { HideOnScroll } from '../HideOnScroll';
 
 
-const NavBar = ({ username }) => {
+const NavBar = ({ children, username }) => {
     const { logout } = useLogout()
     const { clearLists } = useClear()
     const [openMenu, changeToOpenMenu, changeToCloseMenu] = useOpen()
@@ -29,48 +29,48 @@ const NavBar = ({ username }) => {
     }
 
     return (
-        <Box  component="div" marginBottom={"100px"} >
-            <DrawerMenu
-                openMenu={openMenu}
-                changeToCloseMenu={changeToCloseMenu}
-                handleClick={handleClick}
-                changeToOpenAddProfile={changeToOpenAddProfile}
-            />
+        <>
+            <Box component="div" marginBottom={"100px"} >
+                <DrawerMenu
+                    openMenu={openMenu}
+                    changeToCloseMenu={changeToCloseMenu}
+                    handleClick={handleClick}
+                    changeToOpenAddProfile={changeToOpenAddProfile}
+                />
 
 
-            <HideOnScroll>
-                <MuiAppBar sx={{ backgroundColor: "rgba(255, 255, 255, 0);", boxShadow: 0 }} >
-                    <Toolbar>
-                        <Typography variant="h6" noWrap sx={{ flexGrow: 1, color: 'blue' }} component="div">
-                            Delirio
-                        </Typography>
-
-                        <div>
-                            <Typography variant="h6" noWrap sx={{ flexGrow: 1, color: 'black', paddingRight: "5px" }} component="span">
-                                Hola, {username}
+                <HideOnScroll>
+                    <MuiAppBar sx={{ backgroundColor: "rgba(255, 255, 255, 0);", boxShadow: 0 }} >
+                        <Toolbar>
+                            <Typography variant="h6" noWrap sx={{ flexGrow: 1, color: 'blue' }} component="div">
+                                Delirio
                             </Typography>
-                            <IconButton
 
-                                color="inherit"
-                                aria-label="open drawer"
-                                edge="end"
-                                onClick={changeToOpenMenu}
-                                sx={{ color: 'white', padding: '10px', background: "linear-gradient(#3DA2DB, #006096)" }}
-                            >
-                                <SensorOccupiedIcon />
-                            </IconButton>
-                        </div>
-                    </Toolbar>
-                </MuiAppBar>
-            </HideOnScroll>
+                            <div>
+                                <Typography variant="h6" noWrap sx={{ flexGrow: 1, color: 'black', paddingRight: "5px" }} component="span">
+                                    Hola, {username}
+                                </Typography>
+                                <IconButton
 
-            <AddProfile open={addProfile} handleClose={changeToCloseAddProfile} />
-        </Box>
+                                    color="inherit"
+                                    aria-label="open drawer"
+                                    edge="end"
+                                    onClick={changeToOpenMenu}
+                                    sx={{ color: 'white', padding: '10px', background: "linear-gradient(#3DA2DB, #006096)" }}
+                                >
+                                    <SensorOccupiedIcon />
+                                </IconButton>
+                            </div>
+                        </Toolbar>
+                    </MuiAppBar>
+                </HideOnScroll>
+
+                <AddProfile open={addProfile} handleClose={changeToCloseAddProfile} />
+            </Box>
+            { children }
+        </>
 
     )
 }
-
-/* 
-            */
 
 export default NavBar

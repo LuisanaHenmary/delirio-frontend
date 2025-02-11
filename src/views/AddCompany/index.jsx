@@ -107,7 +107,7 @@ const AddCompany = ({ handleClose }) => {
                     icon: 'error',
                     confirmButtonText: 'Ok'
                 })
-            }else{
+            } else {
                 console.log(e)
             }
 
@@ -136,7 +136,7 @@ const AddCompany = ({ handleClose }) => {
 
                     {plans.map((elem, index) => (
                         <MenuItem key={index} value={`${index}`} >
-                            <Typography >{elem.name_plan}  </Typography>
+                            {elem.name_plan}
                         </MenuItem >
                     ))}
 
