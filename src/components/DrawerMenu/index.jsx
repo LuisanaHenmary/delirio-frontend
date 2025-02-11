@@ -50,8 +50,6 @@ const DrawerMenu = ({ openMenu, changeToCloseMenu, handleClick, changeToOpenAddP
                 </div>
                 <List >
                     <Box>
-                        <Navigate to="/home" />
-
                         {user.role == "admin" ?
                             <AdminOptions
                                 changeToOpenAddProfile={changeToOpenAddProfile}

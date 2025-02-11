@@ -54,12 +54,24 @@ const Root = () => {
             {!user && (
                 <>
                     <Navigate to="/login" />
+                    <Box component="div">
+                        <Outlet />
+                    </Box>
                 </>
             )}
-            {user && (<NavBar username={user.user_display_name} />)}
-            <Box component="div">
-                <Outlet />
-            </Box>
+
+            {user && (
+                <>
+                    <Navigate to="/home" />
+                    <NavBar username={user.user_display_name}>
+                        <Box component="div">
+                            <Outlet />
+                        </Box>
+                    </NavBar>
+                </>
+            )}
+
+
 
         </>
     )
