@@ -16,7 +16,6 @@ import AddProfile from "../../views/AddProfile";
 
 import { HideOnScroll } from '../HideOnScroll';
 
-
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -40,7 +39,6 @@ const AppBar = styled(MuiAppBar, {
         },
     ],
 }));
-
 
 const NavBar = ({ children, username }) => {
     const { logout } = useLogout()
@@ -105,7 +103,6 @@ const NavBar = ({ children, username }) => {
                 
             </Box>
             <AddProfile open={addProfile} handleClose={changeToCloseAddProfile} />
-
         </>
 
     )

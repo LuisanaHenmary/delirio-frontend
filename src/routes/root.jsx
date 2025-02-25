@@ -64,12 +64,12 @@ const Root = () => {
                 <>
                     <Navigate to="/home" />
                     <NavBar username={user.user_display_name}>
-                        <Outlet />
+                        <Box component="div">
+                            <Outlet />
+                        </Box>
                     </NavBar>
                 </>
             )}
-
-
 
         </>
     )
