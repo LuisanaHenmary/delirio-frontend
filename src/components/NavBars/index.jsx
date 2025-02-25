@@ -2,7 +2,8 @@ import {
     Toolbar,
     Typography,
     IconButton,
-    Box
+    Box,
+    styled
 } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import SensorOccupiedIcon from '@mui/icons-material/SensorOccupied';
@@ -15,6 +16,29 @@ import AddProfile from "../../views/AddProfile";
 
 import { HideOnScroll } from '../HideOnScroll';
 
+const drawerWidth = 240;
+
+const AppBar = styled(MuiAppBar, {
+    shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme }) => ({
+    transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+    }),
+    variants: [
+        {
+            props: ({ open }) => open,
+            style: {
+                width: `calc(100% - ${drawerWidth}px)`,
+                marginLeft: `${drawerWidth}px`,
+                transition: theme.transitions.create(['margin', 'width'], {
+                    easing: theme.transitions.easing.easeOut,
+                    duration: theme.transitions.duration.enteringScreen,
+                }),
+            },
+        },
+    ],
+}));
 
 const NavBar = ({ children, username }) => {
     const { logout } = useLogout()
@@ -31,43 +55,54 @@ const NavBar = ({ children, username }) => {
     return (
         <>
             <Box component="div" marginBottom={"100px"} >
-                <DrawerMenu
-                    openMenu={openMenu}
-                    changeToCloseMenu={changeToCloseMenu}
-                    handleClick={handleClick}
-                    changeToOpenAddProfile={changeToOpenAddProfile}
-                />
-
-
-                <HideOnScroll>
-                    <MuiAppBar sx={{ backgroundColor: "rgba(255, 255, 255, 0);", boxShadow: 0 }} >
-                        <Toolbar>
-                            <Typography variant="h6" noWrap sx={{ flexGrow: 1, color: 'blue' }} component="div">
-                                Delirio
-                            </Typography>
-
-                            <div>
-                                <Typography variant="h6" noWrap sx={{ flexGrow: 1, color: 'black', paddingRight: "5px" }} component="span">
-                                    Hola, {username}
+                <Box sx={{ display: 'flex' }}>
+                    <HideOnScroll>
+                        <AppBar sx={{ backgroundColor: "rgba(255, 255, 255, 0);", boxShadow: 0 }} open={openMenu} >
+                            <Toolbar>
+                                <Typography variant="h6" noWrap sx={{ flexGrow: 1, color: 'blue' }} component="div">
+                                    Delirio
                                 </Typography>
-                                <IconButton
 
-                                    color="inherit"
-                                    aria-label="open drawer"
-                                    edge="end"
-                                    onClick={changeToOpenMenu}
-                                    sx={{ color: 'white', padding: '10px', background: "linear-gradient(#3DA2DB, #006096)" }}
-                                >
-                                    <SensorOccupiedIcon />
-                                </IconButton>
-                            </div>
-                        </Toolbar>
-                    </MuiAppBar>
-                </HideOnScroll>
+                                <div>
+                                    <Typography variant="h6" noWrap sx={{ flexGrow: 1, color: 'black', paddingRight: "5px" }} component="span">
+                                        Hola, {username}
+                                    </Typography>
+                                    <IconButton
 
-                <AddProfile open={addProfile} handleClose={changeToCloseAddProfile} />
+                                        color="inherit"
+                                        aria-label="open drawer"
+                                        edge="end"
+                                        onClick={changeToOpenMenu}
+                                        sx={{ color: 'white', padding: '10px', background: "linear-gradient(#3DA2DB, #006096)" }}
+                                    >
+                                        <SensorOccupiedIcon />
+                                    </IconButton>
+                                </div>
+                            </Toolbar>
+                        </AppBar>
+                    </HideOnScroll>
+                    <DrawerMenu
+                        openMenu={openMenu}
+                        changeToCloseMenu={changeToCloseMenu}
+                        handleClick={handleClick}
+                        changeToOpenAddProfile={changeToOpenAddProfile}
+                    />
+
+                    <Box
+                        component="main"
+                        sx={{
+                            flexGrow: 1,
+                            p: 3,
+                            transition: 'margin 0.3s',
+                            marginLeft: openMenu ? `${drawerWidth}px` : '0px',
+                        }}
+                    >
+                        {children}
+                    </Box>
+                </Box>
+                
             </Box>
-            { children }
+            <AddProfile open={addProfile} handleClose={changeToCloseAddProfile} />
         </>
 
     )

@@ -109,14 +109,14 @@ const AdminHome = () => {
     }
 
     return (
-        <>
+        <Box component="div">
             <CalendarView events={todoes} todoClick={clickTodo} />
             <Box sx={{ display: "flex", justifyContent: "space-between", marginTop: '60px' }} >
                 <TableEmployers />
                 <TableCompanies />
             </Box>
             <ToDoCardAdmin open={open} info={toDoSelected} handleClose={changeToClose} />
-        </>
+        </Box>
     )
 }
 

@@ -78,18 +78,22 @@
 
 .pendiente-aprob {
   background-color: #E17EB3;
+  color: white;
 }
 
 .aprobado {
   background-color: #153F9B;
+  color: white;
 }
 
 .en-proceso {
   background-color: #9498F9;
+  color: white;
 }
 
 .publicado {
   background-color: #A1CA62;
+  color: white;
 }
 
 
