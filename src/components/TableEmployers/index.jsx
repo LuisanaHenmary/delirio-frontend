@@ -156,9 +156,10 @@ const TableEmployers = () => {
                                         <ToDoesTableCell align="center">{row.phone}</ToDoesTableCell>
                                         <ToDoesTableCell align="center">{row.job}</ToDoesTableCell>
                                         <ToDoesTableCell align="center"  >
-                                            <IconButton onClick={() => deleteEmployer(row.id_user)} >
+                                            {parseInt(row.id_user) != user?.id_user && <IconButton onClick={() => deleteEmployer(row.id_user)} >
                                                 <DeleteIcon sx={{ color: "#81041c" }} />
-                                            </IconButton>
+                                            </IconButton>}
+                                            
                                         </ToDoesTableCell>
                                     </ToDoesTableRow>
                                 );

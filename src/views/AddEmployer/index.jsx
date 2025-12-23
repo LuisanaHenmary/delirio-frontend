@@ -63,7 +63,9 @@ const AddEmployer = ({ handleClose }) => {
 
 
 
-        const id = parseInt(jobs[job].id_job)
+        const id_job = parseInt(jobs[job].id_job)
+
+        const name_job = jobs[job].name_job
 
         try {
             const response = await axios({
@@ -74,7 +76,7 @@ const AddEmployer = ({ handleClose }) => {
                     'email': email,
                     'password': password,
                     'roles': [
-                        "employer"
+                          "Administrador".localeCompare(name_job) === 0?"administrator":"employer"
                     ],
                 },
                 headers: {
@@ -92,7 +94,7 @@ const AddEmployer = ({ handleClose }) => {
                     'name': full_name,
                     'phone': phone_number,
                     'address': address,
-                    'id_job': id,
+                    'id_job': id_job,
                     'id_user': id_user
                 },
                 headers: {
