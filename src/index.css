@@ -6,7 +6,7 @@
   border-radius: 0 0 20px 20px;
 }
 
-.background-login{
+.back-images{
   background-image: url(./assets/blueDeer.svg), url(./assets/blueAntlers.svg);
   background-position: left top, right bottom;
   background-repeat: no-repeat, no-repeat;
