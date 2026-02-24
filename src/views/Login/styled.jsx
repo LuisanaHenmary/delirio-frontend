@@ -6,7 +6,7 @@ import {
 export const DelirioInput = styled(Input)(({ theme }) => ({
   background: "linear-gradient(#3DA2DB, #006096)", // Cambia este color
   padding: "8px",
-  borderRadius: "20px",
+  borderRadius: "10px",
   border: 0,
   margin: "20px",
   "&::before, &::after": {

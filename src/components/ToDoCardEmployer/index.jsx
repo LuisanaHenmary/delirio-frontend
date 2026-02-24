@@ -16,7 +16,6 @@ import { useFormik } from 'formik';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useStatusContext } from '../../hooks/useStatusContext';
 import { useToDoContext } from "../../hooks/useToDoContext";
-import { useOpen } from "../../hooks/useOpen";
 import { CustomStrong, DataTag } from "./styled";
 import CloseIcon from '@mui/icons-material/Close';
 import { SubmitButton, DelirioFullWidthSelectForm, InputFullDelerio } from "../styledComponents";
@@ -27,7 +26,6 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
     const { user } = useAuthContext()
     const { statues } = useStatusContext()
     const { dispatch } = useToDoContext()
-    const [enable, changeToEnable, changeToDisabled] = useOpen()
 
     const formik = useFormik({
         initialValues: {
@@ -79,21 +77,7 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
         formik.setFieldValue('status', parseInt(info['id_status']))
         formik.setFieldValue('copy_text', info['copy_text'])
         formik.setFieldValue('content_todo', info['content_todo'])
-        const now = new Date();
-
-        const day = now.getDate()
-        const month = now.getMonth()
-        const year = now.getFullYear()
-
-
-        const expiredDate = new Date(info.end);
-        const currentDate = new Date(year, month, day)
-
-        if (currentDate.getTime() >= expiredDate.getTime()) {
-            changeToDisabled()
-        } else {
-            changeToEnable()
-        }
+     
     }
 
     useEffect(() => {
@@ -123,7 +107,6 @@ const ToDoCardEmployer = ({ info, open, handleClose }) => {
                             inputProps={{
                                 name: 'status',
                                 id: 'status',
-                                disabled: !enable,
                             }}
                             className='select-status'
                             onChange={formik.handleChange}

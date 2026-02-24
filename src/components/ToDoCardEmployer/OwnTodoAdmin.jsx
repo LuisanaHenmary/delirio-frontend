@@ -1,34 +1,44 @@
+import "./index.css"
 import {
-    DialogTitle,
     Dialog,
+    DialogTitle,
     DialogContent,
     DialogActions,
     MenuItem,
     Typography,
     Box,
+    Stack,
     IconButton
 } from '@mui/material';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import CloseIcon from '@mui/icons-material/Close';
 import { useEffect } from 'react';
-import dayjs from 'dayjs';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { useStatusContext } from '../../hooks/useStatusContext';
+import { useToDoContext } from "../../hooks/useToDoContext";
+import { CustomStrong, DataTag } from "./styled";
+import dayjs from 'dayjs';
+import { getToDoes } from "../../api";
 import { useEmployersContext } from '../../hooks/useEmployersContext';
-import { useToDoContext } from '../../hooks/useToDoContext';
-import "./index.css"
-import { CustomStrong, DataTag } from './styled';
-import { SubmitButton, InputFullDelerio, DelirioSelectForm, SocialMedios, TextArea } from '../styledComponents';
-import CloseIcon from '@mui/icons-material/Close';
-import { getToDoes } from '../../api';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import {
+    SubmitButton,
+    DelirioFullWidthSelectForm,
+    InputFullDelerio,
+    DelirioSelectForm,
+    SocialMedios,
+    TextArea
+} from "../styledComponents";
 
-const ToDoCardAdmin = ({ info, open, handleClose }) => {
+const ToDoCardOwnAdmin = ({ info, open, handleClose }) => {
 
     const { user } = useAuthContext()
+    const { statues } = useStatusContext()
+    const { dispatch } = useToDoContext()
     const { employers } = useEmployersContext()
-    const { todoes, dispatch } = useToDoContext()
 
 
     const formik = useFormik({
@@ -43,7 +53,9 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
             copy_text: '',
             by_instragram: false,
             by_facebook: false,
-            by_tiktok: false
+            by_tiktok: false,
+            status: 1,
+            content_todo: '',
         },
         onSubmit: values => {
             updateInfo(values)
@@ -56,17 +68,18 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
         const {
             id,
             title,
-            employer,
             delivery_date,
             assignment_date,
+            employer,
             description_todo,
             material_link,
             copy_text,
             by_instragram,
             by_facebook,
             by_tiktok,
+            status,
+            content_todo
         } = values
-
         const apiUrl = import.meta.env.VITE_API_URL
 
         const id_employer = employers[employer]['id_employer']
@@ -74,18 +87,20 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
         try {
             const response = await axios({
                 method: 'put',
-                url: `${apiUrl}/to-does/admin/${id}`,
+                url: `${apiUrl}/to-does/admin/own/${id}`,
                 data: {
-                    id_employer,
                     title,
-                    description_todo,
+                    id_employer,
                     material_link,
-                    copy_text,
+                    description_todo,
                     by_instragram,
                     by_facebook,
                     by_tiktok,
+                    copy_text,
+                    content_todo,
                     'assignment_date': assignment_date.$d,
                     'delivery_date': delivery_date.$d,
+                    'id_status': status
 
                 },
                 headers: {
@@ -96,34 +111,36 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
             if (response.status === 200) {
                 getToDoes(user, dispatch)
             }
+
         } catch (e) {
             console.log(e)
         }
-
     }
 
-    const getStatus = () => {
-
+    const setInfo = async () => {
         const checked_instragram = info['by_instragram'] === "1"
         const checked_facebook = info['by_facebook'] === "1"
         const checked_tiktok = info['by_tiktok'] === "1"
-
         formik.setFieldValue('id', parseInt(info['id']))
         formik.setFieldValue('title', info['title'])
         formik.setFieldValue('delivery_date', dayjs(info['delivery_date']))
         formik.setFieldValue('assignment_date', dayjs(info['assignment']))
-        formik.setFieldValue('employer', parseInt(info['employerIndex']))
-        formik.setFieldValue('description_todo', info['description_todo'])
-        formik.setFieldValue('material_link', info['material_link'])
+        formik.setFieldValue('status', parseInt(info['id_status']))
         formik.setFieldValue('copy_text', info['copy_text'])
+        formik.setFieldValue('content_todo', info['content_todo'])
         formik.setFieldValue('by_instragram', checked_instragram)
         formik.setFieldValue('by_facebook', checked_facebook)
         formik.setFieldValue('by_tiktok', checked_tiktok)
+        formik.setFieldValue('employer', parseInt(info['employerIndex']))
+        formik.setFieldValue('description_todo', info['description_todo'])
+        formik.setFieldValue('material_link', info['material_link'])
+
     }
 
     useEffect(() => {
+
         try {
-            getStatus()
+            setInfo()
 
         } catch (e) {
             console.log(e)
@@ -135,10 +152,8 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
         <Dialog onClose={() => handleClose()} open={open} PaperComponent='div' PaperProps={{
             'className': 'round-form'
         }} >
-
             <Box component="form" onSubmit={formik.handleSubmit}>
-
-                <DialogTitle component="div" className='title-card' >
+                <DialogTitle component='div' className="title-card" >
                     <InputFullDelerio
                         id="title"
                         name='title'
@@ -157,24 +172,31 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
                     />
 
                     <>
-                        <Typography
-                            className={`${info['statusClass']} tag-status`}
-                            variant="h6"
-                            component="span"
-                            marginRight={"5px"}
+                        <DelirioFullWidthSelectForm
+                            value={formik.values.status}
+                            inputProps={{
+                                name: 'status',
+                                id: 'status',
+                            }}
+                            className='select-status'
+                            onChange={formik.handleChange}
                         >
-                            {info['statusName']}
-                        </Typography>
 
+                            {statues.map((elem, index) => (
+                                <MenuItem key={index} value={parseInt(elem.id_status)} >
+                                    <Typography className={`${elem.className} tag`}  >{elem.name_status}</Typography>
+                                </MenuItem >
+                            ))}
+                        </DelirioFullWidthSelectForm>
                         <IconButton onClick={() => handleClose()} >
                             <CloseIcon sx={{ color: "white" }} />
                         </IconButton>
-                    </>
 
+                    </>
 
                 </DialogTitle>
 
-                <DialogContent sx={{ marginTop: "15px" }} >
+                <DialogContent sx={{ marginTop: "15px" }}  >
 
                     <Box component='div' className='margin-field section' >
 
@@ -220,8 +242,6 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
                                 </MenuItem >
                             ))}
                         </DelirioSelectForm>
-
-
                     </Box>
 
                     <Box component='div' className='margin-field section' >
@@ -254,20 +274,54 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
 
                         <SocialMedios formik={formik} />
 
-
-
                     </Box>
 
                     <Box component='div' className='margin-field section' >
+                        <InputFullDelerio
+                            id="copy_text"
+                            name='copy_text'
+                            onChange={formik.handleChange}
+                            value={formik.values.copy_text}
+                            inputProps={{
+                                style: {
+                                    background: "none",
+                                    border: 0,
+                                    color: "white",
+                                    borderRadius: "20px",
+                                }
+                            }}
+                            fullWidth
+                        />
+                    </Box>
+
+                    <Box component='div' className='margin-field section' >
+                        <InputFullDelerio
+                            id="content_todo"
+                            name='content_todo'
+                            onChange={formik.handleChange}
+                            value={formik.values.content_todo}
+                            placeholder="Contenido"
+                            inputProps={{
+                                style: {
+                                    background: "none",
+                                    border: 0,
+                                    color: "white",
+                                    borderRadius: "20px",
+                                }
+                            }}
+                            fullWidth
+                        />
+                    </Box>
+
+                    <Box component='div' className='margin-field section'>
 
                         <Typography component='h6'  >
                             <CustomStrong >
-                                Copy:
+                                Material:
                             </CustomStrong>
                             <DataTag>
-                                {info['copy_text']}
+                                {info['material_link']}
                             </DataTag>
-
                         </Typography>
 
                     </Box>
@@ -286,7 +340,6 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
 
                     </Box>
 
-
                 </DialogContent>
 
                 <DialogActions>
@@ -295,9 +348,8 @@ const ToDoCardAdmin = ({ info, open, handleClose }) => {
                     </SubmitButton>
                 </DialogActions>
             </Box>
-
         </Dialog>
     )
 }
 
-export default ToDoCardAdmin
+export default ToDoCardOwnAdmin

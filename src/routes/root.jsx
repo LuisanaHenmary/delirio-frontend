@@ -54,9 +54,7 @@ const Root = () => {
             {!user && (
                 <>
                     <Navigate to="/login" />
-                    <Box component="div">
-                        <Outlet />
-                    </Box>
+                    <Outlet />
                 </>
             )}
 
@@ -64,14 +62,10 @@ const Root = () => {
                 <>
                     <Navigate to="/home" />
                     <NavBar username={user.user_display_name}>
-                        <Box component="div">
-                            <Outlet />
-                        </Box>
+                        <Outlet />
                     </NavBar>
                 </>
             )}
-
-
 
         </>
     )
